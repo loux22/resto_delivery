@@ -1,0 +1,9 @@
+# See https://symfony.com/doc/current/email/dev_environment.html
+swiftmailer:
+    delivery_addresses: ['louis.ardilly@yahoo.fr']
+    transport: gmail
+    host: '%mailer_host%'
+    port: '%mailer_port%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
