@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MemberRepository;
+use Symfony\Component\Validator\Constraints as Error;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,16 +20,22 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Error\Length(min=3, max=255, minMessage="ton username '{{ value }}' est trop court", 
+     * maxMessage="Ton username '{{ value }}' est trop long")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Error\Length(min=3, max=30, minMessage="ton lastname '{{ value }}' est trop court", 
+     * maxMessage="Ton lastname '{{ value }}' est trop long")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Error\Length(min=10, max=255, minMessage="ton adresse '{{ value }}' est trop court", 
+     * maxMessage="Ton adresse '{{ value }}' est trop long")
      */
     private $address;
 

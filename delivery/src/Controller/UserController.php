@@ -2,22 +2,37 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user", name="user")
+     * @Route("/login", name="login")
+     * @Route("/login/restaurent", name="loginRestaurent")
+     * @Route("/login/admin", name="loginAdmin")
      */
-    public function index($name, \Swift_Mailer $mailer)
+    public function login(AuthenticationUtils $authenticationUtils, Request $request)
     {
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('funpower1238@gmail.com')
-            ->setTo('louis.ardilly@ynov.com')
-            ->setBody('aaaaaa');
-        $mailer->send($message);
+        $currentRoute = $request->attributes->get('_route');
+        $lastUsername = $authenticationUtils -> getLastUsername();
+        $error = $authenticationUtils->getLastAuthenticationError();
 
+        if($error){
+            $this -> addFlash('errors', 'erreur d\'authentification');
+        }
+        return $this->render('user/login.html.twig', [
+            'lastUsername' => $lastUsername,
+            'currentRoute' => $currentRoute
+        ]);
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logout()
+    {
     }
 }

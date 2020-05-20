@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register restaurent{% endblock %}
+
+{% block body %}
+    <p>{{error}}</p>
+
+{{form_start(restorerForm)}}
+
+{% if form_errors(restorerForm.name) %}
+    {{form_errors(restorerForm.name)}} 
+{% endif %} 
+{{form_widget(restorerForm.name)}}
+
+{% if form_errors(restorerForm.file) %}
+    {{form_errors(restorerForm.file)}} 
+{% endif %} 
+{{form_widget(restorerForm.file)}}
+
+{% if form_errors(restorerForm.address) %}
+    {{form_errors(restorerForm.address)}} 
+{% endif %} 
+{{form_widget(restorerForm.address)}}
+
+<input type="email" name="mail" placeholder="email">
+
+<input type="password" name="password" placeholder="password">
+<input type="password" name="repeat" placeholder="repeter password">
+
+<button type="submit">S'inscrire</button>
+
+{{form_end(restorerForm)}}
+{% endblock %}

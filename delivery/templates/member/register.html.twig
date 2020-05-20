@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register member{% endblock %}
+
+{% block body %}
+
+<p>{{error}}</p>
+
+{{form_start(memberForm)}}
+
+{% if form_errors(memberForm.username) %}
+    {{form_errors(memberForm.username)}} 
+{% endif %} 
+{{form_widget(memberForm.username)}}
+
+{% if form_errors(memberForm.lastname) %}
+    {{form_errors(memberForm.lastname)}} 
+{% endif %} 
+{{form_widget(memberForm.lastname)}}
+
+{% if form_errors(memberForm.address) %}
+    {{form_errors(memberForm.address)}} 
+{% endif %} 
+{{form_widget(memberForm.address)}}
+
+<input type="email" name="mail" placeholder="email">
+
+<input type="password" name="password" placeholder="password">
+<input type="password" name="repeat" placeholder="repeter password">
+
+<button type="submit">S'inscrire</button>
+
+{{form_end(memberForm)}}
+
+
+{% endblock %}

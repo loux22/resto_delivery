@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\RestorerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RestorerRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=RestorerRepository::class)
@@ -27,7 +28,9 @@ class Restorer
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $logo;
+    private $logo = 'default.jpg';
+
+    private $file;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -131,5 +134,44 @@ class Restorer
         }
 
         return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file)
+    {
+        $this -> file = $file;
+        return $this;
+    }
+
+
+    public function dirFile($id)
+    {
+        return __DIR__ . '/../../public/restorer/' . $id . '/logo';
+    }
+
+    public function fileUpload($id)
+    {
+        if($this -> file  != null){
+            $newName = $this -> renameFile($this -> file -> getClientOriginalName());
+            $this -> logo = $newName;
+            $this -> file -> move($this->dirFile($id),$newName);
+        }
+    }
+
+    public function renameFile($nom)
+    {
+        return 'logo_' . time() . '_' . rand(1,99999) . '_' . $nom;
+    }
+
+    public function removeFile($id)
+    {
+        if(file_exists($this->dirFile($id) . $this-> logo) && $this-> logo != 'default.jpg'){
+            unlink($this->dirFile($id) . $this-> logo);
+        }
+        
     }
 }
