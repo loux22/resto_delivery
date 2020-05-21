@@ -23,18 +23,20 @@ class DishRepository extends ServiceEntityRepository
     //  * @return Dish[] Returns an array of Dish objects
     //  */
     
-    
-    
-
-    /*
-    public function findOneBySomeField($value): ?Dish
+    public function searchDish($value, $restorer)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
+            ->where('d.name LIKE :dish')
+            ->setParameter('dish', $value.'%')
+            ->andWhere('d.restorer = :restorer')
+            ->setParameter('restorer', $restorer)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+    
+
+    
+    
+    
 }

@@ -26,7 +26,7 @@ class RestorerController extends AbstractController
         $restorers = [];
         foreach ($allRestorers as $key => $restorer) {
             $restorers[$key][0] = $restorer;
-            $restorers[$key][1] = $repoNote -> dishNoteRestaurent($restorer);
+            $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
         }
         $rand = rand(1, (count($restorers)) - 6);
         return $this->render('restorer/index.html.twig', [
@@ -34,15 +34,15 @@ class RestorerController extends AbstractController
             "rand" => $rand,
         ]);
     }
-    
+
     /**
      * @Route("/register/restorer", name="registerRestorer")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         // si quelqu'un est connecté on le redirige vers la page home 
-        $userLog = $this -> getUser();
-        if($userLog != null){
+        $userLog = $this->getUser();
+        if ($userLog != null) {
             return $this->redirectToRoute('home');
         }
         $user = new User;
@@ -81,11 +81,11 @@ class RestorerController extends AbstractController
                         $manager->persist($user); //commit(git)
                         $manager->flush(); // push(git)
                         if ($lastRestorer != false) {
-                            $restorer->fileUpload($lastRestorer -> getId() + 1);
-                        }else {
+                            $restorer->fileUpload($lastRestorer->getId() + 1);
+                        } else {
                             $restorer->fileUpload(1);
                         }
-                        
+
                         $restorer->setUser($user);
                         $manager->persist($restorer); //commit(git)
                         $manager->flush(); // push(git)
@@ -105,8 +105,23 @@ class RestorerController extends AbstractController
      */
     public function restorerDish($id)
     {
-        return $this->render('restorer/dish.html.twig', [
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $restorer = $repository->findBy([
             "id" => $id
+        ]);
+        $repository = $this->getDoctrine()->getRepository(Dish::class);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $allDishs = $repository->findBy([
+            "restorer" => $id
+        ]);
+        $dishs = [];
+        foreach ($allDishs as $key => $dish) {
+            $dishs[$key][0] = $dish;
+            $dishs[$key][1] = $repoNote->dishNote($dish);
+        }
+        return $this->render('restorer/dish.html.twig', [
+            "dishs" => $dishs,
+            'restorer' => $restorer[0]
         ]);
     }
 
@@ -121,7 +136,7 @@ class RestorerController extends AbstractController
         $restorers = [];
         foreach ($allRestorers as $key => $restorer) {
             $restorers[$key][0] = $restorer;
-            $restorers[$key][1] = $repoNote -> dishNoteRestaurent($restorer);
+            $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
         }
         return $this->render('restorer/listRestorer.html.twig', [
             'restorers' => $restorers
@@ -140,25 +155,67 @@ class RestorerController extends AbstractController
         $restorers = [];
         foreach ($allRestorers as $key => $restorer) {
             $restorers[$key][0] = $restorer;
-            $restorers[$key][1] = $repoNote -> dishNoteRestaurent($restorer);
+            $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
         }
         foreach ($restorers as $key => $restorer) {
-            echo '<a href="/restaurent/' . $restorer[0] -> getId() . '">';
-            if ($restorer[0] -> getLogo() === "image.png") {
-                echo '<img src="/restorer/' . $restorer[0] -> getId() . '/logo/' . $restorer[0] -> getLogo() . '" alt="">';
-            }else{
-                echo '<img src="/img/' . $restorer[0] -> getLogo() . '" alt="">';
+            echo '<a href="/restaurent/' . $restorer[0]->getId() . '">';
+            if ($restorer[0]->getLogo() === "image.png") {
+                echo '<img src="/restorer/' . $restorer[0]->getId() . '/logo/' . $restorer[0]->getLogo() . '" alt="">';
+            } else {
+                echo '<img src="/img/' . $restorer[0]->getLogo() . '" alt="">';
             }
             echo '<a/>';
-            echo '<p>' . $restorer[0] -> getName() . '</p>
+            echo '<p>' . $restorer[0]->getName() . '</p>
             <p> frais de livraison : 2,5€ - 1h </p>';
             if ($restorer[1][0]["note"] != null) {
                 echo '<p>' . $restorer[1][0]["note"] . '</p>';
-            }else{
+            } else {
+                echo '<p> ce restaurent n\'a encore aucune note </p>';
+            };
+        }
+        return new Response();
+    }
+
+
+    /**
+     * @Route("/searchDish", name="searchDish")
+     */
+    public function searchDish(Request $request): Response
+    {
+        $name = $request->get('name');
+        $restorer = $request->get('restorer');
+        $repository = $this->getDoctrine()->getRepository(Dish::class);
+        $allDishs = $repository->searchDish($name, $restorer);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $dishs = [];
+        foreach ($allDishs as $key => $dish) {
+            $dishs[$key][0] = $dish;
+            $dishs[$key][1] = $repoNote->dishNote($dish);
+        }
+
+        foreach ($dishs as $key => $dish) {
+            if ($dish[0]->getImg() === "image.png") {
+                echo '<img src="/dish/' . $dish[0]->getId() . '/img/' . $dish[0]->getImg() . '" alt="">';
+            } else {
+                echo '<img src="/img/' . $dish[0]->getImg() . '" alt="">';
+            }
+            echo '<p>' . $dish[0]->getName() . '</p>
+             <p> frais de livraison : 2,5€ - 1h </p>';
+            if ($dish[1][0]["note"] != null) {
+                echo '<p>' . $dish[1][0]["note"] . '</p>';
+            } else {
                 echo '<p> ce restaurent n\'a encore aucune note </p>';
             }
-            ;
+            echo '<form action="" method="post">
+                <input type="hidden" name="dish" value="' . $dish[0]->getId() . '">
+                <SELECT name="quantity" size="1">';
+            for ($i = 1; $i <= 10; $i++) {
+                echo '<OPTION>' . $i;
+            }
+            echo '</SELECT>
+                <button type="submit">Ajouter</button>
+            </form>';;
         }
-        return new Response(); 
+        return new Response();
     }
 }

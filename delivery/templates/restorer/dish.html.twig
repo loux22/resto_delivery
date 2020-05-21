@@ -1,7 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}dish{% endblock %}
+{% block title %}{{restorer.name}}{% endblock %}
 
 {% block body %}
-<h1>{{id}}</h1>
+<input type="hidden" class="restorer-id-js" value="{{restorer.id}}">
+<style>
+    .none {
+        display: none;
+    }
+</style>
+
+{% if restorer.logo == "default.png" %}
+<img src="{{ asset('/img/')}}{{restorer.logo }}" alt="">
+{% else %}
+<img src="{{ asset('/restorer/' ~ restorer.id  ~ '/logo/' ~ restorer.logo )}}" alt="">
+{% endif %}
+<h1>{{restorer.name}}</h1>
+
+
+<input type="text" class="search-dish-js" placeholder="rechercher plat..">
+<div class="result-search-js"></div>
+
+<div class="visible">
+{% for dish in dishs %}
+{% if dish[0].img == "default.png" %}
+<img src="{{ asset('/img/')}}{{dish[0].img}}" alt="">
+{% else %}
+<img src="{{ asset('/dish/' ~ dish[0].id  ~ '/img/' ~ dish[0].img)}}" alt="">
+{% endif %}
+<p>{{dish[0].name}}</p>
+<p>{{dish[0].price}} €</p>
+{% if dish[1][0].note != null %}
+<p>{{dish[1][0].note}}</p>
+{% else %}
+<p>ce plat n'a pas encore été noté</p>
+{% endif %}
+<form action="" method="post">
+    <input type="hidden" name="dish" value="{{dish[0].id}}">
+    <SELECT name="quantity" size="1">
+        {% for i in 1..10 %}
+        <OPTION>{{i}}
+            {% endfor %}
+    </SELECT>
+    <button type="submit">Ajouter</button>
+</form>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script>
+    $(document).ready(function () {
+    $('.search-dish-js').keyup(function () {
+        $('.result-search-js').html('');
+        var name = $(this).val();
+        var id = $(".restorer-id-js").val();
+        console.log(id)
+        if (name != '') {
+            $.ajax({
+                type: 'GET',
+                url: "{{ path('searchDish') }}",
+                data: 'name=' + encodeURIComponent(name) + '&restorer=' + encodeURIComponent(id),
+                success: function (data) {
+                    if (data != "") {
+                        $('.result-search-js').append(data);
+                        $('.visible').addClass('none')
+                    } else {
+                        $('.result-search-js').html('aucun plat ne porte ce nom');
+                    }
+                }
+            })
+
+        }
+        $('.visible').removeClass('none')
+    })
+});
+</script>
 {% endblock %}

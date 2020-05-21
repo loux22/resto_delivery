@@ -3,7 +3,16 @@
 {% block title %}Restaurents{% endblock %}
 
 {% block body %}
-{{dump(restorers)}}
+
+<style>
+.none{
+    display: none;
+}
+</style>
+
+<input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
+<div class="result-search-js"></div>
+<div class="visible">
 {% for key,restorer in restorers %}
     <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
         {% if restorer[0].logo == "default.png" %}
@@ -20,4 +29,39 @@
         <p>ce restaurent n'a encore aucune note</p>
         {% endif %}
 {% endfor %}
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script>
+    $(document).ready(function () {
+    $('.search-resto-js').keyup(function () {
+        $('.result-search-js').html('');
+        var name = $(this).val();
+        console.log(name)
+        if (name != '') {
+            $.ajax({
+                type: 'GET',
+                url: "{{ path('searchRestorer') }}",
+                data: 'name=' + encodeURIComponent(name),
+                success: function (data) {
+                    if (data != "") {
+                        $('.result-search-js').append(data);
+                        $('.visible').addClass('none')
+                    } else {
+                        $('.result-search-js').html('aucun restaurent ne porte ce nom');
+                    }
+                }
+            })
+
+        }
+        $('.visible').removeClass('none')
+    })
+});
+</script>
 {% endblock %}

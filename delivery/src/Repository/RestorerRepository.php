@@ -26,8 +26,8 @@ class RestorerRepository extends ServiceEntityRepository
     public function searchRestorer($value)
     {
         return $this->createQueryBuilder('r')
-            ->where('r.name LIKE :game')
-            ->setParameter('game', $value.'%')
+            ->where('r.name LIKE :restorer')
+            ->setParameter('restorer', $value.'%')
             ->setMaxResults(6)
             ->getQuery()
             ->getResult()
