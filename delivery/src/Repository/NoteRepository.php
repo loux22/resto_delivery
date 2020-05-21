@@ -22,6 +22,33 @@ class NoteRepository extends ServiceEntityRepository
     // /**
     //  * @return Note[] Returns an array of Note objects
     //  */
+
+    //moyenne des notes d'un resto
+    public function dishNoteRestaurent($value)
+    {
+        return $this->createQueryBuilder('n')
+            ->select("avg(n.note) as note")
+            ->leftJoin('n.dish', 'd')
+            ->where('d.restorer = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function dishNoteRestaurentOrder($value)
+    {
+        return $this->createQueryBuilder('n')
+            ->select("avg(n.note) as note")
+            ->leftJoin('n.dish', 'd')
+            ->where('d.restorer = :val')
+            ->setParameter('val', $value)
+            ->orderBy('note', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /*
     public function findByExampleField($value)
     {

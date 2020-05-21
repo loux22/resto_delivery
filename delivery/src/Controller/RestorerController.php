@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Dish;
+use App\Entity\Note;
 use App\Entity\User;
 use App\Entity\Restorer;
 use App\Form\RestorerRegisterType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -17,9 +20,18 @@ class RestorerController extends AbstractController
      */
     public function index()
     {
-        
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $allRestorers = $repository->findAll();
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $restorers = [];
+        foreach ($allRestorers as $key => $restorer) {
+            $restorers[$key][0] = $restorer;
+            $restorers[$key][1] = $repoNote -> dishNoteRestaurent($restorer);
+        }
+        $rand = rand(1, (count($restorers)) - 6);
         return $this->render('restorer/index.html.twig', [
-
+            "restorers" => $restorers,
+            "rand" => $rand,
         ]);
     }
     
@@ -28,6 +40,11 @@ class RestorerController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        // si quelqu'un est connecté on le redirige vers la page home 
+        $userLog = $this -> getUser();
+        if($userLog != null){
+            return $this->redirectToRoute('home');
+        }
         $user = new User;
         $restorer = new Restorer;
         $error = "";
@@ -81,5 +98,67 @@ class RestorerController extends AbstractController
             'restorerForm' => $form->createView(),
             'error' => $error
         ]);
+    }
+
+    /**
+     * @Route("/restaurent/{id}", name="restorerDish")
+     */
+    public function restorerDish($id)
+    {
+        return $this->render('restorer/dish.html.twig', [
+            "id" => $id
+        ]);
+    }
+
+    /**
+     * @Route("/restaurents", name="listRestorer")
+     */
+    public function listRestorer()
+    {
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $allRestorers = $repository->findAll();
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $restorers = [];
+        foreach ($allRestorers as $key => $restorer) {
+            $restorers[$key][0] = $restorer;
+            $restorers[$key][1] = $repoNote -> dishNoteRestaurent($restorer);
+        }
+        return $this->render('restorer/listRestorer.html.twig', [
+            'restorers' => $restorers
+        ]);
+    }
+
+    /**
+     * @Route("/searchRestorer", name="searchRestorer")
+     */
+    public function searchRestorer(Request $request): Response
+    {
+        $name = $request->get('name');
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $allRestorers = $repository->searchRestorer($name);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $restorers = [];
+        foreach ($allRestorers as $key => $restorer) {
+            $restorers[$key][0] = $restorer;
+            $restorers[$key][1] = $repoNote -> dishNoteRestaurent($restorer);
+        }
+        foreach ($restorers as $key => $restorer) {
+            echo '<a href="/restaurent/' . $restorer[0] -> getId() . '">';
+            if ($restorer[0] -> getLogo() === "image.png") {
+                echo '<img src="/restorer/' . $restorer[0] -> getId() . '/logo/' . $restorer[0] -> getLogo() . '" alt="">';
+            }else{
+                echo '<img src="/img/' . $restorer[0] -> getLogo() . '" alt="">';
+            }
+            echo '<a/>';
+            echo '<p>' . $restorer[0] -> getName() . '</p>
+            <p> frais de livraison : 2,5€ - 1h </p>';
+            if ($restorer[1][0]["note"] != null) {
+                echo '<p>' . $restorer[1][0]["note"] . '</p>';
+            }else{
+                echo '<p> ce restaurent n\'a encore aucune note </p>';
+            }
+            ;
+        }
+        return new Response(); 
     }
 }

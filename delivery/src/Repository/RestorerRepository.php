@@ -22,19 +22,18 @@ class RestorerRepository extends ServiceEntityRepository
     // /**
     //  * @return Restorer[] Returns an array of Restorer objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function searchRestorer($value)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('r.name LIKE :game')
+            ->setParameter('game', $value.'%')
+            ->setMaxResults(6)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Restorer

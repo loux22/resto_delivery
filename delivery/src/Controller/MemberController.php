@@ -17,6 +17,11 @@ class MemberController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        // si quelqu'un est connecté on le redirige vers la page home 
+        $userLog = $this -> getUser();
+        if($userLog != null){
+            return $this->redirectToRoute('home');
+        }
         $user = new User;
         $member = new Member;
         $error = "";

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurents{% endblock %}
+
+{% block body %}
+{{dump(restorers)}}
+{% for key,restorer in restorers %}
+    <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
+        {% if restorer[0].logo == "default.png" %}
+            <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
+        {% else %}
+            <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
+        {% endif %}
+    </a>
+        <p>Chez {{restorer[0].name}}</p>
+        <p>frais de livraison : 2,5€ - 1h</p>
+        {% if restorer[1][0].note != null %}
+        <p>{{restorer[1][0].note}}</p>
+        {% else %}
+        <p>ce restaurent n'a encore aucune note</p>
+        {% endif %}
+{% endfor %}
+{% endblock %}

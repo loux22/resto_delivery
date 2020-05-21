@@ -16,7 +16,14 @@ class UserController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request)
     {
+        // si quelqu'un est connecté on le redirige vers la page home 
+        $userLog = $this -> getUser();
+        if($userLog != null){
+            return $this->redirectToRoute('home');
+        }
+        // recupere l'url de la route
         $currentRoute = $request->attributes->get('_route');
+        
         $lastUsername = $authenticationUtils -> getLastUsername();
         $error = $authenticationUtils->getLastAuthenticationError();
 
