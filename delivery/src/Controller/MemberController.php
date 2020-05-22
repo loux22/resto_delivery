@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Member;
+use App\Form\MemberModifyType;
 use App\Form\MemberRegisterType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,6 +68,58 @@ class MemberController extends AbstractController
         return $this->render('member/register.html.twig', [
             'memberForm' => $form->createView(),
             'error' => $error
+        ]);
+    }
+
+    /**
+     * @Route("/profil", name="profil")
+     */
+    public function profil(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        // si quelqu'un est connecté on le redirige vers la page home 
+        $userLog = $this -> getUser();
+        if($userLog == null){
+            $this->addFlash('errors', 'il faut être connecté pour accéder au profil');
+            return $this->redirectToRoute('login');
+        }
+
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $member = $repository->findBy([
+            "user" => $userLog
+        ]);
+        $form = $this->createForm(MemberModifyType::class, $member[0]);
+        $manager = $this-> getDoctrine() -> getManager();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager -> persist($member[0]); //commit(git)
+            $manager -> flush(); // push(git)
+        }
+
+        $input = $request->request->all();
+        if (isset($input["lastPassword"])) {
+            if (password_verify($input["lastPassword"], $member[0] ->getUser() -> getPassword())) {
+                if ($input["newPassword"] === $input["reapeatPassword"]) {
+                    if (strlen($input["newPassword"]) >= 8) {
+                        $password = $passwordEncoder->encodePassword($userLog, $input["newPassword"]);
+                        $userLog -> setPassword($password);
+                        $manager -> persist($userLog); //commit(git)
+                        $manager -> flush(); // push(git)
+                        $this -> addFlash('success','Le mot de passe a été modifié');
+                    }else{
+                        $this -> addFlash('errors','Le mot de passe est trop court');
+                    }
+                }else{
+                    $this -> addFlash('errors','le mot de passe n\'est pas confirmer');
+                }
+            }else{
+                $this -> addFlash('errors','ce n\'est pas l\'ancien mot de passe' );
+            }
+        }
+
+        return $this->render('member/profil.html.twig', [
+            "member" => $member[0],
+            "memberFormModify" => $form->createView(),
         ]);
     }
 }
