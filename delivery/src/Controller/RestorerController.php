@@ -207,14 +207,8 @@ class RestorerController extends AbstractController
                 echo '<p> ce restaurent n\'a encore aucune note </p>';
             }
             echo '<form action="" method="post">
-                <input type="hidden" name="dish" value="' . $dish[0]->getId() . '">
-                <SELECT name="quantity" size="1">';
-            for ($i = 1; $i <= 10; $i++) {
-                echo '<OPTION>' . $i;
-            }
-            echo '</SELECT>
-                <button type="submit">Ajouter</button>
-            </form>';;
+                <button type="submit"><a href="/basket/add/' . $dish[0]->getId() . '/' . $dish[0]->getRestorer()->getId()  .'">Ajouter</a></button>
+            </form>';
         }
         return new Response();
     }

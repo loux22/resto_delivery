@@ -76,7 +76,7 @@ class MemberController extends AbstractController
      */
     public function profil(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        // si quelqu'un est connecté on le redirige vers la page home 
+        // si quelqu'un est connecté on le redirige vers la page login
         $userLog = $this -> getUser();
         if($userLog == null){
             $this->addFlash('errors', 'il faut être connecté pour accéder au profil');
@@ -120,6 +120,24 @@ class MemberController extends AbstractController
         return $this->render('member/profil.html.twig', [
             "member" => $member[0],
             "memberFormModify" => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/historic/command", name="historicCommand")
+     */
+    public function historicCommand()
+    {
+        // si quelqu'un est connecté on le redirige vers la page login
+        $userLog = $this -> getUser();
+        if($userLog == null){
+            $this->addFlash('errors', 'il faut être connecté pour accéder au profil');
+            return $this->redirectToRoute('login');
+        }
+
+        return $this->render('member/historicCommand.html.twig', [
+
         ]);
     }
 }

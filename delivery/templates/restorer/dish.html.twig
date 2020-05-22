@@ -36,13 +36,7 @@
 <p>ce plat n'a pas encore été noté</p>
 {% endif %}
 <form action="" method="post">
-    <input type="hidden" name="dish" value="{{dish[0].id}}">
-    <SELECT name="quantity" size="1">
-        {% for i in 1..10 %}
-        <OPTION>{{i}}
-            {% endfor %}
-    </SELECT>
-    <button type="submit">Ajouter</button>
+    <button type="submit"><a href="{{ path('basket_add', { 'id' : dish[0].id, 'restorer' : restorer.id})}}">Ajouter</a></button>
 </form>
 {% endfor %}
 </div>
