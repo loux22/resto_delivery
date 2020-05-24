@@ -88,6 +88,10 @@ class MemberController extends AbstractController
             $this->addFlash('errors', 'il faut être connecté pour accéder au profil');
             return $this->redirectToRoute('login');
         }
+        if ($userLog -> getRoles()[0] != 'MEMBER') {
+            $this->addFlash('errors', 'il faut être un membre pour accéder à cette page');
+            return $this->redirectToRoute('home');
+        }
 
         $repository = $this->getDoctrine()->getRepository(Member::class);
         $member = $repository->findBy([
@@ -138,8 +142,12 @@ class MemberController extends AbstractController
         // si quelqu'un est connecté on le redirige vers la page login
         $userLog = $this->getUser();
         if ($userLog == null) {
-            $this->addFlash('errors', 'il faut être connecté pour accéder au profil');
+            $this->addFlash('errors', 'il faut être connecté pour accéder a l\'historic des commandes');
             return $this->redirectToRoute('login');
+        }
+        if ($userLog -> getRoles()[0] != 'MEMBER') {
+            $this->addFlash('errors', 'il faut être un membre pour accéder à cette page');
+            return $this->redirectToRoute('home');
         }
         $manager = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository(Command::class);

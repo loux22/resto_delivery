@@ -25,6 +25,10 @@ class BasketController extends AbstractController
             $this->addFlash('errors', 'il faut être connecté pour accéder au panier');
             return $this->redirectToRoute('login');
         }
+        if ($userLog -> getRoles()[0] != 'MEMBER') {
+            $this->addFlash('errors', 'il faut être un membre pour accéder à cette page');
+            return $this->redirectToRoute('home');
+        }
         $memberRepository = $this->getDoctrine()->getRepository(Member::class);
         $member = $memberRepository->findOneBy([
             'user' => $userLog
@@ -95,6 +99,10 @@ class BasketController extends AbstractController
         if ($userLog == null) {
             $this->addFlash('errors', 'il faut être connecté pour commander');
             return $this->redirectToRoute('login');
+        }
+        if ($userLog -> getRoles()[0] != 'MEMBER') {
+            $this->addFlash('errors', 'il faut être un membre pour accéder à cette page');
+            return $this->redirectToRoute('home');
         }
         // si je n'ai pas de panier je veux un tableau vide 
         $basket = $session->get('basket', []);
