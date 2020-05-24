@@ -3,6 +3,73 @@
 {% block title %}Historique commande{% endblock %}
 
 {% block body %}
-<h1>Historique des commandes</h1>
+{{dump(commandDish)}}
+{{dump(note)}}
+<h3>Commande en cours</h3>
+
+{% for command in commands %}
+    {% if command.status == 0 %}
+        <p>Commande n°{{command.id}} sera délivré le {{command.delivery | format_datetime('short', 'short', locale='fr')}}</p>
+        <p>prix total: {{command.price}} €</p>
+        {% for dish in commandDish %}
+            {% for d in dish %}
+                {% if d.command.id == command.id %}
+                    {% if d.dish.img == "default.png" %}
+                        <img height="30px" width="30px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
+                        {% else %}
+                        <img height="30px" width="30px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
+                    {% endif %}
+                    <p>{{d.dish.name}} x{{d.quantity}} {{d.dish.price}}€</p>
+                {% endif %} 
+            {% endfor %} 
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+
+
+
+<h3>Historique des commandes</h3>
+
+{% for command in commands %}
+    {% if command.status == 1 %}
+        <p style="font-weight: bold;">Commande n°{{command.id}} sera délivré le {{command.delivery | format_datetime('short', 'short', locale='fr')}}</p>
+        <p>prix total: {{command.price}} €</p>
+        {% for key,dish in commandDish %}
+            {% for k,d in dish %}
+                {% if d.command.id == command.id %}
+                    {% if d.dish.img == "default.png" %}
+                        <img height="30px" width="30px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
+                        {% else %}
+                        <img height="30px" width="30px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
+                    {% endif %}
+                    <p>{{d.dish.name}} x{{d.quantity}} {{d.dish.price}}€</p>
+                    <form action="" method="post">
+                        {% if note[key][k][0] == [] %}
+                        
+                        <select name="note">
+                            {% for i in 0..5 %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" name="{{d.dish.id}}">Valider</button>
+                        {% else %}
+
+                        <select name="note">
+                            {% for i in 0..5 %}
+                                {% if note[key][k][0][0].note == i %}
+                                    <option selected value="{{i}}">{{i}}</option>
+                                    {% else %}
+                                    <option value="{{i}}">{{i}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <button type="submit" name="m{{d.dish.id}}">Modifier</button>
+                        {% endif %} 
+                    </form>
+                    {% endif %}
+            {% endfor %} 
+        {% endfor %}
+    {% endif %}
+{% endfor %}
 
 {% endblock %}

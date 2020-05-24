@@ -60,7 +60,7 @@ class BasketController extends AbstractController
                 $manager->flush(); // push(git)
                 $command = new Command;
                 $command->setUser($userLog);
-                $command->setDelivery(new \DateTime());
+                $command->setDelivery(new \DateTime("+ 3 hours"));
                 $command->setPrice($total + 2.5);
                 $command->setStatus(false); 
                 $manager->persist($command); //commit(git)
