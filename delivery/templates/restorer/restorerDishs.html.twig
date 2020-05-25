@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plats - {{restorer.name}} {% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{{ asset('/css/popup.css')}}">
+{% endblock %}
+
+{% block body %}
+<h1>Plat</h1>
+<button class="add-dish-js">Ajouter</button>
+
+<div class="popup">
+    <div class="popup-content">
+        <img class="close" src="{{ asset('/img/close.png')}}" alt="">
+        {{form_start(formAddDish)}}
+
+{% if form_errors(formAddDish.name) %}
+    {{form_errors(formAddDish.name)}} 
+{% endif %} 
+{{form_widget(formAddDish.name)}}
+
+{% if form_errors(formAddDish.file) %}
+    {{form_errors(formAddDish.file)}} 
+{% endif %} 
+{{form_widget(formAddDish.file)}}
+
+{% if form_errors(formAddDish.price) %}
+    {{form_errors(formAddDish.price)}} 
+{% endif %} 
+{{form_widget(formAddDish.price)}}
+
+<button type="submit">Ajouter</button>
+
+{{form_end(formAddDish)}}
+    </div>
+</div>
+
+{% for key,dish in dishs %}
+<p>{{dish.name}}</p>
+{% if dish.img == "default.png" %}
+<img src="{{ asset('/img/')}}{{dish.img}}" alt="">
+{% else %}
+<img src="{{ asset('/dishs/' ~ app.user.id  ~ '/dish/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
+{% endif %}
+<p>{{dish.price}}€</p>
+<p>{{note[key][0].note}}/5</p>
+{% endfor %}
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/popup.js')}}"></script>
+{% endblock %}

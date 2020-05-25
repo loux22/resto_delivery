@@ -22,19 +22,18 @@ class CommandDishRepository extends ServiceEntityRepository
     // /**
     //  * @return CommandDish[] Returns an array of CommandDish objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findCommandDish($value)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+            ->leftJoin('c.command', 'co')
+            ->andWhere('co.user = :val')
             ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?CommandDish

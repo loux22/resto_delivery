@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - {{restorer.name}} {% endblock %}
+
+{% block body %}
+<h1>Dashboard</h1>
+
+<p>nombre de plat : {{dishs | length}}</p>
+<p>nombre de commande : {{commandRestorer | length}}</p>
+<p>nombre de commande en cours : {{commandRestorerInProgress | length}}</p>
+<p>note moyenne des plats : {{note.note}}/5</p>
+<p>nombre de plats commander: {{commandDish | length}}</p>
+<p>nombre de plats commander en cours : {{dishInProgress | length}} </p>
+<p>gains : {{earning}}€</p>
+{% endblock %}

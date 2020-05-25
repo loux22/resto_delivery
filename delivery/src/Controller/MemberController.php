@@ -66,6 +66,7 @@ class MemberController extends AbstractController
                         $manager->persist($member); //commit(git)
                         $manager->flush(); // push(git)
                         $this->addFlash('success', 'Vous êtes inscris');
+                        return $this->redirectToRoute('login');
                     }
                 }
             }

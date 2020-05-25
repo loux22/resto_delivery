@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Dish;
 use App\Entity\Note;
 use App\Entity\User;
+use App\Entity\Command;
 use App\Entity\Restorer;
+use App\Form\AddDishType;
+use App\Entity\CommandDish;
 use App\Form\RestorerRegisterType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +37,143 @@ class RestorerController extends AbstractController
             "rand" => $rand,
         ]);
     }
+
+    public function restorer(){
+        $userLog = $this->getUser();
+        if ($userLog == null) {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'RESTORER') {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $restorer = $repository->findOneBy([
+            "user" => $userLog->getId()
+        ]);
+        return $restorer;
+    }
+
+    /**
+     * @Route("/restaurent/dashboard", name="restorerDashboard")
+     */
+    public function restorerDashboard()
+    {
+        $userLog = $this->getUser();
+        $restorer = $this->restorer();
+        $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        $dishs = $repoDish->findBy([
+            "restorer" => $restorer
+        ]);
+        $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
+        $commandInProgress = $this->getDoctrine()->getRepository(Command::class);
+        $commandDish = $repoCommandDish -> findCommandDish($userLog);
+        $commandRestorer = [];
+        if (count($commandRestorer) == 0 && !empty($commandDish)) {
+            $commandRestorer[] = $commandDish[0];
+        }
+        $status = false;
+        foreach ($commandDish as $keys => $value) {
+            $status = false;
+            foreach ($commandRestorer as $key => $command) {
+                if($command -> getCommand() -> getId() == $value -> getCommand() -> getId()){
+                    $status = true;
+                }
+            }
+            if($status == false){
+                $commandRestorer[] = $value;
+            }
+        }
+        $commandRestorerInProgress = [];
+        foreach ($commandRestorer as $key => $value) {
+            $commandRestorerInProgress[] = $commandInProgress -> findBy([
+                'id' => $value -> getCommand() -> getId(),
+                'status' => 1
+            ]);
+            if($commandRestorerInProgress[$key] == []){
+                unset($commandRestorerInProgress[$key]);
+            }
+        }
+
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $note = $repoNote -> dishNoteRestaurent($restorer);
+
+        $dishInProgress = [];
+        foreach ($commandRestorerInProgress as $key => $value) {
+            foreach ($commandDish as $key => $dish) {
+                if ($value[0] == $dish -> getCommand()) {
+                    $dishInProgress[] = $dish;
+                }        
+            }
+        }
+
+        
+        $earnings = $commandInProgress -> findBy([
+            'user' => $userLog
+        ]);
+        $earning = 0;
+        foreach ($earnings as $key => $value) {
+            $earning += $value -> getPrice() - 2.5;
+        }
+
+        
+
+        return $this->render('restorer/dashboard.html.twig', [
+            "restorer" => $restorer,
+            "dishs" => $dishs,
+            "commandRestorer" => $commandRestorer,
+            'commandRestorerInProgress' => $commandRestorerInProgress,
+            'note' => $note[0],
+            'commandDish' => $commandDish,
+            'dishInProgress' => $dishInProgress,
+            'earning' => $earning
+        ]);
+    }
+
+
+    /**
+     * @Route("/restaurent/dishs", name="restorerDishs")
+     */
+    public function restorerDishs(Request $request)
+    {
+        $userLog = $this->getUser();
+        $restorer = $this->restorer();
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        $allDishs = $repoDish->findAll();
+        $dishs = $repoDish->findBy([
+            "restorer" => $restorer
+        ]);
+        $note = [];
+        foreach ($dishs as $key => $dish) {
+            $note[] = $repoNote -> dishNote($dish);
+        }
+        $dish = new Dish;
+        $form = $this->createForm(AddDishType::class, $dish);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dish->fileUpload($userLog ->getId(), end($allDishs)->getId() + 1);
+            $dish->setRestorer($restorer);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($dish); //commit(git)
+            $manager->flush(); // push(git)
+            $dishs = $repoDish->findBy([
+                "restorer" => $restorer
+            ]);
+            $this->addFlash('success', 'Votre plat a bien été ajouté');
+            return $this->redirectToRoute('restorerDishs');
+        }
+        return $this->render('restorer/restorerDishs.html.twig', [
+            'restorer' => $restorer,
+            'dishs' => $dishs,
+            'note' => $note,
+            'formAddDish' => $form->createView()
+        ]);
+    }
+
 
     /**
      * @Route("/register/restorer", name="registerRestorer")
@@ -90,6 +230,7 @@ class RestorerController extends AbstractController
                         $manager->persist($restorer); //commit(git)
                         $manager->flush(); // push(git)
                         $this->addFlash('success', 'Vous êtes inscris');
+                        return $this->redirectToRoute('loginRestaurent');
                     }
                 }
             }
@@ -207,7 +348,7 @@ class RestorerController extends AbstractController
                 echo '<p> ce restaurent n\'a encore aucune note </p>';
             }
             echo '<form action="" method="post">
-                <button type="submit"><a href="/basket/add/' . $dish[0]->getId() . '/' . $dish[0]->getRestorer()->getId()  .'">Ajouter</a></button>
+                <button type="submit"><a href="/basket/add/' . $dish[0]->getId() . '/' . $dish[0]->getRestorer()->getId()  . '">Ajouter</a></button>
             </form>';
         }
         return new Response();

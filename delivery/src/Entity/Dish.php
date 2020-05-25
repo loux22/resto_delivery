@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\DishRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DishRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=DishRepository::class)
@@ -28,6 +29,8 @@ class Dish
      * @ORM\Column(type="string", length=255)
      */
     private $img;
+
+    private $file;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -205,5 +208,44 @@ class Dish
         }
 
         return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file)
+    {
+        $this -> file = $file;
+        return $this;
+    }
+
+
+    public function dirFile($user, $id)
+    {
+        return __DIR__ . '/../../public/dishs/' . $user . '/dish/' . $id;
+    }
+
+    public function fileUpload($user, $id)
+    {
+        if($this -> file  != null){
+            $newName = $this -> renameFile($this -> file -> getClientOriginalName());
+            $this -> img = $newName;
+            $this -> file -> move($this->dirFile($user, $id),$newName);
+        }
+    }
+
+    public function renameFile($nom)
+    {
+        return 'img_' . time() . '_' . rand(1,99999) . '_' . $nom;
+    }
+
+    public function removeFile($user, $id)
+    {
+        if(file_exists($this->dirFile($user, $id) . $this-> img) && $this-> img != 'default.jpg'){
+            unlink($this->dirFile($user, $id) . $this-> img);
+        }
+        
     }
 }
