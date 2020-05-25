@@ -41,10 +41,11 @@
 {% if dish.img == "default.png" %}
 <img src="{{ asset('/img/')}}{{dish.img}}" alt="">
 {% else %}
-<img src="{{ asset('/dishs/' ~ app.user.id  ~ '/dish/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
+<img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
 {% endif %}
 <p>{{dish.price}}€</p>
 <p>{{note[key][0].note}}/5</p>
+<button><a href="{{ path('dishRemove', { 'id' : dish.id})}}">Supprimer plat</a></button>
 {% endfor %}
 
 {% endblock %}

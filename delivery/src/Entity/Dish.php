@@ -222,17 +222,17 @@ class Dish
     }
 
 
-    public function dirFile($user, $id)
+    public function dirFile($id)
     {
-        return __DIR__ . '/../../public/dishs/' . $user . '/dish/' . $id;
+        return __DIR__ . '/../../public/dishs/' . $id;
     }
 
-    public function fileUpload($user, $id)
+    public function fileUpload($id)
     {
         if($this -> file  != null){
             $newName = $this -> renameFile($this -> file -> getClientOriginalName());
             $this -> img = $newName;
-            $this -> file -> move($this->dirFile($user, $id),$newName);
+            $this -> file -> move($this->dirFile($id),$newName);
         }
     }
 
@@ -241,10 +241,10 @@ class Dish
         return 'img_' . time() . '_' . rand(1,99999) . '_' . $nom;
     }
 
-    public function removeFile($user, $id)
+    public function removeFile($id)
     {
-        if(file_exists($this->dirFile($user, $id) . $this-> img) && $this-> img != 'default.jpg'){
-            unlink($this->dirFile($user, $id) . $this-> img);
+        if(file_exists($this->dirFile($id) . $this-> img) && $this-> img != 'default.jpg'){
+            unlink($this->dirFile($id) . $this-> img);
         }
         
     }

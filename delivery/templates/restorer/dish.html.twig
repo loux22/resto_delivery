@@ -26,7 +26,7 @@
 {% if dish[0].img == "default.png" %}
 <img src="{{ asset('/img/')}}{{dish[0].img}}" alt="">
 {% else %}
-<img src="{{ asset('/dish/' ~ dish[0].id  ~ '/img/' ~ dish[0].img)}}" alt="">
+<img src="{{ asset('/dishs/' ~ dish[0].id ~ '/' ~ dish[0].img)}}" alt="">
 {% endif %}
 <p>{{dish[0].name}}</p>
 <p>{{dish[0].price}} €</p>

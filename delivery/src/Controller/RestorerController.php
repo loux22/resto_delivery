@@ -89,7 +89,7 @@ class RestorerController extends AbstractController
         foreach ($commandRestorer as $key => $value) {
             $commandRestorerInProgress[] = $commandInProgress -> findBy([
                 'id' => $value -> getCommand() -> getId(),
-                'status' => 1
+                'status' => false
             ]);
             if($commandRestorerInProgress[$key] == []){
                 unset($commandRestorerInProgress[$key]);
@@ -155,7 +155,7 @@ class RestorerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dish->fileUpload($userLog ->getId(), end($allDishs)->getId() + 1);
+            $dish->fileUpload(end($allDishs)->getId() + 1);
             $dish->setRestorer($restorer);
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($dish); //commit(git)
@@ -172,6 +172,43 @@ class RestorerController extends AbstractController
             'note' => $note,
             'formAddDish' => $form->createView()
         ]);
+    }
+
+
+    /**
+     * @Route("/restaurent/dish/{id}", name="dishRemove")
+     */
+    public function removeDish($id)
+    {
+        $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        $dish = $repoDish -> findOneBy([
+            "id" => $id
+        ]);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $note = $repoNote -> findBy([
+            "dish" => $dish
+        ]);
+        $manager = $this->getDoctrine()->getManager();
+        if (!empty($note)) {
+            foreach ($note as $key => $value) {
+                $manager->remove($value);
+            }
+        }
+        $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
+        $commandDish = $repoCommandDish -> findBy([
+            "dish" => $dish
+        ]);
+        if (!empty($commandDish)) {
+            foreach ($commandDish as $key => $value) {
+                $manager->remove($value);
+            }
+        }
+        $dishName = $dish -> getName();
+        $manager->remove($dish);
+        $manager->flush();
+        $this->addFlash('success', 'Votre plat' . $dishName . 'a bien été ajouté');
+        return $this->redirectToRoute('restorerDishs');
+
     }
 
 
@@ -338,7 +375,7 @@ class RestorerController extends AbstractController
             if ($dish[0]->getImg() === "image.png") {
                 echo '<img src="/dish/' . $dish[0]->getId() . '/img/' . $dish[0]->getImg() . '" alt="">';
             } else {
-                echo '<img src="/img/' . $dish[0]->getImg() . '" alt="">';
+                echo '<img src="/dishs/' . $dish[0]->getId() . '/' . $dish[0]->getImg() . '" alt="">';
             }
             echo '<p>' . $dish[0]->getName() . '</p>
              <p> frais de livraison : 2,5€ - 1h </p>';
