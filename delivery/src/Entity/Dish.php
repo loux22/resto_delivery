@@ -243,7 +243,7 @@ class Dish
 
     public function removeFile($id)
     {
-        if(file_exists($this->dirFile($id) . $this-> img) && $this-> img != 'default.jpg'){
+        if(file_exists($this->dirFile($id) . $this-> img) && $this-> img != 'default.png'){
             unlink($this->dirFile($id) . $this-> img);
         }
         

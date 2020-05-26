@@ -46,6 +46,7 @@
 <p>{{dish.price}}€</p>
 <p>{{note[key][0].note}}/5</p>
 <button><a href="{{ path('dishRemove', { 'id' : dish.id})}}">Supprimer plat</a></button>
+<button><a href="{{ path('dishModify', { 'id' : dish.id})}}">Modifier plat</a></button>
 {% endfor %}
 
 {% endblock %}

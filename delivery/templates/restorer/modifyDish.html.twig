@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plats -
+	{{restorer.name}} - Modifier
+{% endblock %}
+
+{% block link %}
+	<link rel="stylesheet" href="{{ asset('/css/popup.css')}}">
+{% endblock %}
+
+{% block body %}
+	<h1>{{dish.name}}</h1>
+
+	{{form_start(formModifyDish)}}
+
+	{% if form_errors(formModifyDish.name) %}
+		{{form_errors(formModifyDish.name)}}
+	{% endif %}
+	{{form_widget(formModifyDish.name)}}
+
+	{% if form_errors(formModifyDish.file) %}
+		{{form_errors(formModifyDish.file)}}
+	{% endif %}
+	{{form_widget(formModifyDish.file)}}
+
+	{% if form_errors(formModifyDish.price) %}
+		{{form_errors(formModifyDish.price)}}
+	{% endif %}
+	{{form_widget(formModifyDish.price)}}
+
+	<button type="submit">Ajouter</button>
+
+	{{form_end(formModifyDish)}}
+
+
+{% endblock %}

@@ -176,7 +176,40 @@ class RestorerController extends AbstractController
 
 
     /**
-     * @Route("/restaurent/dish/{id}", name="dishRemove")
+     * @Route("/restaurent/dish/modify/{id}", name="dishModify")
+     */
+    public function modifyDish($id, Request $request)
+    {
+        $userLog = $this->getUser();
+        $restorer = $this->restorer();
+        $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        $dish = $repoDish->findOneBy([
+            "id" => $id
+        ]);
+        $form = $this->createForm(AddDishType::class, $dish);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($dish-> getFile()){
+            $dish -> removeFile($id);
+            $dish -> fileUpload($id);
+            }
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($dish); //commit(git)
+            $manager->flush(); // push(git)
+            $this->addFlash('success', 'Votre plat '. $dish -> getName() . ' a bien été modifié');
+            return $this->redirectToRoute('restorerDishs');
+        }
+        return $this->render('restorer/modifyDish.html.twig', [
+            'formModifyDish' => $form->createView(),
+            'restorer' => $restorer,
+            'dish' => $dish
+        ]);
+    }
+
+
+    /**
+     * @Route("/restaurent/dish/remove/{id}", name="dishRemove")
      */
     public function removeDish($id)
     {
@@ -206,7 +239,7 @@ class RestorerController extends AbstractController
         $dishName = $dish -> getName();
         $manager->remove($dish);
         $manager->flush();
-        $this->addFlash('success', 'Votre plat' . $dishName . 'a bien été ajouté');
+        $this->addFlash('success', 'Votre plat ' . $dishName . ' a bien été supprimé');
         return $this->redirectToRoute('restorerDishs');
 
     }
