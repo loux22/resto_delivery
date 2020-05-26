@@ -38,9 +38,33 @@ class RestorerController extends AbstractController
         ]);
     }
 
-    public function restorer(){
+    public function restorer()
+    {
         $userLog = $this->getUser();
-        if ($userLog == null) {
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }else{
+            if ($userLog->getRoles()[0] != 'RESTORER') {
+                $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+                return $this->redirectToRoute('home');
+            }
+            $repository = $this->getDoctrine()->getRepository(Restorer::class);
+            $restorer = $repository->findOneBy([
+                "user" => $userLog->getId()
+            ]);
+            return $restorer;
+        }
+        
+    }
+
+    /**
+     * @Route("/restaurent/dashboard", name="restorerDashboard")
+     */
+    public function restorerDashboard()
+    {
+        $userLog = $this->getUser();
+        if ($userLog === null) {
             $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
@@ -52,23 +76,13 @@ class RestorerController extends AbstractController
         $restorer = $repository->findOneBy([
             "user" => $userLog->getId()
         ]);
-        return $restorer;
-    }
-
-    /**
-     * @Route("/restaurent/dashboard", name="restorerDashboard")
-     */
-    public function restorerDashboard()
-    {
-        $userLog = $this->getUser();
-        $restorer = $this->restorer();
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
         $dishs = $repoDish->findBy([
             "restorer" => $restorer
         ]);
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
         $commandInProgress = $this->getDoctrine()->getRepository(Command::class);
-        $commandDish = $repoCommandDish -> findCommandDish($userLog);
+        $commandDish = $repoCommandDish->findCommandDish($userLog);
         $commandRestorer = [];
         if (count($commandRestorer) == 0 && !empty($commandDish)) {
             $commandRestorer[] = $commandDish[0];
@@ -77,47 +91,47 @@ class RestorerController extends AbstractController
         foreach ($commandDish as $keys => $value) {
             $status = false;
             foreach ($commandRestorer as $key => $command) {
-                if($command -> getCommand() -> getId() == $value -> getCommand() -> getId()){
+                if ($command->getCommand()->getId() == $value->getCommand()->getId()) {
                     $status = true;
                 }
             }
-            if($status == false){
+            if ($status == false) {
                 $commandRestorer[] = $value;
             }
         }
         $commandRestorerInProgress = [];
         foreach ($commandRestorer as $key => $value) {
-            $commandRestorerInProgress[] = $commandInProgress -> findBy([
-                'id' => $value -> getCommand() -> getId(),
+            $commandRestorerInProgress[] = $commandInProgress->findBy([
+                'id' => $value->getCommand()->getId(),
                 'status' => false
             ]);
-            if($commandRestorerInProgress[$key] == []){
+            if ($commandRestorerInProgress[$key] == []) {
                 unset($commandRestorerInProgress[$key]);
             }
         }
 
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
-        $note = $repoNote -> dishNoteRestaurent($restorer);
+        $note = $repoNote->dishNoteRestaurent($restorer);
 
         $dishInProgress = [];
         foreach ($commandRestorerInProgress as $key => $value) {
             foreach ($commandDish as $key => $dish) {
-                if ($value[0] == $dish -> getCommand()) {
+                if ($value[0] == $dish->getCommand()) {
                     $dishInProgress[] = $dish;
-                }        
+                }
             }
         }
 
-        
-        $earnings = $commandInProgress -> findBy([
+
+        $earnings = $commandInProgress->findBy([
             'user' => $userLog
         ]);
         $earning = 0;
         foreach ($earnings as $key => $value) {
-            $earning += $value -> getPrice() - 2.5;
+            $earning += $value->getPrice() - 2.5;
         }
 
-        
+
 
         return $this->render('restorer/dashboard.html.twig', [
             "restorer" => $restorer,
@@ -138,7 +152,18 @@ class RestorerController extends AbstractController
     public function restorerDishs(Request $request)
     {
         $userLog = $this->getUser();
-        $restorer = $this->restorer();
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'RESTORER') {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $restorer = $repository->findOneBy([
+            "user" => $userLog->getId()
+        ]);
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
         $allDishs = $repoDish->findAll();
@@ -147,7 +172,7 @@ class RestorerController extends AbstractController
         ]);
         $note = [];
         foreach ($dishs as $key => $dish) {
-            $note[] = $repoNote -> dishNote($dish);
+            $note[] = $repoNote->dishNote($dish);
         }
         $dish = new Dish;
         $form = $this->createForm(AddDishType::class, $dish);
@@ -181,7 +206,18 @@ class RestorerController extends AbstractController
     public function modifyDish($id, Request $request)
     {
         $userLog = $this->getUser();
-        $restorer = $this->restorer();
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'RESTORER') {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $restorer = $repository->findOneBy([
+            "user" => $userLog->getId()
+        ]);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
         $dish = $repoDish->findOneBy([
             "id" => $id
@@ -190,14 +226,14 @@ class RestorerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($dish-> getFile()){
-            $dish -> removeFile($id);
-            $dish -> fileUpload($id);
+            if ($dish->getFile()) {
+                $dish->removeFile($id);
+                $dish->fileUpload($id);
             }
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($dish); //commit(git)
             $manager->flush(); // push(git)
-            $this->addFlash('success', 'Votre plat '. $dish -> getName() . ' a bien été modifié');
+            $this->addFlash('success', 'Votre plat ' . $dish->getName() . ' a bien été modifié');
             return $this->redirectToRoute('restorerDishs');
         }
         return $this->render('restorer/modifyDish.html.twig', [
@@ -214,11 +250,11 @@ class RestorerController extends AbstractController
     public function removeDish($id)
     {
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
-        $dish = $repoDish -> findOneBy([
+        $dish = $repoDish->findOneBy([
             "id" => $id
         ]);
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
-        $note = $repoNote -> findBy([
+        $note = $repoNote->findBy([
             "dish" => $dish
         ]);
         $manager = $this->getDoctrine()->getManager();
@@ -228,7 +264,7 @@ class RestorerController extends AbstractController
             }
         }
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
-        $commandDish = $repoCommandDish -> findBy([
+        $commandDish = $repoCommandDish->findBy([
             "dish" => $dish
         ]);
         if (!empty($commandDish)) {
@@ -236,12 +272,70 @@ class RestorerController extends AbstractController
                 $manager->remove($value);
             }
         }
-        $dishName = $dish -> getName();
+        $dishName = $dish->getName();
         $manager->remove($dish);
         $manager->flush();
         $this->addFlash('success', 'Votre plat ' . $dishName . ' a bien été supprimé');
         return $this->redirectToRoute('restorerDishs');
+    }
 
+    /**
+     * @Route("/restaurent/profil", name="profilRestorer")
+     */
+    public function profilRestorer(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $userLog = $this->getUser();
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'RESTORER') {
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $restorer = $repository->findOneBy([
+            "user" => $userLog->getId()
+        ]);
+        $manager = $this->getDoctrine()->getManager();
+
+        $input = $request->request->all();
+        if (isset($input["lastPassword"])) {
+            if (password_verify($input["lastPassword"], $restorer->getUser()->getPassword())) {
+                if ($input["newPassword"] === $input["reapeatPassword"]) {
+                    if (strlen($input["newPassword"]) >= 8) {
+                        $password = $passwordEncoder->encodePassword($userLog, $input["newPassword"]);
+                        $userLog->setPassword($password);
+                        $manager->persist($userLog); //commit(git)
+                        $manager->flush(); // push(git)
+                        $this->addFlash('success', 'Le mot de passe a été modifié');
+                    } else {
+                        $this->addFlash('errors', 'Le mot de passe est trop court');
+                    }
+                } else {
+                    $this->addFlash('errors', 'le mot de passe n\'est pas confirmer');
+                }
+            } else {
+                $this->addFlash('errors', 'ce n\'est pas l\'ancien mot de passe');
+            }
+        }
+
+        $form = $this->createForm(RestorerRegisterType::class, $restorer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($restorer->getFile()) {
+                $restorer->removeFile($restorer -> getId());
+                $restorer->fileUpload($restorer -> getId());
+            }
+            $manager->persist($restorer); //commit(git)
+            $manager->flush(); // push(git)
+            $this->addFlash('success', 'Votre profil a bien été modifié');
+        }
+        return $this->render('restorer/profil.html.twig', [
+            'restorer' => $restorer,
+            "restorerFormModify" => $form->createView(),
+        ]);
     }
 
 

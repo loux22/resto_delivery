@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil -
+	{{restorer.name}}
+{% endblock %}
+
+{% block link %}
+	<link rel="stylesheet" href="{{ asset('/css/popup.css')}}">
+{% endblock %}
+
+{% block body %}
+<style>
+    .none {
+        display: none;
+    }
+</style>
+
+<h1>Profil</h1>
+<button class="buttonUpdateProfil-js" type="submit">Modifier profil</button>
+<button class="buttonUpdatePassword-js" type="submit">Modifier password</button>
+<button class="buttonProfil-js none" type="submit">Voir profil</button>
+
+<div class="profil-js">
+<p>{{restorer.name}}</p>
+<img src="{{ asset('/restorer/' ~ restorer.id  ~ '/logo/' ~ restorer.logo )}}" alt="">
+<p>{{restorer.address}}</p>
+</div>
+
+
+<div class="update-profil-js none">
+    {{form_start(restorerFormModify)}}
+
+    {% if form_errors(restorerFormModify.name) %}
+    {{form_errors(restorerFormModify.name)}}
+    {% endif %}
+    {{form_widget(restorerFormModify.name)}}
+
+    {% if form_errors(restorerFormModify.file) %}
+    {{form_errors(restorerFormModify.file)}}
+    {% endif %}
+    {{form_widget(restorerFormModify.file)}}
+
+    {% if form_errors(restorerFormModify.address) %}
+    {{form_errors(restorerFormModify.address)}}
+    {% endif %}
+    {{form_widget(restorerFormModify.address)}}
+
+    <button type="submit">Modifier</button>
+
+    {{form_end(restorerFormModify)}}
+</div>
+
+
+<div class="update-password-js none">
+    <form action="" method="post">
+        <input type="password" name="lastPassword" placeholder="ancien mot de passe" required>
+        <input type="password" name="newPassword" placeholder="nouveau mot de passe" required>
+        <input type="password" name="reapeatPassword" placeholder="répéter mot de passe" required>
+        <button type="submit">Modifier</button>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    var buttonProfil = document.querySelector('.buttonProfil-js')
+    var buttonUpdatePassword = document.querySelector('.buttonUpdatePassword-js')
+    var buttonUpdateProfil = document.querySelector('.buttonUpdateProfil-js')
+
+    var profil = document.querySelector('.profil-js')
+    var updateProfil = document.querySelector('.update-profil-js')
+    var updatePassword = document.querySelector('.update-password-js')
+
+    function displayModifyProfil() {
+        if(updatePassword.classList.contains('none')){
+            profil.classList.add("none")
+            buttonProfil.classList.remove("none")
+        }else{
+            updatePassword.classList.add("none")
+            buttonUpdatePassword.classList.remove("none")
+        }
+        updateProfil.classList.remove("none")
+        buttonUpdateProfil.classList.add("none")
+    }
+
+    function displayModifyPassword() {
+        if(updateProfil.classList.contains('none')){
+            profil.classList.add("none")
+            buttonProfil.classList.remove("none")
+        }else{
+            updateProfil.classList.add("none")
+            buttonUpdateProfil.classList.remove("none")
+        } 
+        updatePassword.classList.remove("none")
+        buttonUpdatePassword.classList.add("none")
+    }
+
+    function displayProfil() {
+        if (updatePassword.classList.contains('none')) {
+            updateProfil.classList.add("none")
+            buttonUpdateProfil.classList.remove("none")
+        }else{
+            updatePassword.classList.add("none")
+            buttonUpdatePassword.classList.remove("none")
+        }
+        profil.classList.remove("none")
+        buttonProfil.classList.add("none")
+    }
+
+    buttonUpdateProfil.addEventListener('click', displayModifyProfil);
+    buttonUpdatePassword.addEventListener('click', displayModifyPassword);
+    buttonProfil.addEventListener('click', displayProfil);
+</script>
+{% endblock %}
