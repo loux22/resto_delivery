@@ -153,11 +153,11 @@ class RestorerController extends AbstractController
     {
         $userLog = $this->getUser();
         if ($userLog === null) {
-            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder à la liste des plats');
             return $this->redirectToRoute('home');
         }
         if ($userLog->getRoles()[0] != 'RESTORER') {
-            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder à la liste des plats');
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
@@ -207,11 +207,11 @@ class RestorerController extends AbstractController
     {
         $userLog = $this->getUser();
         if ($userLog === null) {
-            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder pour modifier un plat');
             return $this->redirectToRoute('home');
         }
         if ($userLog->getRoles()[0] != 'RESTORER') {
-            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder pour modifier un plat');
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
@@ -286,11 +286,11 @@ class RestorerController extends AbstractController
     {
         $userLog = $this->getUser();
         if ($userLog === null) {
-            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au profil');
             return $this->redirectToRoute('home');
         }
         if ($userLog->getRoles()[0] != 'RESTORER') {
-            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant que restaurent pour acceder au profil');
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);

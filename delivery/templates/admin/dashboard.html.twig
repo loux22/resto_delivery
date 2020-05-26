@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin dashboard{% endblock %}
+
+{% block body %}
+<p>Nombre de restaurent : {{nbRestorer}}</p>
+<p>nombre de commande : {{nbCommand}}</p>
+<p>nombre de commande en cours : {{nbCommandInProgress}}</p>
+<p>gains : <span>{{nbCommand * 2.5}}</span></p>
+{% endblock %}
