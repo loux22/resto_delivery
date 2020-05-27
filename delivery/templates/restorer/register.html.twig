@@ -2,32 +2,65 @@
 
 {% block title %}Register restaurent{% endblock %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ asset('css/registerRestorer.css') }}">
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+{% endblock %}
+
 {% block body %}
+<h1>INCRIPTION</h1>
     <p>{{error}}</p>
 
 {{form_start(restorerForm)}}
+<div class="container__body">
+    <div class="container__body--1">
+        <Span>Nom de votre enseigne</Span>
+        {% if form_errors(restorerForm.name) %}
+        {{form_errors(restorerForm.name)}} 
+    {% endif %} 
+    {{form_widget(restorerForm.name)}}
+    </div>
 
-{% if form_errors(restorerForm.name) %}
-    {{form_errors(restorerForm.name)}} 
-{% endif %} 
-{{form_widget(restorerForm.name)}}
-
-{% if form_errors(restorerForm.file) %}
-    {{form_errors(restorerForm.file)}} 
-{% endif %} 
-{{form_widget(restorerForm.file)}}
-
-{% if form_errors(restorerForm.address) %}
-    {{form_errors(restorerForm.address)}} 
-{% endif %} 
-{{form_widget(restorerForm.address)}}
-
-<input type="email" name="mail" placeholder="email">
-
-<input type="password" name="password" placeholder="password">
-<input type="password" name="repeat" placeholder="repeter password">
-
-<button type="submit">S'inscrire</button>
-
+    <div class="container__body--2">
+        <span>Logo / image de l'enseigne</span>
+        {% if form_errors(restorerForm.file) %}
+        {{form_errors(restorerForm.file)}} 
+        {% endif %} 
+        {{form_widget(restorerForm.file)}}
+    </div>
+    <div class="container__body--3">
+        <span>Adresse du restaurant</span>
+        {% if form_errors(restorerForm.address) %}
+        {{form_errors(restorerForm.address)}} 
+        {% endif %} 
+        {{form_widget(restorerForm.address)}}
+    </div>
+    <div class="container__body--4">
+        <span>Email</span>
+        <input type="email" name="mail" placeholder="email">
+    </div>
+    <div class="container__body--56">
+        <div class="container__body--5">
+            <span>Mot de passe</span>
+            <input type="password" name="password" placeholder="password">
+        </div>
+        <div class="container__body--6">
+            <span>Confirmer mot de passe</span>
+            <input type="password" name="repeat" placeholder="repeter password">
+        </div>
+    </div>
+</div>
+<div class="container__bottom">
+    <div class="container__bottom--check">
+        <p>
+            <input type="checkbox" id="test1" />
+            <label for="test1" aria-describedby="label">En créant un compte, <br>
+                vous acceptez <span>les <br> Conditions générales <br> de vente</span>  de Y Eats.</label>
+        </p>
+    </div>
+    <div class="container__bottom--button">
+        <button class="favorite styled"type="button">Continuer</button>
+    </div>
+</div>
 {{form_end(restorerForm)}}
 {% endblock %}
