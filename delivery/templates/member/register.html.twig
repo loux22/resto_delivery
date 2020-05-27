@@ -1,34 +1,67 @@
 {% extends 'base.html.twig' %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ asset('css/registerUser.css') }}">
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+{% endblock %}
+
 {% block title %}Register member{% endblock %}
 
 {% block body %}
-
+<h1>INSCRIPTION</h1>
 <p>{{error}}</p>
 
 {{form_start(memberForm)}}
+<div class="container__body">
+    <div class="container__body--1">
+        <span>Prénom</span>
+        {% if form_errors(memberForm.username) %}
+        {{form_errors(memberForm.username)}} 
+        {% endif %} 
+        {{form_widget(memberForm.username)}}
+    </div>
+    <div class="container__body--2">
+        <span>Nom</span>
+        {% if form_errors(memberForm.lastname) %}
+        {{form_errors(memberForm.lastname)}} 
+        {% endif %} 
+        {{form_widget(memberForm.lastname)}}
+    </div>
+    <div class="container__body--3">
+        <span>Adresse</span>
+        {% if form_errors(memberForm.address) %}
+        {{form_errors(memberForm.address)}} 
+        {% endif %} 
+        {{form_widget(memberForm.address)}}
+    </div>
+    <div class="container__body--4">
+        <span>Email</span>
+        <input type="email" name="mail" placeholder="email">
+    </div>
+    <div class="container__body--56">
+        <div class="container__body--5">
+            <span>Mot de passe</span>
+            <input type="password" name="password" placeholder="password">
+        </div>
+        <div class="container__body--6">
+            <span>Confirmer mot de passe</span>
+            <input type="password" name="repeat" placeholder="repeter password">
+        </div>
+    </div>
+</div>
 
-{% if form_errors(memberForm.username) %}
-    {{form_errors(memberForm.username)}} 
-{% endif %} 
-{{form_widget(memberForm.username)}}
-
-{% if form_errors(memberForm.lastname) %}
-    {{form_errors(memberForm.lastname)}} 
-{% endif %} 
-{{form_widget(memberForm.lastname)}}
-
-{% if form_errors(memberForm.address) %}
-    {{form_errors(memberForm.address)}} 
-{% endif %} 
-{{form_widget(memberForm.address)}}
-
-<input type="email" name="mail" placeholder="email">
-
-<input type="password" name="password" placeholder="password">
-<input type="password" name="repeat" placeholder="repeter password">
-
-<button type="submit">S'inscrire</button>
+<div class="container__bottom">
+    <div class="container__bottom--check">
+        <p>
+            <input type="checkbox" id="test1" />
+            <label for="test1" aria-describedby="label">En créant un compte, <br>
+                vous acceptez <span>les <br> Conditions générales <br> de vente</span>  de Y Eats.</label>
+        </p>
+    </div>
+    <div class="container__bottom--button">
+        <button class="favorite styled"type="button">Continuer</button>
+    </div>
+</div>
 
 {{form_end(memberForm)}}
 
