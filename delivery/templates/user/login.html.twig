@@ -7,13 +7,21 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
+{% if currentRoute == "login" %}
+<body style="background-color: #2CCE80">
+{% elseif currentRoute == "loginRestaurent" %}
+<body style="background-color: rgb(252, 207, 165)">
+{% else %}
+<body style="background-color: rgb(65, 176, 250)">
+{% endif %}
+
 <form action="{{ path('login') }}" method="post">
     {% if currentRoute == "login" %}
     <h1 class="title">CONNEXION</h1>
     {% elseif currentRoute == "loginRestaurent" %}
-    <h1>Login restaurent</h1>
+    <h1 class="title">CONNEXION RESTAURENT</h1>
     {% else %}
-    <h1>Login admin</h1>
+    <h1 class="title">CONNEXION ADMIN</h1>
     {% endif %}
     <div class="container__body">
         <div class="container__body--1">
@@ -29,11 +37,8 @@
     </div>
     <div class="container__bottom">
         <div class="button__top">
-            <button class="favorite styled"type="button">Continuer</button>
+            <button class="favorite styled" type="submit">Se connecter</button>
         </div><br>
-        <div class="button__middle">
-            <button class="favorite styled2"type="button">Mot de passe oublié ?</button>
-        </div>
     </div>
 
     {% if currentRoute == "login" %}
@@ -45,6 +50,9 @@
         <a href="{{path('registerRestorer')}}" >Si vous n’avez pas de compte Y Eats</a>
     </div>
     {% endif %}
-    
+    <br>
+    <br>
+    <br>
+
 </form>
 {% endblock %}
