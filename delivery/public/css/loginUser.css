@@ -1,0 +1,146 @@
+body{
+    background-color: #2CCE80;
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    padding: 70px;
+}
+
+.container__body{
+}
+.container__body--1{
+    display: grid;
+    justify-content: center;
+    margin: 40px;
+}
+.container__body--1 span{
+    color: rgba(0, 0, 0, 0.5);
+}
+.container__body--1 input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.container__body--2{
+    display: grid;
+    justify-content: center;
+}
+.container__body--2 span{
+    color: rgba(0, 0, 0, 0.5);
+}
+.container__body--2 input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.container__bottom{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.styled {
+    /* border: 0; */
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #010101;
+    border-radius: 1px;
+    background-color: #ffffff;
+    border: black 10px;
+    /* background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0)); */
+}
+
+.styled:hover {
+    background-color: #2CCE80;
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+    color: white;
+}
+
+.styled:active {
+    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+.styled2 {
+    /* border: 0; */
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #010101;
+    border-radius: 1px;
+    background-color: #ffffff;
+    border: black 10px;
+    /* background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0)); */
+}
+
+
+.styled2:active {
+    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+
+.button__bottom{
+    display: flex;
+    justify-content: flex-end;
+    margin: 50px 100px;
+}
+.button__bottom a{
+    color: black;
+}
+
+
+
+@media screen and (max-width: 1200px) {}
+
+@media screen and (max-width: 1000px){
+    .container__body--1 span{
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.5em;
+    }
+    .container__body--1 input{
+        font-size: 1.5em;
+    }
+
+    .container__body--2 span{
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.5em;
+    }
+    .container__body--2 input{
+        font-size: 1.5em;
+    }
+
+    .styled{
+        font-size: 1.5em;
+    }
+    .styled2{
+        font-size: 1.5em;
+    }
+
+    .button__bottom{
+        font-size: 1.5em;
+    }
+}
+

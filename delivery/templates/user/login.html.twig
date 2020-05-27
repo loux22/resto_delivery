@@ -1,31 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}login{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="{{ asset('css/loginUser.css') }}">
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block body %}
 <form action="{{ path('login') }}" method="post">
     {% if currentRoute == "login" %}
-    <h1>Login</h1>
+    <h1 class="title">CONNEXION</h1>
     {% elseif currentRoute == "loginRestaurent" %}
     <h1>Login restaurent</h1>
     {% else %}
     <h1>Login admin</h1>
     {% endif %}
-
-    <span>Mail</span>
-    <input placeholder="Mail" required name="_username" type="text" value="{{lastUsername}}">
-
-    <span>Mot de passe</span>
-    <input placeholder="mot de passe" required name="_password" type="password">
-
-    <button type="submit">
-        Se connecter
-    </button>
+    <div class="container__body">
+        <div class="container__body--1">
+            <span>Mail</span>
+            <input placeholder="Par ex.tdupont@exemple.fr" required name="_username" type="text" value="{{lastUsername}}"
+            style="padding-left: 30px;">
+        </div>
+        <div class="container__body--2">
+            <span>Mot de passe</span>
+            <input placeholder="*********" required name="_password" type="password"
+            style="padding-left: 30px;">
+        </div>
+    </div>
+    <div class="container__bottom">
+        <div class="button__top">
+            <button class="favorite styled"type="button">Continuer</button>
+        </div><br>
+        <div class="button__middle">
+            <button class="favorite styled2"type="button">Mot de passe oublié ?</button>
+        </div>
+    </div>
 
     {% if currentRoute == "login" %}
-    <a href="{{path('registerMember')}}" >tu n'a pas de compte ?</a>
+    <div class="button__bottom">
+        <a href="{{path('registerMember')}}" >Si vous n’avez pas de compte <br> Y Eats</a>
+    </div>
     {% elseif currentRoute == "loginRestaurent" %}
-    <a href="{{path('registerRestorer')}}" >tu n'a pas de compte ?</a>
+    <div class="button__bottom">
+        <a href="{{path('registerRestorer')}}" >Si vous n’avez pas de compte Y Eats</a>
+    </div>
     {% endif %}
     
 </form>
