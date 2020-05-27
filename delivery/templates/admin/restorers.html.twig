@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin restaurents{% endblock %}
+
+{% block body %}
+
+{% for restorer in allRestorer %}
+    <p>{{restorer.id}}</p>
+    <p>{{restorer.name}}</p>
+    <button type="submit"><a href="{{ path('adminModifyRestorer', { 'id' : restorer.id})}}">Modifier</a></button>
+    <button type="submit"><a href="{{ path('adminRemoveRestorer', { 'id' : restorer.id})}}">Supprimer</a></button>
+    <button type="submit">Voir Commande</button>
+{% endfor %}
+{% endblock %}

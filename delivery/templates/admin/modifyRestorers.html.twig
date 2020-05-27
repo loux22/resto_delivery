@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier - {{restorer.name}}{% endblock %}
+
+{% block body %}
+<h3>{{restorer.name}}</h3>
+
+{{form_start(restorerFormModify)}}
+
+    {% if form_errors(restorerFormModify.name) %}
+    {{form_errors(restorerFormModify.name)}}
+    {% endif %}
+    {{form_widget(restorerFormModify.name)}}
+
+    {% if form_errors(restorerFormModify.file) %}
+    {{form_errors(restorerFormModify.file)}}
+    {% endif %}
+    {{form_widget(restorerFormModify.file)}}
+
+    {% if form_errors(restorerFormModify.address) %}
+    {{form_errors(restorerFormModify.address)}}
+    {% endif %}
+    {{form_widget(restorerFormModify.address)}}
+
+    <button type="submit">Modifier</button>
+
+    {{form_end(restorerFormModify)}}
+{% endblock %}

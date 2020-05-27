@@ -49,10 +49,7 @@
 			</div>
 		</header>
 
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
-		<script src="{{ asset('js/navbar.js') }}"></script>
+		
 
 	{% for message in app.flashes('errors') %}
 			<div class="alert alert-danger">{{ message}}</div>
@@ -70,4 +67,8 @@
             copyright Y <span>Eats</span> &copy; 2020
         </p>
     </footer>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+		<script src="{{ asset('js/navbar.js') }}"></script>
 </body></html>

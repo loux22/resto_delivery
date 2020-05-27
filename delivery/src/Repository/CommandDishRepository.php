@@ -33,6 +33,18 @@ class CommandDishRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+
+    public function findCommandDishAdmin($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.command', 'co')
+            ->andWhere('co.user = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
 
     /*
