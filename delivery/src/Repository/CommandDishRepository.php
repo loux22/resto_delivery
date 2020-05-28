@@ -22,30 +22,28 @@ class CommandDishRepository extends ServiceEntityRepository
     // /**
     //  * @return CommandDish[] Returns an array of CommandDish objects
     //  */
-    
+
     public function findCommandDish($value)
     {
         return $this->createQueryBuilder('c')
-            ->leftJoin('c.command', 'co')
-            ->andWhere('co.user = :val')
+            ->leftJoin('c.dish', 'd')
+            ->andWhere('d.restorer = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 
     public function findCommandDishAdmin($value)
     {
         return $this->createQueryBuilder('c')
-            ->leftJoin('c.command', 'co')
-            ->andWhere('co.user = :val')
+            ->leftJoin('c.dish', 'd')
+            ->andWhere('d.restorer = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
+
 
     /*
     public function findOneBySomeField($value): ?CommandDish

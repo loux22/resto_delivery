@@ -9,6 +9,6 @@
     <p>{{restorer.name}}</p>
     <button type="submit"><a href="{{ path('adminModifyRestorer', { 'id' : restorer.id})}}">Modifier</a></button>
     <button type="submit"><a href="{{ path('adminRemoveRestorer', { 'id' : restorer.id})}}">Supprimer</a></button>
-    <button type="submit">Voir Commande</button>
+    <button type="submit"><a href="{{ path('adminRestorerCommand', { 'id' : restorer.id})}}"> Voir Commande</a></button>
 {% endfor %}
 {% endblock %}

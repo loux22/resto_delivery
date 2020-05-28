@@ -4,4 +4,58 @@
 
 {% block body %}
 
+<h1>Commande {{restorer.name}}</h1>
+
+<h3>Commandes</h3>
+{% for c in command %}
+<p>numero de commande : {{c[0][0].id}} prix :  {{c[0][0].price}}€</p>
+{# {{dump(c)}} #}
+{% for dish in c[2] %}
+<p>{{dish.name}}</p>
+{% if dish.img == "default.png" %}
+<img src="{{ asset('/img/')}}{{dish.img}}" alt="">
+{% else %}
+<img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
+{% endif %}
+{% for n in note %}
+
+{% if n[0] == dish %}
+{% if n[1][0].note == null %}
+<p>le plat n'a pas encore été noté</p>
+{% else %}
+<p>{{n[1][0].note}}/5</p>
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+{% endfor %}
+
+<h3>Commandes en cours</h3>
+
+{% for c in command %}
+{% if c[0][0].status == false %}
+<p>numero de commande : {{c[0][0].id}} prix :  {{c[0][0].price}}€</p>
+{# {{dump(c)}} #}
+{% for dish in c[2] %}
+<p>{{dish.name}}</p>
+{% if dish.img == "default.png" %}
+<img src="{{ asset('/img/')}}{{dish.img}}" alt="">
+{% else %}
+<img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
+{% endif %}
+{% for n in note %}
+{% if n[0] == dish %}
+{% if n[1][0].note == null %}
+<p>le plat n'a pas encore été noté</p>
+{% else %}
+<p>{{n[1][0].note}}/5</p>
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+
+{% endif %}
+{% endfor %}
 {% endblock %}

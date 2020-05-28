@@ -52,11 +52,11 @@ class AdminController extends AbstractController
     {
         $userLog = $this->getUser();
         if ($userLog === null) {
-            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin\' pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
         if ($userLog->getRoles()[0] != 'ADMIN') {
-            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin\' pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
@@ -74,11 +74,11 @@ class AdminController extends AbstractController
     {
         $userLog = $this->getUser();
         if ($userLog === null) {
-            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin\' pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
         if ($userLog->getRoles()[0] != 'ADMIN') {
-            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin\' pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
@@ -112,11 +112,11 @@ class AdminController extends AbstractController
     {
         $userLog = $this->getUser();
         if ($userLog === null) {
-            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin\' pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
         if ($userLog->getRoles()[0] != 'ADMIN') {
-            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin\' pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
         $manager = $this->getDoctrine()->getManager();
@@ -178,16 +178,85 @@ class AdminController extends AbstractController
     {
         $userLog = $this->getUser();
         if ($userLog === null) {
-            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin\' pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
         if ($userLog->getRoles()[0] != 'ADMIN') {
-            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin\' pour acceder au dashboard');
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
         $restorer = $repository -> find($id);
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
-        $commandInProgress = $this->getDoctrine()->getRepository(Command::class);
+        $repoCommand = $this->getDoctrine()->getRepository(Command::class);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+
+        // recupere tout les plats commander au restaurent
+        $dishCommands = $repoCommandDish -> findCommandDishAdmin($restorer);
+
+        $commandRestorer = [];
+        if (count($commandRestorer) == 0 && !empty($dishCommands)) {
+            $commandRestorer[] = $dishCommands[0];
+        }
+        $status = false;
+        foreach ($dishCommands as $keys => $value) {
+            $status = false;
+            foreach ($commandRestorer as $key => $command) {
+                if ($command->getCommand()->getId() == $value->getCommand()->getId()) {
+                    $status = true;
+                }
+            }
+            if ($status == false) {
+                $commandRestorer[] = $value;
+            }
+        }
+        $command = [];
+        foreach ($commandRestorer as $key => $value) {
+            $command[$key][0][] = $repoCommand -> findOneBy([
+                "id" => $value -> getCommand() -> getId()
+            ]);
+            $command[$key][1][] = $repoCommandDish -> findBy([
+                "command" => $command[$key][0][0] -> getId()
+            ]);
+            foreach ($command[$key][1] as $keys => $v) {
+                foreach ($v as $k => $dish) {
+                    $command[$key][2][] = $repoDish -> findOneBy([
+                        "id" => $dish -> getDish() -> getId()
+                    ]);
+                }
+            }
+            
+        }
+
+        $dish = [];
+        if (count($dish) == 0 && !empty($dishCommands)) {
+            $dish[] = $dishCommands[0];
+        }
+        $status = false;
+        foreach ($dishCommands as $keys => $v) {
+            $status = false;
+            foreach ($dish as $key => $c) {
+                if ($c->getDish()->getId() == $v->getDish()->getId()) {
+                    $status = true;
+                }
+            }
+            if ($status == false) {
+                $dish[] = $v;
+            }
+        }
+
+        $note = [];
+        // dd($dish);
+        foreach ($dish as $key => $value) {
+            $note[$key][0] = $value -> getDish();
+            $note[$key][1] = $repoNote -> dishNote($value -> getDish());
+        }
+
+        return $this->render('admin/restorerCommand.html.twig', [
+            'restorer' => $restorer,
+            'command' => $command,
+            'note' => $note 
+        ]);
     }
 }
