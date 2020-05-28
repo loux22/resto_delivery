@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Home{% endblock %}
-
+{% block link %}
+<link rel="stylesheet" href="{{ asset('css/registerRestorer.css') }}">
+<link rel="stylesheet" href="{{ asset('css/index.css') }}">
+{% endblock %}
 {% block body %}
 
 <style>
@@ -10,37 +13,151 @@
 }
 </style>
 
-<h1>home</h1>
-<input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
-<button><a href="{{ path('listRestorer')}}">voir tout les restaurents</a></button>
-<div class="result-search-js"></div>
-<div class="visible">
-{% for key,restorer in restorers %}
-    {% if (key >= rand) and (key < (rand + 6))%}
-    <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
-        {% if restorer[0].logo == "default.png" %}
-            <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
-        {% else %}
-            <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
-        {% endif %}
-    </a>
-        <p>Chez {{restorer[0].name}}</p>
-        <p>frais de livraison : 2,5€ - 1h</p>
-        {% if restorer[1][0].note != null %}
-        <p>{{restorer[1][0].note}}</p>
-        {% else %}
-        <p>ce restaurent n'a encore aucune note</p>
-        {% endif %}
-    {% endif %} 
-{% endfor %}
-</div>
-{% endblock %}
+<main>
+    <section class="hero__home">
+        <div class="hero__home--content">
+            <h3>Vos plats favoris livré avec Y</h3>
+            <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
+            <button class="favorite styled"><a href="{{ path('listRestorer')}}">voir tout les restaurents</a></button>
+            <div class="result-search-js"></div>
+        </div>
+        
+    </section>
+    {# <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
+    <button><a href="{{ path('listRestorer')}}">voir tout les restaurents</a></button>
+    <div class="result-search-js"></div> #}
+
+    <div class="container__body--title">
+        <h3>Nouveau sur Y Eats</h3>
+    </div>
+    <div class="container__middle">
+        <div class="container__middle--content">
+            <img src="./img/pizza-2068272_1280.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+
+        <div class="container__middle--content">
+            <img src="./img/pizza-2068272_1280.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+
+        <div class="container__middle--content">
+            <img src="./img/pizza-2068272_1280.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+
+        <div class="container__middle--content">
+            <img src="./img/pizza-2068272_1280.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+    </div>
+</main>
+
+<main>
+    <section class="hero__home2">
+        <div class="hero__home--content">
+            <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
+            <button><a href="{{ path('listRestorer')}}">voir tout les restaurents</a></button>
+            <div class="result-search-js"></div>
+        </div>
+        
+    </section>
+    
+
+    <div class="container__body--title">
+        <h3>Proche de chez vous</h3>
+    </div>
+    <div class="container__middle">
+        <div class="container__middle--content">
+            <img src="./img/burger.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+
+        <div class="container__middle--content">
+            <img src="./img/burger.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+
+        <div class="container__middle--content">
+            <img src="./img/burger.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+
+        <div class="container__middle--content">
+            <img src="./img/burger.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+        <div class="container__middle--content">
+            <img src="./img/burger.jpg" alt="">
+            <p>Chez jean</p>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+    </div>
+</main>
+
+{#<div class="visible">
+                     {% for key,restorer in restorers %}
+                    {% if (key >= rand) and (key < (rand + 6))%}
+                    <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
+                        {% if restorer[0].logo == "default.png" %}
+                            <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
+                        {% else %}
+                            <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
+                        {% endif %}
+                    </a>
+                        <p>Chez {{restorer[0].name}}</p>
+                        <p>frais de livraison : 2,5€ - 1h</p>
+                        {% if restorer[1][0].note != null %}
+                        <p>{{restorer[1][0].note}}</p>
+                        {% else %}
+                        <p>ce restaurent n'a encore aucune note</p>
+                        {% endif %}
+                    {% endif %} 
+                {% endfor %} 
+                </div>#}
+
+                {# {% for key,restorer in restorers %}
+                {% if (key >= rand) and (key < (rand + 6))%}
+                    <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
+                        {% if restorer[0].logo == "default.png" %}
+                            <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
+                        {% else %}
+                            <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
+                        {% endif %}
+                        </a>
+                        <p>Chez {{restorer[0].name}}</p>
+                        <p>frais de livraison : 2,5€ - 1h</p>
+                        {% if restorer[1][0].note != null %}
+                        <p>{{restorer[1][0].note}}</p>
+                        {% else %}
+                        <p>ce restaurent n'a encore aucune note</p>
+                        {% endif %}
+                {% endif %} 
+            {% endfor %} #}
 
 {% block javascripts %}
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+{% endblock %}
 <script>
     $(document).ready(function () {
     $('.search-resto-js').keyup(function () {

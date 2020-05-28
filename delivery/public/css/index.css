@@ -1,0 +1,118 @@
+body{
+    background-color: #ffffff;
+}
+
+
+.hero__home{
+    background-image: url(../img/hero_home.jpg);
+	background-position: top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+    height: calc(100vh - 80px);
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.hero__home--content h3{
+    font-size: 3em;
+    margin-bottom: 40px;
+}
+
+.hero__home--content{
+    position: absolute;
+    top: 33%;
+	left: 50%;
+	transform: translate(-50%, 50%);
+	text-align: center;
+}
+.hero__home--content input{
+    width: 350px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+    margin-right: 5px;
+}
+.hero__home--content a{
+    color: white;
+}
+.styled {
+    /* border: 0; */
+    line-height: 2.5;
+    padding: 0 40px;
+    font-size: 1rem;
+    text-align: center;
+    color: #2CCE80;
+    border-radius: 1px;
+    background-color: black;
+    border: black 10px;
+    /* background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0)); */
+}
+
+.styled:hover {
+    background-color: #2CCE80;
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+    color: white;
+}
+
+.styled:active {
+    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+.container__body--title{
+    display: block;
+    text-align: center;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    padding: 50px;
+}
+.container__body--title h3{
+    font-size: 2.5em;
+}
+/* .line{
+    position: absolute;
+    top: 150%;
+	left: 20%;
+    background-color: black;
+    width: 50%;
+    height: 1px;
+} */
+
+.container__middle{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.container__middle--content{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    margin: 30px;
+}
+.container__middle--content img{
+    width: 250px;
+    height: 200px;
+}
+
+
+
+.hero__home2{
+    background-image: url(../img/middle_home.jpg);
+	background-position: top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+    height: calc(100vh - 60px);
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
