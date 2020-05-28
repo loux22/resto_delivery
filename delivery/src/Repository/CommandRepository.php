@@ -34,6 +34,7 @@ class CommandRepository extends ServiceEntityRepository
         ;
     }
 
+
     /*
     public function findOneBySomeField($value): ?Command
     {
