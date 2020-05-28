@@ -7,7 +7,9 @@
 
 <h3>Commandes</h3>
 {% for c in command %}
+{{dump(c)}}
 <p>numero de commande : {{c[0][0].id}} prix :  {{c[0][0].price}}€</p>
+<p>{{c[0][0].delivery.date}}</p>
 {% for key,dish in c[2] %}
 <p>{{dish.name}}</p>
 {% if dish.img == "default.png" %}
@@ -35,6 +37,7 @@
 {% for c in command %}
 {% if c[0][0].status == false %}
 <p>numero de commande : {{c[0][0].id}} prix :  {{c[0][0].price}}€</p>
+<p>{{c[0][0].delivery.date}}</p>
 {# {{dump(c)}} #}
 {% for key,dish in c[2] %}
 <p>{{dish.name}}</p>

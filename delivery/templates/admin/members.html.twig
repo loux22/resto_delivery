@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin members{% endblock %}
+
+{% block body %}
+{% for member in members %}
+    <p>{{member[0][0].id}}</p>
+    <p>{{member[0][0].username}} {{member[0][0].lastname}}</p>
+    <p>{{member[1][0].mail}}</p>
+    <p>{{member[0][0].address}}</p>
+    <p>{{member[0][0].sold}}€</p>
+    <button><a href="">Modifier</a></button>
+    <button><a href="">Supprimer</a></button>
+    <hr>
+{% endfor %}
+{% endblock %}

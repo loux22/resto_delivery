@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Command;
-use App\Entity\CommandDish;
 use App\Entity\Dish;
 use App\Entity\Note;
+use App\Entity\Member;
+use App\Entity\Command;
 use App\Entity\Restorer;
+use App\Entity\CommandDish;
+use App\Entity\User;
 use App\Form\RestorerRegisterType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -257,6 +259,38 @@ class AdminController extends AbstractController
             'restorer' => $restorer,
             'command' => $command,
             'note' => $note 
+        ]);
+    }
+
+
+    /**
+     * @Route("/admin/members", name="adminMembers")
+     */
+    public function adminMembers()
+    {
+        $userLog = $this->getUser();
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'ADMIN') {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $repoUser = $this->getDoctrine()->getRepository(User::class);
+        $userMembers = $repository -> findAll();
+        $members = [];
+        foreach ($userMembers as $key => $member) {
+            $members[$key][0][] = $member;
+            $members[$key][1][] = $repoUser -> findOneBy([
+                'id' => $member -> getUser()
+            ]);
+        }
+        
+        return $this->render('admin/members.html.twig', [
+            'members' => $members
         ]);
     }
 }
