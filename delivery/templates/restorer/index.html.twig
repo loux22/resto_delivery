@@ -8,9 +8,9 @@
 {% block body %}
 
 <style>
-.none{
-    display: none;
-}
+    .none {
+        display: none;
+    }
 </style>
 
 <main>
@@ -19,44 +19,43 @@
             <h3>Vos plats favoris livré avec Y</h3>
             <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
             <button class="favorite styled"><a href="{{ path('listRestorer')}}">voir tout les restaurents</a></button>
-            <div class="result-search-js"></div>
         </div>
-        
+
     </section>
     {# <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
     <button><a href="{{ path('listRestorer')}}">voir tout les restaurents</a></button>
     <div class="result-search-js"></div> #}
-
+    
     <div class="container__body--title">
-        <h3>Nouveau sur Y Eats</h3>
-    </div>
-    <div class="container__middle">
-        <div class="container__middle--content">
-            <img src="./img/pizza-2068272_1280.jpg" alt="">
-            <p>Chez jean</p>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
+            <h3>Nos restaurents Y Eats</h3>
         </div>
-
-        <div class="container__middle--content">
-            <img src="./img/pizza-2068272_1280.jpg" alt="">
-            <p>Chez jean</p>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
+        <div class="result-search-js container__middle" >
         </div>
+    <div class="visible">
+        <div class="container__middle">
+            {% for key,restorer in restorers %}
 
-        <div class="container__middle--content">
-            <img src="./img/pizza-2068272_1280.jpg" alt="">
-            <p>Chez jean</p>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
-        </div>
+            {% if (key >= rand) and (key < (rand + 6))%}
+            <div class="container__middle--content">
+                <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
+                    {% if restorer[0].logo == "default.png" %}
+                    <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
+                    {% else %}
+                    <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
+                    {% endif %}
+                </a>
+                <p>Chez {{restorer[0].name}}</p>
+                <p>frais de livraison : 2,5€ - 1h</p>
+                {% if restorer[1][0].note != null %}
+                <p>{{restorer[1][0].note}}</p>
+                {% else %}
+                <p>ce restaurent n'a encore aucune note</p>
+                {% endif %}
+            </div>
+            {% endif %}
 
-        <div class="container__middle--content">
-            <img src="./img/pizza-2068272_1280.jpg" alt="">
-            <p>Chez jean</p>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
+            {% endfor %}
+
         </div>
     </div>
 </main>
@@ -64,13 +63,12 @@
 <main>
     <section class="hero__home2">
         <div class="hero__home--content">
-            <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
+            <input type="text" placeholder="rechercher restaurent..">
             <button><a href="{{ path('listRestorer')}}">voir tout les restaurents</a></button>
-            <div class="result-search-js"></div>
         </div>
-        
+
     </section>
-    
+
 
     <div class="container__body--title">
         <h3>Proche de chez vous</h3>
@@ -112,45 +110,7 @@
     </div>
 </main>
 
-{#<div class="visible">
-                     {% for key,restorer in restorers %}
-                    {% if (key >= rand) and (key < (rand + 6))%}
-                    <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
-                        {% if restorer[0].logo == "default.png" %}
-                            <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
-                        {% else %}
-                            <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
-                        {% endif %}
-                    </a>
-                        <p>Chez {{restorer[0].name}}</p>
-                        <p>frais de livraison : 2,5€ - 1h</p>
-                        {% if restorer[1][0].note != null %}
-                        <p>{{restorer[1][0].note}}</p>
-                        {% else %}
-                        <p>ce restaurent n'a encore aucune note</p>
-                        {% endif %}
-                    {% endif %} 
-                {% endfor %} 
-                </div>#}
 
-                {# {% for key,restorer in restorers %}
-                {% if (key >= rand) and (key < (rand + 6))%}
-                    <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
-                        {% if restorer[0].logo == "default.png" %}
-                            <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
-                        {% else %}
-                            <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
-                        {% endif %}
-                        </a>
-                        <p>Chez {{restorer[0].name}}</p>
-                        <p>frais de livraison : 2,5€ - 1h</p>
-                        {% if restorer[1][0].note != null %}
-                        <p>{{restorer[1][0].note}}</p>
-                        {% else %}
-                        <p>ce restaurent n'a encore aucune note</p>
-                        {% endif %}
-                {% endif %} 
-            {% endfor %} #}
 
 {% block javascripts %}
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -160,29 +120,27 @@
 {% endblock %}
 <script>
     $(document).ready(function () {
-    $('.search-resto-js').keyup(function () {
-        $('.result-search-js').html('');
-        var name = $(this).val();
-        console.log(name)
-        if (name != '') {
-            $.ajax({
-                type: 'GET',
-                url: "{{ path('searchRestorer') }}",
-                data: 'name=' + encodeURIComponent(name),
-                success: function (data) {
-                    if (data != "") {
-                        $('.result-search-js').append(data);
-                        $('.visible').addClass('none')
-                    } else {
-                        $('.result-search-js').html('aucun restaurent ne porte ce nom');
+        $('.search-resto-js').keyup(function () {
+            $('.result-search-js').html('');
+            var name = $(this).val();
+            if (name != '') {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ path('searchRestorer') }}",
+                    data: 'name=' + encodeURIComponent(name),
+                    success: function (data) {
+                        if (data != "") {
+                            $('.result-search-js').append(data);
+                            $('.visible').addClass('none')
+                        } else {
+                            $('.result-search-js').html('aucun restaurent ne porte ce nom');
+                        }
                     }
-                }
-            })
+                })
 
-        }
-        $('.visible').removeClass('none')
-    })
-});
+            }
+            $('.visible').removeClass('none')
+        })
+    });
 </script>
-{# <script src="{{ asset('/js/ajax_restorer.js')}}"></script> #}
 {% endblock %}

@@ -462,7 +462,7 @@ class RestorerController extends AbstractController
             $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
         }
         foreach ($restorers as $key => $restorer) {
-            echo '<a href="/restaurent/' . $restorer[0]->getId() . '">';
+            echo '<div class="container__middle--content"><a href="/restaurent/' . $restorer[0]->getId() . '">';
             if ($restorer[0]->getLogo() === "image.png") {
                 echo '<img src="/restorer/' . $restorer[0]->getId() . '/logo/' . $restorer[0]->getLogo() . '" alt="">';
             } else {
@@ -476,6 +476,7 @@ class RestorerController extends AbstractController
             } else {
                 echo '<p> ce restaurent n\'a encore aucune note </p>';
             };
+            echo '</div>';
         }
         return new Response();
     }
