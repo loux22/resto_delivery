@@ -82,7 +82,8 @@ class RestorerController extends AbstractController
         ]);
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
         $commandInProgress = $this->getDoctrine()->getRepository(Command::class);
-        $commandDish = $repoCommandDish->findCommandDish($userLog);
+        $commandDish = $repoCommandDish->findCommandDish($restorer);
+        // dd($commandDish);
         $commandRestorer = [];
         if (count($commandRestorer) == 0 && !empty($commandDish)) {
             $commandRestorer[] = $commandDish[0];
@@ -112,7 +113,6 @@ class RestorerController extends AbstractController
 
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $note = $repoNote->dishNoteRestaurent($restorer);
-
         $dishInProgress = [];
         foreach ($commandRestorerInProgress as $key => $value) {
             foreach ($commandDish as $key => $dish) {
@@ -122,13 +122,12 @@ class RestorerController extends AbstractController
             }
         }
 
-
-        $earnings = $commandInProgress->findBy([
-            'user' => $userLog
-        ]);
         $earning = 0;
-        foreach ($earnings as $key => $value) {
-            $earning += $value->getPrice() - 2.5;
+        foreach ($commandRestorer as $key => $value) {
+            $com = $commandInProgress -> findOneBy([
+                "id" => $value -> getCommand()
+            ]);
+            $earning += $com->getPrice() - 2.5;
         }
 
 
