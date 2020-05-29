@@ -4,10 +4,8 @@
 
 {% block body %}
 <h1>Commande {{restorer.name}}</h1>
-{{dump(command)}}
 <h3>Commandes</h3>
-{% for c in command %}
-{{dump(c)}} 
+{% for c in command %} 
 <p>numero de commande : {{c[0][0].id}} prix :  {{c[0][0].price}}€</p>
 <p>{{c[0][0].delivery.date}}</p>
 {% for key,dish in c[2] %}

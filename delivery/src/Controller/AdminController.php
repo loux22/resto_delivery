@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Dish;
 use App\Entity\Note;
+use App\Entity\User;
 use App\Entity\Member;
 use App\Entity\Command;
 use App\Entity\Restorer;
 use App\Entity\CommandDish;
-use App\Entity\User;
+use App\Form\MemberModifyType;
 use App\Form\RestorerRegisterType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -297,6 +298,139 @@ class AdminController extends AbstractController
 
         return $this->render('admin/members.html.twig', [
             'members' => $members
+        ]);
+    }
+
+    /**
+     * @Route("/admin/member/modify/{id}", name="adminMemberModify")
+     */
+    public function adminMemberModify($id, Request $request)
+    {
+        $userLog = $this->getUser();
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'ADMIN') {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $member = $repository -> find($id);
+        $form = $this->createForm(MemberModifyType::class, $member);
+        $manager = $this->getDoctrine()->getManager();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($member); //commit(git)
+            $manager->flush(); // push(git)
+            $this->addFlash('success', 'le profil ' . $member -> getusername() . ' a bien été modifier');
+            return $this->redirectToRoute('adminMembers');
+        }
+
+        return $this->render('admin/memberModify.html.twig', [
+            'member' => $member,
+            "memberFormModify" => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/admin/member/remove/{id}", name="adminMemberRemove")
+     */
+    public function adminMemberRemove($id, Request $request)
+    {
+        $userLog = $this->getUser();
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'ADMIN') {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        $manager = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $repoUser = $this->getDoctrine()->getRepository(User::class);
+        $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
+        $repoCommand = $this->getDoctrine()->getRepository(Command::class);
+        $member = $repository -> find($id);
+        $user = $repoUser -> findOneBy([
+            "id" => $member -> getUser()
+        ]);
+        $note = $repoNote -> findBy([
+            'user' => $user
+        ]);
+        foreach ($note as $key => $value) {
+            $manager->remove($value);
+        }
+        $command = $repoCommand -> findBy([
+            'user' => $user
+        ]);
+        $commandDish = [];
+        foreach ($command as $key => $value) {
+            $commandDish[] = $repoCommandDish -> findBy([
+                'command' => $value -> getId()
+            ]);
+        }
+        foreach ($commandDish as $key => $com) {
+            foreach ($com as $keys => $c) {
+                $manager->remove($c);
+            }
+        }
+        foreach ($command as $key => $value) {
+            $manager->remove($value);
+        }
+        $memberName = $member -> getUsername();
+        $manager->remove($member);
+        $manager->remove($user);
+        $manager->flush();
+        $this->addFlash('success', 'le profil ' . $memberName . ' a bien été supprimé');
+        return $this->redirectToRoute('adminMembers');
+    }
+
+     /**
+     * @Route("/admin/member/{id}/command", name="adminMemberCommand")
+     */
+    public function adminMemberCommand($id)
+    {
+        $userLog = $this->getUser();
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'ADMIN') {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $repoUser = $this->getDoctrine()->getRepository(User::class);
+        $member = $repository -> find($id);
+        $user = $repoUser -> findOneBy([
+            "id" => $member -> getUser()
+        ]);
+        $repoCommand = $this->getDoctrine()->getRepository(Command::class);
+        $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
+        $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        $allCommands = $repoCommand -> findBy([
+            'user' => $user
+        ]);
+        $commands = [];
+        foreach ($allCommands as $key => $command) {
+            $commands[$key][0][] = $command;
+            $commandDish = $repoCommandDish -> findBy([
+                "command" => $command
+            ]);
+            foreach ($commandDish as $keys => $dish) {
+                $commands[$key][1][] = $repoDish -> findBy([
+                    'id' => $dish -> getDish() -> getId()
+                ]);
+            }
+        }
+        return $this->render('admin/memberCommand.html.twig', [
+            'member' => $member,
+            'commands' => $commands
         ]);
     }
 }

@@ -9,8 +9,9 @@
     <p>{{member[1][0].mail}}</p>
     <p>{{member[0][0].address}}</p>
     <p>{{member[0][0].sold}}€</p>
-    <button><a href="">Modifier</a></button>
-    <button><a href="">Supprimer</a></button>
+    <button><a href="{{ path('adminMemberModify', { 'id' : member[0][0].id})}}">Modifier</a></button>
+    <button><a href="{{ path('adminMemberRemove', { 'id' : member[0][0].id})}}">Supprimer</a></button>
+    <button><a href="{{ path('adminMemberCommand', { 'id' : member[0][0].id})}}">Voir commande</a></button>
     <hr>
 {% endfor %}
 {% endblock %}
