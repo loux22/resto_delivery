@@ -4,10 +4,10 @@
 
 {% block body %}
 <h1>Commande {{restorer.name}}</h1>
-
+{{dump(command)}}
 <h3>Commandes</h3>
 {% for c in command %}
-{{dump(c)}}
+{{dump(c)}} 
 <p>numero de commande : {{c[0][0].id}} prix :  {{c[0][0].price}}€</p>
 <p>{{c[0][0].delivery.date}}</p>
 {% for key,dish in c[2] %}
@@ -18,6 +18,7 @@
 <img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
 {% endif %}
 <p>quantité : {{c[1][0][key].quantity}}</p>
+<p>{{c[3][0].mail}}</p>
 {% for n in note %}
 
 {% if n[0] == dish %}

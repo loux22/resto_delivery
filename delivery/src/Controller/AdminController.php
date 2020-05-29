@@ -31,11 +31,11 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
-        $nbRestorer = $repository -> findAll();
+        $nbRestorer = $repository->findAll();
 
         $repoCommand = $this->getDoctrine()->getRepository(Command::class);
-        $nbCommand = $repoCommand -> findAll();
-        $nbCommandInProgress = $repoCommand -> findBy([
+        $nbCommand = $repoCommand->findAll();
+        $nbCommandInProgress = $repoCommand->findBy([
             "status" => 0
         ]);
 
@@ -62,7 +62,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
-        $allRestorer = $repository -> findAll();
+        $allRestorer = $repository->findAll();
         return $this->render('admin/restorers.html.twig', [
             'allRestorer' => $allRestorer
         ]);
@@ -84,24 +84,24 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
-        $restorer = $repository -> find($id);
-        
+        $restorer = $repository->find($id);
+
         $form = $this->createForm(RestorerRegisterType::class, $restorer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($restorer->getFile()) {
-                $restorer->removeFile($restorer -> getId());
-                $restorer->fileUpload($restorer -> getId());
+                $restorer->removeFile($restorer->getId());
+                $restorer->fileUpload($restorer->getId());
             }
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($restorer); //commit(git)
             $manager->flush(); // push(git)
-            $this->addFlash('success', 'le plat ' . $restorer -> getName() . ' a bien été modifié');
+            $this->addFlash('success', 'le plat ' . $restorer->getName() . ' a bien été modifié');
             return $this->redirectToRoute('adminRestorer');
         }
         return $this->render('admin/modifyRestorers.html.twig', [
-            'restorer' => $restorer, 
+            'restorer' => $restorer,
             "restorerFormModify" => $form->createView()
         ]);
     }
@@ -123,22 +123,22 @@ class AdminController extends AbstractController
         }
         $manager = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
-        $restorer = $repository -> find($id);
-        $restorerName = $restorer -> getName();
+        $restorer = $repository->find($id);
+        $restorerName = $restorer->getName();
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
-        $dishRestorer = $repoDish -> findBy([
+        $dishRestorer = $repoDish->findBy([
             'restorer' => $restorer
         ]);
 
         $note = [];
         $command = [];
         foreach ($dishRestorer as $key => $dish) {
-            $note[] = $repoNote -> findBy([
+            $note[] = $repoNote->findBy([
                 "dish" => $dish
             ]);
-            $command[] = $repoCommandDish -> findBy([
+            $command[] = $repoCommandDish->findBy([
                 'dish' => $dish
             ]);
         }
@@ -166,7 +166,7 @@ class AdminController extends AbstractController
             $manager->remove($dish);
         }
         $manager->remove($restorer);
-        $manager-> flush();
+        $manager->flush();
 
         $this->addFlash('success', 'le plat ' . $restorerName . ' a bien été modifié');
         return $this->redirectToRoute('adminRestorer');
@@ -188,14 +188,16 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
-        $restorer = $repository -> find($id);
+        $restorer = $repository->find($id);
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
         $repoCommand = $this->getDoctrine()->getRepository(Command::class);
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        $repoUser = $this->getDoctrine()->getRepository(User::class);
+        $repoMember = $this->getDoctrine()->getRepository(Member::class);
 
         // recupere tout les plats commander au restaurent
-        $dishCommands = $repoCommandDish -> findCommandDishAdmin($restorer);
+        $dishCommands = $repoCommandDish->findCommandDishAdmin($restorer);
 
         $commandRestorer = [];
         if (count($commandRestorer) == 0 && !empty($dishCommands)) {
@@ -215,20 +217,24 @@ class AdminController extends AbstractController
         }
         $command = [];
         foreach ($commandRestorer as $key => $value) {
-            $command[$key][0][] = $repoCommand -> findOneBy([
-                "id" => $value -> getCommand() -> getId()
+            $command[$key][0][] = $repoCommand->findOneBy([
+                "id" => $value->getCommand()->getId()
             ]);
-            $command[$key][1][] = $repoCommandDish -> findBy([
-                "command" => $command[$key][0][0] -> getId()
+            $command[$key][1][] = $repoCommandDish->findBy([
+                "command" => $command[$key][0][0]->getId()
             ]);
             foreach ($command[$key][1] as $keys => $v) {
                 foreach ($v as $k => $dish) {
-                    $command[$key][2][] = $repoDish -> findOneBy([
-                        "id" => $dish -> getDish() -> getId()
+                    $command[$key][2][] = $repoDish->findOneBy([
+                        "id" => $dish->getDish()->getId()
                     ]);
                 }
             }
-            
+            foreach ($command[$key][0] as $count => $user) {
+                $command[$key][3][] = $repoUser->findOneBy([
+                    "id" => $user->getUser()->getId()
+                ]);
+            }
         }
 
         $dish = [];
@@ -251,14 +257,14 @@ class AdminController extends AbstractController
         $note = [];
         // dd($dish);
         foreach ($dish as $key => $value) {
-            $note[$key][0] = $value -> getDish();
-            $note[$key][1] = $repoNote -> dishNote($value -> getDish());
+            $note[$key][0] = $value->getDish();
+            $note[$key][1] = $repoNote->dishNote($value->getDish());
         }
 
         return $this->render('admin/restorerCommand.html.twig', [
             'restorer' => $restorer,
             'command' => $command,
-            'note' => $note 
+            'note' => $note
         ]);
     }
 
@@ -280,15 +286,15 @@ class AdminController extends AbstractController
 
         $repository = $this->getDoctrine()->getRepository(Member::class);
         $repoUser = $this->getDoctrine()->getRepository(User::class);
-        $userMembers = $repository -> findAll();
+        $userMembers = $repository->findAll();
         $members = [];
         foreach ($userMembers as $key => $member) {
             $members[$key][0][] = $member;
-            $members[$key][1][] = $repoUser -> findOneBy([
-                'id' => $member -> getUser()
+            $members[$key][1][] = $repoUser->findOneBy([
+                'id' => $member->getUser()
             ]);
         }
-        
+
         return $this->render('admin/members.html.twig', [
             'members' => $members
         ]);
