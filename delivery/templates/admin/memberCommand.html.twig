@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin commande {{member.username}}{% endblock %}
+
+{% block body %}
+<h1>Commande {{member.username}}</h1>
+{% for command in commands %}
+    <p>numero de commande {{command[0][0].id}} prix : {{command[0][0].price}}€</p>
+    <p>{{command[0][0].delivery.date}}</p>
+    {% if command[0][0].status == true %}
+        <p>commande arrivé</p>
+    {% else %}
+        <p>commande en cours</p>
+    {% endif %}
+    {% for c in command[1] %}
+    <p>{{c[0].name}}</p>
+    {% endfor %}
+   
+{% endfor %}
+{% endblock %}

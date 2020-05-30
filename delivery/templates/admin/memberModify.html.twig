@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Modifier {{member.username}}{% endblock %}
+
+{% block body %}
+{{form_start(memberFormModify)}}
+
+    {% if form_errors(memberFormModify.username) %}
+    {{form_errors(memberFormModify.username)}}
+    {% endif %}
+    {{form_widget(memberFormModify.username)}}
+
+    {% if form_errors(memberFormModify.lastname) %}
+    {{form_errors(memberFormModify.lastname)}}
+    {% endif %}
+    {{form_widget(memberFormModify.lastname)}}
+
+    {% if form_errors(memberFormModify.address) %}
+    {{form_errors(memberFormModify.address)}}
+    {% endif %}
+    {{form_widget(memberFormModify.address)}}
+
+    <button type="submit">Modifier</button>
+
+    {{form_end(memberFormModify)}}
+{% endblock %}
