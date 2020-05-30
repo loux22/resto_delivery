@@ -131,3 +131,122 @@ body{
     box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
                 inset 2px 2px 3px rgba(0, 0, 0, .6);
 }
+
+.container__body2{
+}
+
+.container__body--6{
+    display: grid;
+    justify-content: center;
+}
+.container__body--6 span{
+    color: rgba(0, 0, 0, 0.5);
+    padding-top: 20px;
+}
+.container__body--6 input{
+    width: 300px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+}
+.container__body--66{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.container__body--7{
+    display: grid;
+    justify-content: center;
+    margin: 20px;
+}
+.container__body--7 span{
+    color: rgba(0, 0, 0, 0.5);
+}
+.container__body--7 input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+}
+.container__body--77{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.container__body--8{
+    display: grid;
+    justify-content: center;
+}
+.container__body--8 span{
+    color: rgba(0, 0, 0, 0.5);
+}
+.container__body--8 input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+}
+.container__body--88{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.styled2 {
+    /* border: 0; */
+    line-height: 2.5;
+    padding: 0 40px;
+    font-size: 1rem;
+    text-align: center;
+    color: #2CCE80;
+    border-radius: 1px;
+    background-color: #ffffff;
+    border: black 10px;
+    /* background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0)); */
+}
+
+.styled2:hover {
+    background-color: #2CCE80;
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+    color: white;
+}
+
+.styled2:active {
+    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+.container__bottom--button2{
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
