@@ -4,7 +4,16 @@
 <link rel="stylesheet" href="{{ asset('css/loginUser.css') }}">
 <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
 {% endblock %}
-{% block title %}Login{% endblock %}
+{% block title %}
+{% if currentRoute == "login" %}
+Login
+{% elseif currentRoute == "loginRestaurent" %}
+Login restaurent
+{% else %}
+Login admin
+{% endif %}
+{% endblock %}
+
 
 {% block body %}
 {% if currentRoute == "login" %}

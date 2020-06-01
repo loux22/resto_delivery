@@ -3149,20 +3149,20 @@
         },
         {
             "name": "symfony/google-mailer",
-            "version": "v5.0.8",
+            "version": "v5.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/google-mailer.git",
-                "reference": "4091ba4c5a32dee6a44b11605f6f201376493cbe"
+                "reference": "dd8a1d46944993fd548c790c5539a2f481b4b89e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/google-mailer/zipball/4091ba4c5a32dee6a44b11605f6f201376493cbe",
-                "reference": "4091ba4c5a32dee6a44b11605f6f201376493cbe",
+                "url": "https://api.github.com/repos/symfony/google-mailer/zipball/dd8a1d46944993fd548c790c5539a2f481b4b89e",
+                "reference": "dd8a1d46944993fd548c790c5539a2f481b4b89e",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5",
+                "php": ">=7.2.5",
                 "symfony/mailer": "^4.4|^5.0"
             },
             "require-dev": {
@@ -3198,7 +3198,7 @@
             ],
             "description": "Symfony Google Mailer Bridge",
             "homepage": "https://symfony.com",
-            "time": "2020-03-27T16:56:45+00:00"
+            "time": "2020-05-20T17:38:26+00:00"
         },
         {
             "name": "symfony/http-client",

@@ -10,6 +10,12 @@
 }
 </style>
 
+<a href="{{ path('listRestorer')}}">tous</a>
+<a href="{{ path('catListRestorer', { 'cat' : 'asiatique'})}}">asiatique</a>
+<a href="{{ path('catListRestorer', { 'cat' : 'burger'})}}">burger</a>
+<a href="{{ path('catListRestorer', { 'cat' : 'snack'})}}">snack</a>
+<a href="{{ path('catListRestorer', { 'cat' : 'orientale'})}}">orientale</a>
+
 <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
 <div class="result-search-js"></div>
 <div class="visible">

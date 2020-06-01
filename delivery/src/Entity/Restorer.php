@@ -47,6 +47,11 @@ class Restorer
      */
     private $dishes;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $category;
+
     public function __construct()
     {
         $this->dishes = new ArrayCollection();
@@ -173,5 +178,17 @@ class Restorer
             unlink($this->dirFile($id) . $this-> logo);
         }
         
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): self
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }

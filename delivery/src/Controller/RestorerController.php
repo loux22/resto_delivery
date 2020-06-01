@@ -390,6 +390,7 @@ class RestorerController extends AbstractController
                         }
 
                         $restorer->setUser($user);
+                        $restorer->setCategory($input["category"]);
                         $manager->persist($restorer); //commit(git)
                         $manager->flush(); // push(git)
                         $this->addFlash('success', 'Vous êtes inscris');
@@ -448,6 +449,24 @@ class RestorerController extends AbstractController
     }
 
     /**
+     * @Route("/restaurents/{cat}", name="catListRestorer")
+     */
+    public function catListRestorer($cat)
+    {
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $allRestorers = $repository->listRestorerByCategory($cat);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $restorers = [];
+        foreach ($allRestorers as $key => $restorer) {
+            $restorers[$key][0] = $restorer;
+            $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
+        }
+        return $this->render('restorer/listRestorer.html.twig', [
+            'restorers' => $restorers
+        ]);
+    }
+
+    /**
      * @Route("/searchRestorer", name="searchRestorer")
      */
     public function searchRestorer(Request $request): Response
@@ -463,7 +482,7 @@ class RestorerController extends AbstractController
         }
         foreach ($restorers as $key => $restorer) {
             echo '<div class="container__middle--content"><a href="/restaurent/' . $restorer[0]->getId() . '">';
-            if ($restorer[0]->getLogo() === "image.png") {
+            if ($restorer[0]->getLogo() != "default.png") {
                 echo '<img src="/restorer/' . $restorer[0]->getId() . '/logo/' . $restorer[0]->getLogo() . '" alt="">';
             } else {
                 echo '<img src="/img/' . $restorer[0]->getLogo() . '" alt="">';

@@ -35,15 +35,15 @@ class RestorerRepository extends ServiceEntityRepository
     }
     
 
-    /*
-    public function findOneBySomeField($value): ?Restorer
+    
+    public function listRestorerByCategory($value)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
+            ->andWhere('r.category = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+    
 }
