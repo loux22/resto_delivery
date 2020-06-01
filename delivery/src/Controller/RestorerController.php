@@ -25,6 +25,13 @@ class RestorerController extends AbstractController
     public function index()
     {
         $userLog = $this->getUser();
+        if ($userLog != null) {
+            if ($userLog -> getRoles()[0] === 'RESTORER') {
+                return $this->redirectToRoute('restorerDashboard');
+            } elseif ($userLog -> getRoles()[0] === 'ADMIN') {
+                return $this->redirectToRoute('adminDashboard');
+            }
+        }
         $repository = $this->getDoctrine()->getRepository(Member::class);
         $member = $repository->findOneBy([
             "user" => $userLog
