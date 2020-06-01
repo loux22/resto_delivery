@@ -44,24 +44,40 @@
 
 
 <div class="update-profil-js none">
-    {{form_start(memberFormModify)}}
+    <div class="container__body2">
+        <div class="container__body--6">
+            <span>Prénom</span>
+            <div class="container__body--66">
+                {{form_start(memberFormModify)}}
+                {% if form_errors(memberFormModify.username) %}
+                {{form_errors(memberFormModify.username)}}
+                {% endif %}
+                {{form_widget(memberFormModify.username)}}
+            </div>
+        </div>
+        <div class="container__body--7">
+            <span>Nom</span>
+            <div class="container__body--77">
+                {% if form_errors(memberFormModify.lastname) %}
+                {{form_errors(memberFormModify.lastname)}}
+                {% endif %}
+                {{form_widget(memberFormModify.lastname)}}
+            </div>
+        </div>
+        <div class="container__body--8">
+            <span>Adresse</span>
+            <div class="container__body--88">
+                {% if form_errors(memberFormModify.address) %}
+                {{form_errors(memberFormModify.address)}}
+                {% endif %}
+                {{form_widget(memberFormModify.address)}}
+            </div>
+        </div>
+    </div>
 
-    {% if form_errors(memberFormModify.username) %}
-    {{form_errors(memberFormModify.username)}}
-    {% endif %}
-    {{form_widget(memberFormModify.username)}}
-
-    {% if form_errors(memberFormModify.lastname) %}
-    {{form_errors(memberFormModify.lastname)}}
-    {% endif %}
-    {{form_widget(memberFormModify.lastname)}}
-
-    {% if form_errors(memberFormModify.address) %}
-    {{form_errors(memberFormModify.address)}}
-    {% endif %}
-    {{form_widget(memberFormModify.address)}}
-
-    <button type="submit">Modifier</button>
+    <div class="container__bottom--button2">
+        <button class="favorite styled2" type="submit">Modifier</button>
+    </div>
 
     {{form_end(memberFormModify)}}
 </div>
