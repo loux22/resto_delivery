@@ -150,6 +150,10 @@ class MemberController extends AbstractController
             $this->addFlash('errors', 'il faut être un membre pour accéder à cette page');
             return $this->redirectToRoute('home');
         }
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $member = $repository->findBy([
+            "user" => $userLog
+        ]);
         $manager = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository(Command::class);
         $commands = $repository->commandByUserLog($userLog);
@@ -211,7 +215,8 @@ class MemberController extends AbstractController
         return $this->render('member/historicCommand.html.twig', [
             "commands" => $commands,
             "commandDish" => $commandDish,
-            "note" => $note
+            "note" => $note,
+            "member" => $member[0]
         ]);
     }
 }

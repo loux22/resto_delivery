@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Dish;
 use App\Entity\Note;
 use App\Entity\User;
+use App\Entity\Member;
 use App\Entity\Command;
 use App\Entity\Restorer;
 use App\Form\AddDishType;
@@ -23,6 +24,14 @@ class RestorerController extends AbstractController
      */
     public function index()
     {
+        $userLog = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $member = $repository->findOneBy([
+            "user" => $userLog
+        ]);
+        if ($userLog === null) {
+            $member = "";
+        }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
         $allRestorers = $repository->findAll();
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
@@ -35,6 +44,7 @@ class RestorerController extends AbstractController
         return $this->render('restorer/index.html.twig', [
             "restorers" => $restorers,
             "rand" => $rand,
+            'member' => $member
         ]);
     }
 
@@ -410,6 +420,14 @@ class RestorerController extends AbstractController
      */
     public function restorerDish($id)
     {
+        $userLog = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $member = $repository->findOneBy([
+            "user" => $userLog
+        ]);
+        if ($userLog === null) {
+            $member = "";
+        }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
         $restorer = $repository->findBy([
             "id" => $id
@@ -426,7 +444,8 @@ class RestorerController extends AbstractController
         }
         return $this->render('restorer/dish.html.twig', [
             "dishs" => $dishs,
-            'restorer' => $restorer[0]
+            'restorer' => $restorer[0],
+            'member' => $member
         ]);
     }
 
@@ -435,6 +454,14 @@ class RestorerController extends AbstractController
      */
     public function listRestorer()
     {
+        $userLog = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $member = $repository->findOneBy([
+            "user" => $userLog
+        ]);
+        if ($userLog === null) {
+            $member = "";
+        }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
         $allRestorers = $repository->findAll();
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
@@ -444,7 +471,8 @@ class RestorerController extends AbstractController
             $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
         }
         return $this->render('restorer/listRestorer.html.twig', [
-            'restorers' => $restorers
+            'restorers' => $restorers,
+            'member' => $member
         ]);
     }
 

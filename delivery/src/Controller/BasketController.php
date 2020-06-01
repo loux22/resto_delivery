@@ -86,7 +86,8 @@ class BasketController extends AbstractController
         return $this->render('basket/basket.html.twig', [
             'basket' => $basketData,
             'total' => $total,
-            'restorer' => $restorer
+            'restorer' => $restorer,
+            'member' => $member
         ]);
     }
 
