@@ -10,9 +10,9 @@
 {% block body %}
 
 <style>
-.none{
-    display: none;
-}
+    .none {
+        display: none;
+    }
 </style>
 
 <div class="hero__home">
@@ -22,7 +22,6 @@
 
 <div class="search">
     <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
-    <div class="result-search-js"></div>
 </div>
 
 <div class="container__category">
@@ -42,92 +41,34 @@
         <a href="{{ path('catListRestorer', { 'cat' : 'orientale'})}}">orientale</a>
     </div>
 </div>
-    {#<div class="visible">
-        <div class="container__body">
-       {% for key,restorer in restorers %} 
-            <div class="container__body--img">
+
+<div class="result-search-js"></div>
+
+<div class="visible">
+    <div class="container__body">
+        {% for key,restorer in restorers %}
+        <div class="container__body--middle">
+            <div class="container__body--content">
+                <span>Chez {{restorer[0].name}}</span>
+                <p>frais de livraison : 2,5€ - 1h</p>
+                {% if restorer[1][0].note != null %}
+                <p>{{restorer[1][0].note}}/5</p>
+                {% else %}
+                <p>aucune note</p>
+                {% endif %}
+            </div>
+            <div class="container__body--content-img">
                 <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
                     {% if restorer[0].logo == "default.png" %}
-                        <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
+                    <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
                     {% else %}
-                        <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
+                    <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
                     {% endif %}
                 </a>
             </div>
-            <div class="container__body--title">
-                <p>Chez {{restorer[0].name}}</p>
-            </div>
-            <div class="container__body--price">
-                <p>frais de livraison : 2,5€ - 1h</p>
-            </div>
-            <div class="container__body--note">
-                {% if restorer[1][0].note != null %}
-                <p>{{restorer[1][0].note}}</p>
-                {% else %}
-                <p>ce restaurent n'a encore aucune note</p>
-                {% endif %}
-            </div>
-       {% endfor %}
         </div>
-</div> #}
-
-<div class="container__body">
-
-    <div class="container__body--middle">
-        <div class="container__body--content">
-            <span>Chez abdul</span>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
-        </div>
-        <div class="container__body--content-img">
-            <a href=""><img src="./img/burger.jpg" alt=""></a>
-        </div>
+        {% endfor %}
     </div>
-
-    <div class="container__body--middle">
-        <div class="container__body--content">
-            <span>Chez abdul</span>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
-        </div>
-        <div class="container__body--content-img">
-            <a href=""><img src="./img/burger.jpg" alt=""></a>
-        </div>
-    </div>
-
-    <div class="container__body--middle">
-        <div class="container__body--content">
-            <span>Chez abdul</span>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
-        </div>
-        <div class="container__body--content-img">
-            <a href=""><img src="./img/burger.jpg" alt=""></a>
-        </div>
-    </div>
-
-    <div class="container__body--middle">
-        <div class="container__body--content">
-            <span>Chez abdul</span>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
-        </div>
-        <div class="container__body--content-img">
-            <a href=""><img src="./img/burger.jpg" alt=""></a>
-        </div>
-    </div>
-
-    <div class="container__body--middle">
-        <div class="container__body--content">
-            <span>Chez abdul</span>
-            <p>frais de livraison : 2,5€ - 1h</p>
-            <p>ce restaurent n'a encore aucune note</p>
-        </div>
-        <div class="container__body--content-img">
-            <a href=""><img src="./img/burger.jpg" alt=""></a>
-        </div>
-    </div>
-
 </div>
 {% endblock %}
 
@@ -139,28 +80,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script>
     $(document).ready(function () {
-    $('.search-resto-js').keyup(function () {
-        $('.result-search-js').html('');
-        var name = $(this).val();
-        console.log(name)
-        if (name != '') {
-            $.ajax({
-                type: 'GET',
-                url: "{{ path('searchRestorer') }}",
-                data: 'name=' + encodeURIComponent(name),
-                success: function (data) {
-                    if (data != "") {
-                        $('.result-search-js').append(data);
-                        $('.visible').addClass('none')
-                    } else {
-                        $('.result-search-js').html('aucun restaurent ne porte ce nom');
+        $('.search-resto-js').keyup(function () {
+            $('.result-search-js').html('');
+            var name = $(this).val();
+            console.log(name)
+            if (name != '') {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ path('searchListRestorer') }}",
+                    data: 'name=' + encodeURIComponent(name),
+                    success: function (data) {
+                        if (data != "") {
+                            $('.result-search-js').append(data);
+                            $('.visible').addClass('none')
+                        } else {
+                            $('.result-search-js').html('aucun restaurent ne porte ce nom');
+                        }
                     }
-                }
-            })
+                })
 
-        }
-        $('.visible').removeClass('none')
-    })
-});
+            }
+            $('.visible').removeClass('none')
+        })
+    });
 </script>
 {% endblock %}

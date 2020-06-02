@@ -522,7 +522,7 @@ class RestorerController extends AbstractController
             } else {
                 echo '<img src="/img/' . $restorer[0]->getLogo() . '" alt="">';
             }
-            echo '<a/>';
+            echo '</a>';
             echo '<p>' . $restorer[0]->getName() . '</p>
             <p> frais de livraison : 2,5€ - 1h </p>';
             if ($restorer[1][0]["note"] != null) {
@@ -532,6 +532,45 @@ class RestorerController extends AbstractController
             };
             echo '</div>';
         }
+        return new Response();
+    }
+
+    /**
+     * @Route("/searchListRestorer", name="searchListRestorer")
+     */
+    public function searchListRestorer(Request $request): Response
+    {
+        $name = $request->get('name');
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $allRestorers = $repository->searchRestorer($name);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $restorers = [];
+        foreach ($allRestorers as $key => $restorer) {
+            $restorers[$key][0] = $restorer;
+            $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
+        }
+        echo '<div class="container__body">';
+        foreach ($restorers as $key => $restorer) {
+            echo '<div class="container__body--middle"><div class="container__body--content">';
+            echo '<span>chez ' . $restorer[0]->getName() . '</span>
+            <p> frais de livraison : 2,5€ - 1h </p>';
+            if ($restorer[1][0]["note"] != null) {
+                echo '<p>' . $restorer[1][0]["note"] . '</p>';
+            } else {
+                echo '<p> aucune note </p>';
+            };
+            echo '<a href="/restaurent/' . $restorer[0]->getId() . '">';
+            echo '</div> <div class="container__body--content-img">';
+            if ($restorer[0]->getLogo() != "default.png") {
+                echo '<img src="/restorer/' . $restorer[0]->getId() . '/logo/' . $restorer[0]->getLogo() . '" alt="">';
+            } else {
+                echo '<img src="/img/' . $restorer[0]->getLogo() . '" alt="">';
+            }
+            echo '</div>';
+            echo '</a>';
+            echo '</div>';
+        }
+        echo '</div>';
         return new Response();
     }
 
