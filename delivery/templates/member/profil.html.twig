@@ -84,12 +84,26 @@
 
 
 <div class="update-password-js none">
-    <form action="" method="post">
-        <input type="password" name="lastPassword" placeholder="ancien mot de passe" required>
-        <input type="password" name="newPassword" placeholder="nouveau mot de passe" required>
-        <input type="password" name="reapeatPassword" placeholder="répéter mot de passe" required>
-        <button type="submit">Modifier</button>
-    </form>
+    <div class="container__modifyMdp">
+        <form action="" method="post">
+            <div class="container__modifyMdp--1">
+                <span>Ancien mot de passe</span>
+                <input type="password" name="lastPassword" placeholder="ancien mot de passe" required>
+            </div>
+            <div class="container__modifyMdp--2">
+                <span>Nouveau mot de passe</span>
+                <input type="password" name="newPassword" placeholder="nouveau mot de passe" required>
+            </div>
+            <div class="container__modifyMdp--3">
+                <span>Répéter mot de passe</span>
+                <input type="password" name="reapeatPassword" placeholder="répéter mot de passe" required>
+            </div>
+
+            <div class="container__bottom--button">
+                <button class="favorite styled2" type="submit">Modifier</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <div class="container__bottom--button2">
@@ -153,7 +167,6 @@
         profil.classList.remove("none")
         buttonProfil.classList.add("none")
     }
-
     buttonUpdateProfil.addEventListener('click', displayModifyProfil);
     buttonUpdatePassword.addEventListener('click', displayModifyPassword);
     buttonProfil.addEventListener('click', displayProfil);
