@@ -105,13 +105,13 @@ body{
         height: 37px;
         /* font-family: Poppins; */
         font-style: normal;
-        font-weight: bold;
+        /* font-weight: bold; */
         font-size: 1em;
         line-height: 21px;
         /* display: flex; */
         align-items: center;
         text-align: center;
-        color: #3D3D3D;
+        /* color: #3D3D3D; */
         background: #F8F8F8;
         border: none;
         box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
@@ -126,13 +126,30 @@ body{
     height: 37px;
     /* font-family: Poppins; */
     font-style: normal;
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: 1em;
     line-height: 21px;
     /* display: flex; */
     align-items: center;
     text-align: center;
-    color: #3D3D3D;
+    /* color: #3D3D3D; */
+    background: #F8F8F8;
+    border: none;
+    box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 1px;
+}
+.button3 button{
+    width: auto;
+    height: 37px;
+    /* font-family: Poppins; */
+    font-style: normal;
+    /* font-weight: bold; */
+    font-size: 1em;
+    line-height: 21px;
+    /* display: flex; */
+    align-items: center;
+    text-align: center;
+    /* color: #3D3D3D; */
     background: #F8F8F8;
     border: none;
     box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
