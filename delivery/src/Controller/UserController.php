@@ -24,7 +24,9 @@ class UserController extends AbstractController
         // recupere l'url de la route
         $currentRoute = $request->attributes->get('_route');
         
+        //recupere le dernier mail
         $lastUsername = $authenticationUtils -> getLastUsername();
+        //recupere les erreurs
         $error = $authenticationUtils->getLastAuthenticationError();
 
         if($error){

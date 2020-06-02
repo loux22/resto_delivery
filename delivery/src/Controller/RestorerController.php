@@ -40,13 +40,16 @@ class RestorerController extends AbstractController
             $member = "";
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        // recuperation de tous les restaurents
         $allRestorers = $repository->findAll();
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $restorers = [];
+        // recuperation de la note moyenne des plats du restaurent, ce qui donne la note du restaurent
         foreach ($allRestorers as $key => $restorer) {
             $restorers[$key][0] = $restorer;
             $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
         }
+        // on affiche que 6 resto aleatoirement
         $rand = rand(1, (count($restorers)) - 6);
         return $this->render('restorer/index.html.twig', [
             "restorers" => $restorers,
@@ -90,21 +93,25 @@ class RestorerController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        // on recupere le resto
         $restorer = $repository->findOneBy([
             "user" => $userLog->getId()
         ]);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        // on recupere les plats du resto
         $dishs = $repoDish->findBy([
             "restorer" => $restorer
         ]);
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
         $commandInProgress = $this->getDoctrine()->getRepository(Command::class);
+        // on recupere tout les plats commander soit le contenu des commandes 
         $commandDish = $repoCommandDish->findCommandDish($restorer);
-        // dd($commandDish);
         $commandRestorer = [];
+        // si la liste $commandRestorer est vide on ajoute le premier contenu de commande
         if (count($commandRestorer) == 0 && !empty($commandDish)) {
             $commandRestorer[] = $commandDish[0];
         }
+        // on garde seulement un contenu de plat par commande et pas plusieurs et on connait le nombre de commande du resto
         $status = false;
         foreach ($commandDish as $keys => $value) {
             $status = false;
@@ -118,6 +125,7 @@ class RestorerController extends AbstractController
             }
         }
         $commandRestorerInProgress = [];
+        // on recupere les commandes en cours du resto
         foreach ($commandRestorer as $key => $value) {
             $commandRestorerInProgress[] = $commandInProgress->findBy([
                 'id' => $value->getCommand()->getId(),
@@ -129,7 +137,10 @@ class RestorerController extends AbstractController
         }
 
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        // on recupere la note moyenne du resto
         $note = $repoNote->dishNoteRestaurent($restorer);
+
+        // on recupere les plats commander en cours
         $dishInProgress = [];
         foreach ($commandRestorerInProgress as $key => $value) {
             foreach ($commandDish as $key => $dish) {
@@ -139,6 +150,7 @@ class RestorerController extends AbstractController
             }
         }
 
+        // on recupere les gains du resto soit le prix des plats sans les 2,5€
         $earning = 0;
         foreach ($commandRestorer as $key => $value) {
             $com = $commandInProgress -> findOneBy([
@@ -183,9 +195,11 @@ class RestorerController extends AbstractController
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
         $allDishs = $repoDish->findAll();
+        // on recupere tous les plats du resto
         $dishs = $repoDish->findBy([
             "restorer" => $restorer
         ]);
+        // on recupere toutes les notes des plats du resto
         $note = [];
         foreach ($dishs as $key => $dish) {
             $note[] = $repoNote->dishNote($dish);
@@ -194,7 +208,7 @@ class RestorerController extends AbstractController
         $form = $this->createForm(AddDishType::class, $dish);
 
         $form->handleRequest($request);
-
+        // permet d'ajouter un plat
         if ($form->isSubmitted() && $form->isValid()) {
             $dish->fileUpload(end($allDishs)->getId() + 1);
             $dish->setRestorer($restorer);
@@ -235,12 +249,13 @@ class RestorerController extends AbstractController
             "user" => $userLog->getId()
         ]);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        // on recupere tout les plats du resto
         $dish = $repoDish->findOneBy([
             "id" => $id
         ]);
         $form = $this->createForm(AddDishType::class, $dish);
         $form->handleRequest($request);
-
+        // permet de modifier un plat du resto
         if ($form->isSubmitted() && $form->isValid()) {
             if ($dish->getFile()) {
                 $dish->removeFile($id);
@@ -266,29 +281,36 @@ class RestorerController extends AbstractController
     public function removeDish($id)
     {
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        // recupere tout les plats
         $dish = $repoDish->findOneBy([
             "id" => $id
         ]);
+        // il faut supprimer toute les clé etrangeres des autres tables
+        // recupere toutes les notes du plat
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $note = $repoNote->findBy([
             "dish" => $dish
         ]);
         $manager = $this->getDoctrine()->getManager();
+        // si le plat a des notes on supprime
         if (!empty($note)) {
             foreach ($note as $key => $value) {
                 $manager->remove($value);
             }
         }
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
+        // on recupere tout le contenu des plats des commandes
         $commandDish = $repoCommandDish->findBy([
             "dish" => $dish
         ]);
+        // si il n'y en a pas on supprime
         if (!empty($commandDish)) {
             foreach ($commandDish as $key => $value) {
                 $manager->remove($value);
             }
         }
         $dishName = $dish->getName();
+        // on supprime le plat
         $manager->remove($dish);
         $manager->flush();
         $this->addFlash('success', 'Votre plat ' . $dishName . ' a bien été supprimé');
@@ -314,7 +336,7 @@ class RestorerController extends AbstractController
             "user" => $userLog->getId()
         ]);
         $manager = $this->getDoctrine()->getManager();
-
+        // permet de modifier le password
         $input = $request->request->all();
         if (isset($input["lastPassword"])) {
             if (password_verify($input["lastPassword"], $restorer->getUser()->getPassword())) {
@@ -338,7 +360,7 @@ class RestorerController extends AbstractController
 
         $form = $this->createForm(RestorerRegisterType::class, $restorer);
         $form->handleRequest($request);
-
+        // permet de modifier le profil
         if ($form->isSubmitted() && $form->isValid()) {
             if ($restorer->getFile()) {
                 $restorer->removeFile($restorer -> getId());
@@ -375,7 +397,7 @@ class RestorerController extends AbstractController
         $lastRestorer = end($lastRestorer);
         $form = $this->createForm(RestorerRegisterType::class, $restorer);
         $input = $request->request->all();
-
+        // verification si le mail n'est pas déja dans la base de donnée
         if (isset($input["mail"])) {
             foreach ($allUser as $key => $value) {
                 if ($value->getMail() == $input['mail']) {
@@ -383,6 +405,7 @@ class RestorerController extends AbstractController
                 }
             }
             if ($error == "") {
+                // password avec au moins 8 caractere et verification
                 if (strlen($input["mail"]) < 8) {
                     $this->addFlash('errors', 'Ton email n\'est pas valide');
                 } else if (strlen($input["password"]) < 8) {
@@ -391,7 +414,7 @@ class RestorerController extends AbstractController
                     $this->addFlash('errors', 'Ton password n\'est pas le meme');
                 } else {
                     $form->handleRequest($request);
-
+                    // permet de s'inscrire
                     if ($form->isSubmitted() && $form->isValid()) {
                         $password = $passwordEncoder->encodePassword($user, $input["password"]);
                         $user->setPassword($password);
@@ -441,10 +464,12 @@ class RestorerController extends AbstractController
         ]);
         $repository = $this->getDoctrine()->getRepository(Dish::class);
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        //recupere les plats du restaurents
         $allDishs = $repository->findBy([
             "restorer" => $id
         ]);
         $dishs = [];
+        // recupere la note moyenne du restaurent
         foreach ($allDishs as $key => $dish) {
             $dishs[$key][0] = $dish;
             $dishs[$key][1] = $repoNote->dishNote($dish);
@@ -470,9 +495,11 @@ class RestorerController extends AbstractController
             $member = "";
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        // on recupere tout les resto
         $allRestorers = $repository->findAll();
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $restorers = [];
+        // on recupere la note moyenne de tous les resto
         foreach ($allRestorers as $key => $restorer) {
             $restorers[$key][0] = $restorer;
             $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
@@ -489,9 +516,11 @@ class RestorerController extends AbstractController
     public function catListRestorer($cat)
     {
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        // on recupere les restos par categories
         $allRestorers = $repository->listRestorerByCategory($cat);
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $restorers = [];
+        // on recupere la note moyenne de tous les resto
         foreach ($allRestorers as $key => $restorer) {
             $restorers[$key][0] = $restorer;
             $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
@@ -508,13 +537,16 @@ class RestorerController extends AbstractController
     {
         $name = $request->get('name');
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        // on recupere tout les resto en like par rapport a la barre de recherche
         $allRestorers = $repository->searchRestorer($name);
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $restorers = [];
+        // on recupere la note moyenne de tous les resto
         foreach ($allRestorers as $key => $restorer) {
             $restorers[$key][0] = $restorer;
             $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
         }
+        // on renvoie dans le html les infos avec le bon style
         foreach ($restorers as $key => $restorer) {
             echo '<div class="container__middle--content"><a href="/restaurent/' . $restorer[0]->getId() . '">';
             if ($restorer[0]->getLogo() != "default.png") {
@@ -535,6 +567,7 @@ class RestorerController extends AbstractController
         return new Response();
     }
 
+    // meme chose que celle d'au dessus juste pas le meme design
     /**
      * @Route("/searchListRestorer", name="searchListRestorer")
      */
@@ -574,7 +607,7 @@ class RestorerController extends AbstractController
         return new Response();
     }
 
-
+    // meme chose mais avec les plats
     /**
      * @Route("/searchDish", name="searchDish")
      */

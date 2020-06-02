@@ -32,10 +32,13 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        // on recupere le nombre de resto
         $nbRestorer = $repository->findAll();
 
         $repoCommand = $this->getDoctrine()->getRepository(Command::class);
+        // on recupere le nombre de commande
         $nbCommand = $repoCommand->findAll();
+        // on recupere le nombre de commande en cours
         $nbCommandInProgress = $repoCommand->findBy([
             "status" => 0
         ]);
@@ -63,6 +66,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        // on recupere tout les restos
         $allRestorer = $repository->findAll();
         return $this->render('admin/restorers.html.twig', [
             'allRestorer' => $allRestorer
@@ -89,7 +93,7 @@ class AdminController extends AbstractController
 
         $form = $this->createForm(RestorerRegisterType::class, $restorer);
         $form->handleRequest($request);
-
+        // modifie le restaurent
         if ($form->isSubmitted() && $form->isValid()) {
             if ($restorer->getFile()) {
                 $restorer->removeFile($restorer->getId());
@@ -129,10 +133,12 @@ class AdminController extends AbstractController
         $repoNote = $this->getDoctrine()->getRepository(Note::class);
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        // on recupere tout les plats du resto
         $dishRestorer = $repoDish->findBy([
             'restorer' => $restorer
         ]);
-
+        
+        // on recupere toutes les note des plats du resto ainsi que le contenu des commandes
         $note = [];
         $command = [];
         foreach ($dishRestorer as $key => $dish) {
@@ -143,6 +149,7 @@ class AdminController extends AbstractController
                 'dish' => $dish
             ]);
         }
+        // on supprime note et commande
         if (!empty($note)) {
             foreach ($note as $key => $n) {
                 if (!empty($n)) {
@@ -200,6 +207,7 @@ class AdminController extends AbstractController
         // recupere tout les plats commander au restaurent
         $dishCommands = $repoCommandDish->findCommandDishAdmin($restorer);
 
+        // on recupere le contenu des commandes du restaurent
         $commandRestorer = [];
         if (count($commandRestorer) == 0 && !empty($dishCommands)) {
             $commandRestorer[] = $dishCommands[0];
@@ -216,6 +224,7 @@ class AdminController extends AbstractController
                 $commandRestorer[] = $value;
             }
         }
+        // dans [0] on stocke la commande, [1] le contenu, [2] les plats, [3] le membre qui a commandé
         $command = [];
         foreach ($commandRestorer as $key => $value) {
             $command[$key][0][] = $repoCommand->findOneBy([
@@ -254,7 +263,7 @@ class AdminController extends AbstractController
                 $dish[] = $v;
             }
         }
-
+        // on recupere la note moyenne de chaque plats
         $note = [];
         // dd($dish);
         foreach ($dish as $key => $value) {
@@ -287,6 +296,7 @@ class AdminController extends AbstractController
 
         $repository = $this->getDoctrine()->getRepository(Member::class);
         $repoUser = $this->getDoctrine()->getRepository(User::class);
+        // on recupere tous les membres
         $userMembers = $repository->findAll();
         $members = [];
         foreach ($userMembers as $key => $member) {
@@ -320,7 +330,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(MemberModifyType::class, $member);
         $manager = $this->getDoctrine()->getManager();
         $form->handleRequest($request);
-
+        // permet de modifier le profil
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($member); //commit(git)
             $manager->flush(); // push(git)
@@ -359,12 +369,14 @@ class AdminController extends AbstractController
         $user = $repoUser -> findOneBy([
             "id" => $member -> getUser()
         ]);
+        // on recupere toutes les notes du user et on les supprime
         $note = $repoNote -> findBy([
             'user' => $user
         ]);
         foreach ($note as $key => $value) {
             $manager->remove($value);
         }
+        // on recupere toutes les commandes du user et on les supprime
         $command = $repoCommand -> findBy([
             'user' => $user
         ]);
@@ -383,6 +395,7 @@ class AdminController extends AbstractController
             $manager->remove($value);
         }
         $memberName = $member -> getUsername();
+        // on supprime le user
         $manager->remove($member);
         $manager->remove($user);
         $manager->flush();
@@ -413,6 +426,7 @@ class AdminController extends AbstractController
         $repoCommand = $this->getDoctrine()->getRepository(Command::class);
         $repoCommandDish = $this->getDoctrine()->getRepository(CommandDish::class);
         $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        // On recupere les commandes du member ainsi que le contenue
         $allCommands = $repoCommand -> findBy([
             'user' => $user
         ]);

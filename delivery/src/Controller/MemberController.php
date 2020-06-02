@@ -33,9 +33,11 @@ class MemberController extends AbstractController
         $member = new Member;
         $error = "";
         $repository = $this->getDoctrine()->getRepository(User::class);
+        // on recupere tout les members
         $allUser = $repository->findAll();
         $form = $this->createForm(MemberRegisterType::class, $member);
         $input = $request->request->all();
+        // si on a appuyer sur le bouton s'inscrire, et on verifie si le mail est déja dans la base de données
         if (isset($input["mail"])) {
             foreach ($allUser as $key => $value) {
                 if ($value->getMail() == $input['mail']) {
@@ -43,6 +45,7 @@ class MemberController extends AbstractController
                 }
             }
             if ($error == "") {
+                // Mot de passe obligatoirement >= 8 et si il est verifié
                 if (strlen($input["mail"]) < 8) {
                     $this->addFlash('errors', 'Ton email n\'est pas valide');
                 } else if (strlen($input["password"]) < 8) {
@@ -51,8 +54,9 @@ class MemberController extends AbstractController
                     $this->addFlash('errors', 'Ton password n\'est pas le meme');
                 } else {
                     $form->handleRequest($request);
-
+                    // si formulaire est valid
                     if ($form->isSubmitted() && $form->isValid()) {
+                        // chiffrage du mot de passe
                         $password = $passwordEncoder->encodePassword($user, $input["password"]);
                         $user->setPassword($password);
                         $user->setMail($input["mail"]);
@@ -83,7 +87,7 @@ class MemberController extends AbstractController
      */
     public function profil(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        // si quelqu'un est connecté on le redirige vers la page login
+        // si on n'est pas connecté on le redirige vers la page login
         $userLog = $this->getUser();
         if ($userLog == null) {
             $this->addFlash('errors', 'il faut être connecté pour accéder au profil');
@@ -101,12 +105,13 @@ class MemberController extends AbstractController
         $form = $this->createForm(MemberModifyType::class, $member[0]);
         $manager = $this->getDoctrine()->getManager();
         $form->handleRequest($request);
-
+        // modification du profil
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($member[0]); //commit(git)
             $manager->flush(); // push(git)
         }
 
+        // modification mot de passe avec verification qu'il a bien plus de 8 caracteres et est verifié
         $input = $request->request->all();
         if (isset($input["lastPassword"])) {
             if (password_verify($input["lastPassword"], $member[0]->getUser()->getPassword())) {
@@ -156,6 +161,7 @@ class MemberController extends AbstractController
         ]);
         $manager = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository(Command::class);
+        // recuperation de toutes les commandes
         $commands = $repository->commandByUserLog($userLog);
         $commandDishRepository = $this->getDoctrine()->getRepository(CommandDish::class);
         $dishRepository = $this->getDoctrine()->getRepository(Dish::class);
@@ -163,16 +169,19 @@ class MemberController extends AbstractController
         $noteRepository = $this->getDoctrine()->getRepository(Note::class);
         $commandDish = [];
         foreach ($commands as $key => $command) {
+            // pour chaque commandes on verifie si ça fais plus d'une heure que ça a été commandé
             if ($command->getDelivery() <= new \DateTime()) {
                 $command->setStatus(true);
                 $manager->persist($command); //commit(git)
                 $manager->flush(); // push(git)
             }
+            // on recupere le contenu des plats de la commande
             $commandDish[] = $commandDishRepository->findBy([
                 "command" => $command
             ]);
         }
         $note = [];
+        // on recupere la note que l'utilisateur a donné au plat (si il n'a pas noter ça retourne "null")
         foreach ($commandDish as $key => $dish) {
             foreach ($dish as $keys => $d) {
                 $note[$key][$keys][] = $noteRepository->findBy([
@@ -184,9 +193,11 @@ class MemberController extends AbstractController
 
 
         $input = $request->request->all();
+        // pour ajouter ou modifier une note
         if (isset($input) && $input != []) {
             foreach ($commandDish as $key => $dish) {
                 foreach ($dish as $key => $d) {
+                    // pour ajouter une note
                     if (isset($input[strval($d->getDish()->getId())])) {
                         $note = new Note;
                         $note->setUser($userLog);
@@ -197,6 +208,7 @@ class MemberController extends AbstractController
                         $this->addFlash('success', 'vous venez de mettre un ' . $input["note"] . ' au plat ' . $d->getDish()->getName());
                         return $this->redirectToRoute('historicCommand');
                     };
+                    // si il y'a déja une note il y'a un bouton modifier et donc on modifie la note
                     if (isset($input["m" . strval($d->getDish()->getId())])) {
                         $note = $noteRepository->findOneBy([
                             'user' => $userLog,
