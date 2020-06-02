@@ -2,6 +2,11 @@
 
 {% block title %}Restaurents{% endblock %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ asset('css/listRestorer.css') }}">
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+{% endblock %}
+
 {% block body %}
 
 <style>
@@ -10,31 +15,119 @@
 }
 </style>
 
-<a href="{{ path('listRestorer')}}">tous</a>
-<a href="{{ path('catListRestorer', { 'cat' : 'asiatique'})}}">asiatique</a>
-<a href="{{ path('catListRestorer', { 'cat' : 'burger'})}}">burger</a>
-<a href="{{ path('catListRestorer', { 'cat' : 'snack'})}}">snack</a>
-<a href="{{ path('catListRestorer', { 'cat' : 'orientale'})}}">orientale</a>
+<div class="hero__home">
+    <div class="hero__home--content">
+    </div>
+</div>
 
-<input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
-<div class="result-search-js"></div>
-<div class="visible">
-{% for key,restorer in restorers %}
-    <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
-        {% if restorer[0].logo == "default.png" %}
-            <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
-        {% else %}
-            <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
-        {% endif %}
-    </a>
-        <p>Chez {{restorer[0].name}}</p>
-        <p>frais de livraison : 2,5€ - 1h</p>
-        {% if restorer[1][0].note != null %}
-        <p>{{restorer[1][0].note}}</p>
-        {% else %}
-        <p>ce restaurent n'a encore aucune note</p>
-        {% endif %}
-{% endfor %}
+<div class="search">
+    <input type="text" class="search-resto-js" placeholder="rechercher restaurent..">
+    <div class="result-search-js"></div>
+</div>
+
+<div class="container__category">
+    <div class="container__category--content">
+        <a href="{{ path('listRestorer')}}">tous</a>
+    </div>
+    <div class="container__category--content">
+        <a href="{{ path('catListRestorer', { 'cat' : 'asiatique'})}}">asiatique</a>
+    </div>
+    <div class="container__category--content">
+        <a href="{{ path('catListRestorer', { 'cat' : 'burger'})}}">burger</a>
+    </div>
+    <div class="container__category--content">
+        <a href="{{ path('catListRestorer', { 'cat' : 'snack'})}}">snack</a>
+    </div>
+    <div class="container__category--content">
+        <a href="{{ path('catListRestorer', { 'cat' : 'orientale'})}}">orientale</a>
+    </div>
+</div>
+    {#<div class="visible">
+        <div class="container__body">
+       {% for key,restorer in restorers %} 
+            <div class="container__body--img">
+                <a href="{{ path('restorerDish', { 'id' : restorer[0].id})}}">
+                    {% if restorer[0].logo == "default.png" %}
+                        <img src="{{ asset('/img/')}}{{restorer[0].logo }}" alt="">
+                    {% else %}
+                        <img src="{{ asset('/restorer/' ~ restorer[0].id  ~ '/logo/' ~ restorer[0].logo )}}" alt="">
+                    {% endif %}
+                </a>
+            </div>
+            <div class="container__body--title">
+                <p>Chez {{restorer[0].name}}</p>
+            </div>
+            <div class="container__body--price">
+                <p>frais de livraison : 2,5€ - 1h</p>
+            </div>
+            <div class="container__body--note">
+                {% if restorer[1][0].note != null %}
+                <p>{{restorer[1][0].note}}</p>
+                {% else %}
+                <p>ce restaurent n'a encore aucune note</p>
+                {% endif %}
+            </div>
+       {% endfor %}
+        </div>
+</div> #}
+
+<div class="container__body">
+
+    <div class="container__body--middle">
+        <div class="container__body--content">
+            <span>Chez abdul</span>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+        <div class="container__body--content-img">
+            <a href=""><img src="./img/burger.jpg" alt=""></a>
+        </div>
+    </div>
+
+    <div class="container__body--middle">
+        <div class="container__body--content">
+            <span>Chez abdul</span>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+        <div class="container__body--content-img">
+            <a href=""><img src="./img/burger.jpg" alt=""></a>
+        </div>
+    </div>
+
+    <div class="container__body--middle">
+        <div class="container__body--content">
+            <span>Chez abdul</span>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+        <div class="container__body--content-img">
+            <a href=""><img src="./img/burger.jpg" alt=""></a>
+        </div>
+    </div>
+
+    <div class="container__body--middle">
+        <div class="container__body--content">
+            <span>Chez abdul</span>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+        <div class="container__body--content-img">
+            <a href=""><img src="./img/burger.jpg" alt=""></a>
+        </div>
+    </div>
+
+    <div class="container__body--middle">
+        <div class="container__body--content">
+            <span>Chez abdul</span>
+            <p>frais de livraison : 2,5€ - 1h</p>
+            <p>ce restaurent n'a encore aucune note</p>
+        </div>
+        <div class="container__body--content-img">
+            <a href=""><img src="./img/burger.jpg" alt=""></a>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
 
