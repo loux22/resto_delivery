@@ -625,8 +625,8 @@ class RestorerController extends AbstractController
         }
 
         foreach ($dishs as $key => $dish) {
-            if ($dish[0]->getImg() === "image.png") {
-                echo '<img src="/dish/' . $dish[0]->getId() . '/img/' . $dish[0]->getImg() . '" alt="">';
+            if ($dish[0]->getImg() === "default.png") {
+                echo '<img src="/img/default.png" alt="">';
             } else {
                 echo '<img src="/dishs/' . $dish[0]->getId() . '/' . $dish[0]->getImg() . '" alt="">';
             }
