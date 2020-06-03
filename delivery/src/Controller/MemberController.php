@@ -109,6 +109,7 @@ class MemberController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($member[0]); //commit(git)
             $manager->flush(); // push(git)
+            $this->addFlash('success', 'Votre profil a été modifié');
         }
 
         // modification mot de passe avec verification qu'il a bien plus de 8 caracteres et est verifié
