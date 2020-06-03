@@ -303,6 +303,8 @@ body{
     grid-template-columns: 1fr 1fr;
     justify-content: center;
 }
+
+
 .button2  button{
     display: flex;
     justify-content: flex-start;
