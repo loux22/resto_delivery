@@ -79,7 +79,7 @@ class RestorerController extends AbstractController
     }
 
     /**
-     * @Route("/restaurent/dashboard", name="restorerDashboard")
+     * @Route("/restaurant/dashboard", name="restorerDashboard")
      */
     public function restorerDashboard()
     {
@@ -175,7 +175,7 @@ class RestorerController extends AbstractController
 
 
     /**
-     * @Route("/restaurent/dishs", name="restorerDishs")
+     * @Route("/restaurant/dishs", name="restorerDishs")
      */
     public function restorerDishs(Request $request)
     {
@@ -231,7 +231,7 @@ class RestorerController extends AbstractController
 
 
     /**
-     * @Route("/restaurent/dish/modify/{id}", name="dishModify")
+     * @Route("/restaurant/dish/modify/{id}", name="dishModify")
      */
     public function modifyDish($id, Request $request)
     {
@@ -276,7 +276,7 @@ class RestorerController extends AbstractController
 
 
     /**
-     * @Route("/restaurent/dish/remove/{id}", name="dishRemove")
+     * @Route("/restaurant/dish/remove/{id}", name="dishRemove")
      */
     public function removeDish($id)
     {
@@ -318,7 +318,7 @@ class RestorerController extends AbstractController
     }
 
     /**
-     * @Route("/restaurent/profil", name="profilRestorer")
+     * @Route("/restaurant/profil", name="profilRestorer")
      */
     public function profilRestorer(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -446,7 +446,7 @@ class RestorerController extends AbstractController
     }
 
     /**
-     * @Route("/restaurent/{id}", name="restorerDish")
+     * @Route("/restaurant/{id}", name="restorerDish")
      */
     public function restorerDish($id)
     {
@@ -482,7 +482,7 @@ class RestorerController extends AbstractController
     }
 
     /**
-     * @Route("/restaurents", name="listRestorer")
+     * @Route("/restaurants", name="listRestorer")
      */
     public function listRestorer()
     {
@@ -511,7 +511,7 @@ class RestorerController extends AbstractController
     }
 
     /**
-     * @Route("/restaurents/{cat}", name="catListRestorer")
+     * @Route("/restaurants/{cat}", name="catListRestorer")
      */
     public function catListRestorer($cat)
     {

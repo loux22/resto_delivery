@@ -11,7 +11,7 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/login", name="login")
-     * @Route("/login/restaurent", name="loginRestaurent")
+     * @Route("/login/restaurant", name="loginRestaurent")
      * @Route("/login/admin", name="loginAdmin")
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request)
