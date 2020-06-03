@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block link %}
+	<link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
+	<link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+{% endblock %}
+
+{% block title %}Admin plats {{restorer.name}}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container__body">
+        {% for dish in dishs %}
+        <div class="container__body--middle">
+            <div class="container__body--content">
+                <span>{{dish[0].name}}</span>
+                <br>
+                <p>{{dish[0].price}} €</p>
+                {% if dish[1][0].note != null %}
+                <p>{{dish[1][0].note}}/5</p>
+                {% else %}
+                <p>aucune note</p>
+                {% endif %}
+            </div>
+            <div class="container__body--img">
+                {% if dish[0].img == "default.png" %}
+                <img src="{{ asset('/img/')}}{{dish[0].img}}" alt="">
+                {% else %}
+                <img src="{{ asset('/dishs/' ~ dish[0].id ~ '/' ~ dish[0].img)}}" alt="">
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

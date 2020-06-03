@@ -73,6 +73,40 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/restaurents/{id}/dishs", name="adminRestorerDish")
+     */
+    public function adminRestorerDish($id)
+    {
+        $userLog = $this->getUser();
+        if ($userLog === null) {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        if ($userLog->getRoles()[0] != 'ADMIN') {
+            $this->addFlash('errors', 'il faut être connecté en tant qu\'admin pour acceder au dashboard');
+            return $this->redirectToRoute('home');
+        }
+        $repository = $this->getDoctrine()->getRepository(Restorer::class);
+        $repoDish = $this->getDoctrine()->getRepository(Dish::class);
+        $repoNote = $this->getDoctrine()->getRepository(Note::class);
+        $restorer = $repository -> find($id);
+        //recupere les plats du restaurents
+        $allDishs = $repoDish->findBy([
+            "restorer" => $restorer
+        ]);
+        $dishs = [];
+        // recupere la note moyenne du restaurent
+        foreach ($allDishs as $key => $dish) {
+            $dishs[$key][0] = $dish;
+            $dishs[$key][1] = $repoNote->dishNote($dish);
+        }
+        return $this->render('admin/restorerDishs.html.twig', [
+            'dishs' => $dishs,
+            'restorer' => $restorer
+        ]);
+    }
+
 
     /**
      * @Route("/admin/restaurent/modify/{id}", name="adminModifyRestorer")

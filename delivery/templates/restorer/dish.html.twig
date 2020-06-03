@@ -22,7 +22,7 @@
 
 <div class="search">
     <input type="text" class="search-dish-js" placeholder="rechercher plat..">
-    <div class="result-search-js"></div>
+    
 </div>
 
 {#<div class="container__restorer">
@@ -36,7 +36,7 @@
     </div>
 </div> #}
 
-
+<div class="result-search-js"></div>
 
 <div class="visible">
     <div class="container__body">
@@ -49,7 +49,7 @@
                 {% if dish[1][0].note != null %}
                 <p>{{dish[1][0].note}}</p>
                 {% else %}
-                <p>note : 1</p>
+                <p>aucune note</p>
                 {% endif %}
             </div>
             <div class="container__body--img">

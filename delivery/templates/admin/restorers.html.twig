@@ -14,11 +14,13 @@
 		<p>{{restorer.id}}</p>
 		<p>{{restorer.name}}</p>
         <p>{{app.user.mail}}</p>
+		<a href="{{ path('adminRestorerDish', { 'id' : restorer.id})}}">
 		{% if restorer.logo == "default.png" %}
 			<img src="{{ asset('/img/')}}{{restorer.logo }}" alt="">
 		{% else %}
 			<img src="{{ asset('/restorer/' ~ restorer.id ~ '/logo/' ~ restorer.logo )}}" alt="">
 		{% endif %}
+		</a>
 		<button type="submit">
 			<a href="{{ path('adminModifyRestorer', { 'id' : restorer.id})}}">Modifier</a>
 		</button>

@@ -632,24 +632,30 @@ class RestorerController extends AbstractController
             $dishs[$key][0] = $dish;
             $dishs[$key][1] = $repoNote->dishNote($dish);
         }
-
+        echo '<div class="container__body">';
         foreach ($dishs as $key => $dish) {
+            echo '<div class="container__body--middle"> <div class="container__body--content">';
+            echo '<span>' . $dish[0]->getName() . '</span></br>';
+            echo '<p>' . $dish[0]->getPrice() . ' €</p>';
+            if ($dish[1][0]["note"] != null) {
+                echo '<p>' . $dish[1][0]["note"] . '</p>';
+            } else {
+                echo '<p> aucune note </p>';
+            }
+            echo '</div> <div class="container__body--img">';
             if ($dish[0]->getImg() === "default.png") {
                 echo '<img src="/img/default.png" alt="">';
             } else {
                 echo '<img src="/dishs/' . $dish[0]->getId() . '/' . $dish[0]->getImg() . '" alt="">';
             }
-            echo '<p>' . $dish[0]->getName() . '</p>
-             <p> frais de livraison : 2,5€ - 1h </p>';
-            if ($dish[1][0]["note"] != null) {
-                echo '<p>' . $dish[1][0]["note"] . '</p>';
-            } else {
-                echo '<p> ce restaurent n\'a encore aucune note </p>';
-            }
-            echo '<form action="" method="post">
-                <button type="submit"><a href="/basket/add/' . $dish[0]->getId() . '/' . $dish[0]->getRestorer()->getId()  . '">Ajouter</a></button>
+            echo '</div>';
+
+            echo '<div class="container__body--button"><form action="" method="post">
+                <button class="favorite styled2" type="submit"><a href="/basket/add/' . $dish[0]->getId() . '/' . $dish[0]->getRestorer()->getId()  . '">Ajouter</a></button>
             </form>';
+            echo '</div></div>';
         }
+        echo '</div>';
         return new Response();
     }
 }
