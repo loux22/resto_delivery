@@ -11,4 +11,4 @@ Run: ` composer install` in your project's folder
 `php bin/console doctrine:database:create`
 `php bin/console make:migration`
 `php bin/console doctrine:migrations:migrate`
-`php bin/console doctrine:fixtures:load`
+`lancer le fichier 'restaurent_delivery (1).sql' dans phpMyAdmin pour faire des tests sur le site`
