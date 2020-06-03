@@ -1,0 +1,129 @@
+bady{
+    background-color: white;
+}
+
+.hero__home{
+    background-image: url(../img/hero_home.jpg);
+	background-position: top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+    height: calc(100vh - 200px);
+    margin: 10px 0px 30px 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.search{
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+.search input{
+    background-color: #2CCE80;
+    color: white;
+}
+
+.container__restorer{
+    display: grid;
+    justify-content: center;
+}
+.container__restorer h1{
+    display: flex;
+    justify-content: center;
+}
+
+.container__body{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.container__body--img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 100px;
+    margin: 0px 30px 0px 30px;
+}
+.container__body--img img{
+    height: 100px;
+    width: 100px;
+    border-radius: 2px;
+}
+
+.container__body--middle{
+    background-color: grey;
+    opacity: 0.9;
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+    border-radius: 2px;
+    color: white;
+    width: 27%;
+}
+
+.container__body--content{
+    display: flex;
+    flex-direction: column;
+}
+.container__body--content p{
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 10px; */
+}
+.container__body--content span{
+    font-size: 1.5em;
+    color: white;
+    padding: 20px;
+}
+
+.container__body--button{
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    padding-right: 40px; */
+    position: relative;
+    top: 35%;
+    right: 5%;
+}
+.container__body--button a{
+    color: black;
+}
+.container__body--button button{
+    display: flex;
+    align-items: center;
+}
+
+.styled2 {
+    /* border: 0; */
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #2CCE80;
+    border-radius: 1px;
+    background-color: #ffffff;
+    border: black 10px;
+    width: 90px;
+    
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+}
+
+.styled2:hover {
+    background-color: #2CCE80;
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+    color: white;
+}
+
+.styled2:active {
+    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}

@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ asset('css/dish.css') }}">
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+{% endblock %}
+
 {% block title %}{{restorer.name}}{% endblock %}
 
 {% block body %}
@@ -10,35 +15,57 @@
     }
 </style>
 
-{% if restorer.logo == "default.png" %}
-<img src="{{ asset('/img/')}}{{restorer.logo }}" alt="">
-{% else %}
-<img src="{{ asset('/restorer/' ~ restorer.id  ~ '/logo/' ~ restorer.logo )}}" alt="">
-{% endif %}
-<h1>{{restorer.name}}</h1>
+<div class="hero__home">
+    <div class="hero__home--content">
+    </div>
+</div>
+
+<div class="search">
+    <input type="text" class="search-dish-js" placeholder="rechercher plat..">
+    <div class="result-search-js"></div>
+</div>
+
+<div class="container__restorer">
+    <h1>{{restorer.name}}</h1>
+    <div class="container__restorer--img">
+        {% if restorer.logo == "default.png" %}
+        <img src="{{ asset('/img/')}}{{restorer.logo }}" alt="">
+        {% else %}
+        <img src="{{ asset('/restorer/' ~ restorer.id  ~ '/logo/' ~ restorer.logo )}}" alt="">
+        {% endif %}
+    </div>
+</div>
 
 
-<input type="text" class="search-dish-js" placeholder="rechercher plat..">
-<div class="result-search-js"></div>
 
 <div class="visible">
-{% for dish in dishs %}
-{% if dish[0].img == "default.png" %}
-<img src="{{ asset('/img/')}}{{dish[0].img}}" alt="">
-{% else %}
-<img src="{{ asset('/dishs/' ~ dish[0].id ~ '/' ~ dish[0].img)}}" alt="">
-{% endif %}
-<p>{{dish[0].name}}</p>
-<p>{{dish[0].price}} €</p>
-{% if dish[1][0].note != null %}
-<p>{{dish[1][0].note}}</p>
-{% else %}
-<p>ce plat n'a pas encore été noté</p>
-{% endif %}
-<form action="" method="post">
-    <button type="submit"><a href="{{ path('basket_add', { 'id' : dish[0].id, 'restorer' : restorer.id})}}">Ajouter</a></button>
-</form>
-{% endfor %}
+    <div class="container__body">
+        {% for dish in dishs %}
+        <div class="container__body--middle">
+            <div class="container__body--content">
+                <span>{{dish[0].name}}</span>
+                <p>{{dish[0].price}} €</p>
+                {% if dish[1][0].note != null %}
+                <p>{{dish[1][0].note}}</p>
+                {% else %}
+                <p>note : 1</p>
+                {% endif %}
+            </div>
+            <div class="container__body--img">
+                {% if dish[0].img == "default.png" %}
+                <img src="{{ asset('/img/')}}{{dish[0].img}}" alt="">
+                {% else %}
+                <img src="{{ asset('/dishs/' ~ dish[0].id ~ '/' ~ dish[0].img)}}" alt="">
+                {% endif %}
+            </div>
+            <div class="container__body--button">
+                <form action="" method="post">
+                    <button class="favorite styled2" type="submit"><a href="{{ path('basket_add', { 'id' : dish[0].id, 'restorer' : restorer.id})}}">Ajouter</a></button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
 
