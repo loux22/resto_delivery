@@ -515,6 +515,14 @@ class RestorerController extends AbstractController
      */
     public function catListRestorer($cat)
     {
+        $userLog = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Member::class);
+        $member = $repository->findOneBy([
+            "user" => $userLog
+        ]);
+        if ($userLog === null) {
+            $member = "";
+        }
         $repository = $this->getDoctrine()->getRepository(Restorer::class);
         // on recupere les restos par categories
         $allRestorers = $repository->listRestorerByCategory($cat);
@@ -526,7 +534,8 @@ class RestorerController extends AbstractController
             $restorers[$key][1] = $repoNote->dishNoteRestaurent($restorer);
         }
         return $this->render('restorer/listRestorer.html.twig', [
-            'restorers' => $restorers
+            'restorers' => $restorers,
+            'member' => $member
         ]);
     }
 

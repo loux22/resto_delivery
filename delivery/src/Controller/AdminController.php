@@ -159,11 +159,12 @@ class AdminController extends AbstractController
                 }
             }
         }
-
+        
         if (!empty($command)) {
             foreach ($command as $key => $c) {
                 if (!empty($c)) {
-                    foreach ($c as $key => $value) {
+                    foreach ($c as $keys => $value) {
+
                         $manager->remove($value);
                     }
                 }
@@ -176,7 +177,7 @@ class AdminController extends AbstractController
         $manager->remove($restorer);
         $manager->flush();
 
-        $this->addFlash('success', 'le plat ' . $restorerName . ' a bien été modifié');
+        $this->addFlash('success', 'le plat ' . $restorerName . ' a bien été supprimé');
         return $this->redirectToRoute('adminRestorer');
     }
 
