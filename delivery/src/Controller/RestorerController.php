@@ -557,7 +557,7 @@ class RestorerController extends AbstractController
         }
         // on renvoie dans le html les infos avec le bon style
         foreach ($restorers as $key => $restorer) {
-            echo '<div class="container__middle--content"><a href="/restaurent/' . $restorer[0]->getId() . '">';
+            echo '<div class="container__middle--content"><a href="/restaurant/' . $restorer[0]->getId() . '">';
             if ($restorer[0]->getLogo() != "default.png") {
                 echo '<img src="/restorer/' . $restorer[0]->getId() . '/logo/' . $restorer[0]->getLogo() . '" alt="">';
             } else {
@@ -601,7 +601,7 @@ class RestorerController extends AbstractController
             } else {
                 echo '<p> aucune note </p>';
             };
-            echo '<a href="/restaurent/' . $restorer[0]->getId() . '">';
+            echo '<a href="/restaurant/' . $restorer[0]->getId() . '">';
             echo '</div> <div class="container__body--content-img">';
             if ($restorer[0]->getLogo() != "default.png") {
                 echo '<img src="/restorer/' . $restorer[0]->getId() . '/logo/' . $restorer[0]->getLogo() . '" alt="">';

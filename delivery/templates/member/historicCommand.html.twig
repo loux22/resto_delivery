@@ -16,116 +16,78 @@
     {% for command in commands %}
     <div class="body__top--content">
         {% if command.status == 0 %}
-        <p>-Commande n°{{command.id}} sera délivré le <span>{{command.delivery | format_datetime('short', 'short', locale='fr')}}</span></p>
+        <p>-Commande n°{{command.id}} sera délivré le
+            <span>{{command.delivery | format_datetime('short', 'short', locale='fr')}}</span></p>
         <p>-prix total: <span>{{command.price}} euros</span></p>
         {% for dish in commandDish %}
-            {% for d in dish %}
-                {% if d.command.id == command.id %}
-                    {% if d.dish.img == "default.png" %}
-                        <img height="60px" width="60px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
-                        {% else %}
-                        <img height="30px" width="30px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
-                    {% endif %}
-                    <p>-{{d.dish.name}} x{{d.quantity}} = <span>{{d.dish.price}} euros</span></p>
-                {% endif %} 
-            {% endfor %} 
+        {% for d in dish %}
+        {% if d.command.id == command.id %}
+        {% if d.dish.img == "default.png" %}
+        <img height="60px" width="60px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
+        {% else %}
+        <img height="30px" width="30px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
+        {% endif %}
+        <p>-{{d.dish.name}} x{{d.quantity}} = <span>{{d.dish.price}} euros</span></p>
+        {% endif %}
         {% endfor %}
-    {% endif %}
-    </div>
-{% endfor %}
-</div>
-
-
-
-{#<div class="body__middle">
-<div class="body__middle--title">
-    <h3>Historique des commandes</h3>
-</div>
-{% for command in commands %}
-    <div class="body__middle--content">
-    {% if command.status == 1 %}
-    <div class="body__middle--content-command">
-        <h3>Commande n°{{command.id}} sera délivré le <span>{{command.delivery | format_datetime('short', 'short', locale='fr')}}</span></h3> 
-        <p>-prix total: <span>{{command.price}} euros</span></p>
-        {% for key,dish in commandDish %}
-            {% for k,d in dish %}
-                {% if d.command.id == command.id %}
-                    {% if d.dish.img == "default.png" %}
-                        <img height="60px" width="60px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
-                        {% else %}
-                        <img height="60px" width="60px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
-                    {% endif %}
-                    <p>-{{d.dish.name}} x{{d.quantity}} = <span>{{d.dish.price}} euros</span></p>
-                    <form action="" method="post">
-                        {% if note[key][k][0] == [] %}
-                        
-                        <select name="note">
-                            {% for i in 0..5 %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                        </select>
-                        <button class="favorite styled2" type="submit" name="{{d.dish.id}}">Valider</button>
-                        <p>Vous n'avez pas encore noter ce plat</p>
-                        {% else %}
-
-                        <select name="note">
-                            {% for i in 0..5 %}
-                                {% if note[key][k][0][0].note == i %}
-                                    <option selected value="{{i}}">{{i}}</option>
-                                    {% else %}
-                                    <option value="{{i}}">{{i}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                        <button class="favorite styled2" type="submit" name="m{{d.dish.id}}">Modifier</button>
-                    </div>
-                        {% endif %} 
-                    </form>
-                    {% endif %}
-            {% endfor %} 
         {% endfor %}
-    {% endif %}
+        {% endif %}
     </div>
-{% endfor %}
-</div>#}
+    {% endfor %}
+</div>
 
 <div class="body__middle">
     <div class="body__middle--title">
         <h3>Historique des commandes</h3>
     </div>
     <div class="body__middle--content-container">
+        {% for command in commands %}
+        {% if command.status == 1 %}
         <div class="body__middle--content">
             <div class="body__middle--content-command">
-                <h3>Commande n°1 sera délivré le <span>10/02/1999 à 10h30</span></h3> 
-                <p>-prix total: <span>13 euros</span></p>
-                <img height="60px" width="60px" src="{{ asset('/img/default.png')}}" alt="">
-                <p>-Sushis x 3 = <span> 10.5 euros</span></p>
-                <button class="favorite styled2" type="submit" name="">Valider</button>
-                <p>Vous n'avez pas encore noter ce plat</p>
-            </div>
-        </div>
+                <h3>Commande n°{{command.id}} sera délivré le
+                    <span>{{command.delivery | format_datetime('short', 'short', locale='fr')}}</span></h3>
+                <p>-prix total: <span>{{command.price}} euros</span></p>
+                {% for key,dish in commandDish %}
+                {% for k,d in dish %}
+                {% if d.command.id == command.id %}
+                {% if d.dish.img == "default.png" %}
+                <img height="60px" width="60px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
+                {% else %}
+                <img height="60px" width="60px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
+                {% endif %}
+                <p>{{d.dish.name}} x{{d.quantity}} = <span>{{d.dish.price}} euros</span></p>
+                <form action="" method="post">
+                    {% if note[key][k][0] == [] %}
 
-        <div class="body__middle--content">
-            <div class="body__middle--content-command">
-                <h3>Commande n°1 sera délivré le <span>10/02/1999 à 10h30</span></h3> 
-                <p>-prix total: <span>13 euros</span></p>
-                <img height="60px" width="60px" src="{{ asset('/img/default.png')}}" alt="">
-                <p>-Sushis x 3 = <span> 10.5 euros</span></p>
-                <button class="favorite styled2" type="submit" name="">Valider</button>
-                <p>Vous n'avez pas encore noter ce plat</p>
-            </div>
-        </div>
+                    <select name="note">
+                        {% for i in 0..5 %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="favorite styled2" type="submit" name="{{d.dish.id}}">Valider</button>
+                    <p>Vous n'avez pas encore noter ce plat</p>
+                    {% else %}
 
-        <div class="body__middle--content">
-            <div class="body__middle--content-command">
-                <h3>Commande n°1 sera délivré le <span>10/02/1999 à 10h30</span></h3> 
-                <p>-prix total: <span>13 euros</span></p>
-                <img height="60px" width="60px" src="{{ asset('/img/default.png')}}" alt="">
-                <p>-Sushis x 3 = <span> 10.5 euros</span></p>
-                <button class="favorite styled2" type="submit" name="">Valider</button>
-                <p>Vous n'avez pas encore noter ce plat</p>
+                    <select name="note">
+                        {% for i in 0..5 %}
+                        {% if note[key][k][0][0].note == i %}
+                        <option selected value="{{i}}">{{i}}</option>
+                        {% else %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button class="favorite styled2" type="submit" name="m{{d.dish.id}}">Modifier</button>
+                </form>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
             </div>
         </div>
+        {% endif %}
+        {% endfor %}
     </div>
 </div>
 

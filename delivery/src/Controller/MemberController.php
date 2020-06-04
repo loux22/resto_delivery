@@ -171,7 +171,7 @@ class MemberController extends AbstractController
         $commandDish = [];
         foreach ($commands as $key => $command) {
             // pour chaque commandes on verifie si ça fais plus d'une heure que ça a été commandé
-            if ($command->getDelivery() <= new \DateTime()) {
+            if ($command->getDelivery() <= new \DateTime("+ 2 hours")) {
                 $command->setStatus(true);
                 $manager->persist($command); //commit(git)
                 $manager->flush(); // push(git)
