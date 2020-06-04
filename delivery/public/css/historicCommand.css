@@ -32,12 +32,13 @@ body{
     border-radius: 2px;
     background-color: white;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .body__middle--title h3{
     /* width: 100%; */
-    padding: 20px;
+    padding: 30px 0px 30px 50px;;
     font-weight: bold;
     color: #2CCE80;
 }
@@ -45,6 +46,7 @@ body{
 .body__middle--content{
     margin: 40px 0px;
     /* background-color: #2CCE80; */
+    width: 50%;
 }
 .body__middle--content span{
     font-weight: bold;
@@ -89,4 +91,10 @@ body{
 .styled2:active {
     box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
                 inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+.body__middle--content-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

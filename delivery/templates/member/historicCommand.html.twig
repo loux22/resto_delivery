@@ -37,7 +37,7 @@
 
 
 
-<div class="body__middle">
+{#<div class="body__middle">
 <div class="body__middle--title">
     <h3>Historique des commandes</h3>
 </div>
@@ -87,6 +87,46 @@
     {% endif %}
     </div>
 {% endfor %}
+</div>#}
+
+<div class="body__middle">
+    <div class="body__middle--title">
+        <h3>Historique des commandes</h3>
+    </div>
+    <div class="body__middle--content-container">
+        <div class="body__middle--content">
+            <div class="body__middle--content-command">
+                <h3>Commande n°1 sera délivré le <span>10/02/1999 à 10h30</span></h3> 
+                <p>-prix total: <span>13 euros</span></p>
+                <img height="60px" width="60px" src="{{ asset('/img/default.png')}}" alt="">
+                <p>-Sushis x 3 = <span> 10.5 euros</span></p>
+                <button class="favorite styled2" type="submit" name="">Valider</button>
+                <p>Vous n'avez pas encore noter ce plat</p>
+            </div>
+        </div>
+
+        <div class="body__middle--content">
+            <div class="body__middle--content-command">
+                <h3>Commande n°1 sera délivré le <span>10/02/1999 à 10h30</span></h3> 
+                <p>-prix total: <span>13 euros</span></p>
+                <img height="60px" width="60px" src="{{ asset('/img/default.png')}}" alt="">
+                <p>-Sushis x 3 = <span> 10.5 euros</span></p>
+                <button class="favorite styled2" type="submit" name="">Valider</button>
+                <p>Vous n'avez pas encore noter ce plat</p>
+            </div>
+        </div>
+
+        <div class="body__middle--content">
+            <div class="body__middle--content-command">
+                <h3>Commande n°1 sera délivré le <span>10/02/1999 à 10h30</span></h3> 
+                <p>-prix total: <span>13 euros</span></p>
+                <img height="60px" width="60px" src="{{ asset('/img/default.png')}}" alt="">
+                <p>-Sushis x 3 = <span> 10.5 euros</span></p>
+                <button class="favorite styled2" type="submit" name="">Valider</button>
+                <p>Vous n'avez pas encore noter ce plat</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
