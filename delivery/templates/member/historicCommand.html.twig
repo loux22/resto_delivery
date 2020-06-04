@@ -1,46 +1,61 @@
 {% extends 'base.html.twig' %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ asset('css/historicCommand.css') }}">
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+{% endblock %}
+
 {% block title %}Historique commande{% endblock %}
 
 {% block body %}
-<h3>Commande en cours</h3>
 
-{% for command in commands %}
-    {% if command.status == 0 %}
-        <p>Commande n°{{command.id}} sera délivré le {{command.delivery | format_datetime('short', 'short', locale='fr')}}</p>
-        <p>prix total: {{command.price}} €</p>
+<div class="body__top">
+    <div class="body__top--title">
+        <h3>Commande en cours</h3>
+    </div>
+    {% for command in commands %}
+    <div class="body__top--content">
+        {% if command.status == 0 %}
+        <p>-Commande n°{{command.id}} sera délivré le <span>{{command.delivery | format_datetime('short', 'short', locale='fr')}}</span></p>
+        <p>-prix total: <span>{{command.price}} euros</span></p>
         {% for dish in commandDish %}
             {% for d in dish %}
                 {% if d.command.id == command.id %}
                     {% if d.dish.img == "default.png" %}
-                        <img height="30px" width="30px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
+                        <img height="60px" width="60px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
                         {% else %}
                         <img height="30px" width="30px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
                     {% endif %}
-                    <p>{{d.dish.name}} x{{d.quantity}} {{d.dish.price}}€</p>
+                    <p>-{{d.dish.name}} x{{d.quantity}} = <span>{{d.dish.price}} euros</span></p>
                 {% endif %} 
             {% endfor %} 
         {% endfor %}
     {% endif %}
+    </div>
 {% endfor %}
+</div>
 
 
 
-<h3>Historique des commandes</h3>
-
+<div class="body__middle">
+<div class="body__middle--title">
+    <h3>Historique des commandes</h3>
+</div>
 {% for command in commands %}
+    <div class="body__middle--content">
     {% if command.status == 1 %}
-        <p style="font-weight: bold;">Commande n°{{command.id}} sera délivré le {{command.delivery | format_datetime('short', 'short', locale='fr')}}</p>
-        <p>prix total: {{command.price}} €</p>
+    <div class="body__middle--content-command">
+        <h3>Commande n°{{command.id}} sera délivré le <span>{{command.delivery | format_datetime('short', 'short', locale='fr')}}</span></h3> 
+        <p>-prix total: <span>{{command.price}} euros</span></p>
         {% for key,dish in commandDish %}
             {% for k,d in dish %}
                 {% if d.command.id == command.id %}
                     {% if d.dish.img == "default.png" %}
-                        <img height="30px" width="30px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
+                        <img height="60px" width="60px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
                         {% else %}
-                        <img height="30px" width="30px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
+                        <img height="60px" width="60px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
                     {% endif %}
-                    <p>{{d.dish.name}} x{{d.quantity}} {{d.dish.price}}€</p>
+                    <p>-{{d.dish.name}} x{{d.quantity}} = <span>{{d.dish.price}} euros</span></p>
                     <form action="" method="post">
                         {% if note[key][k][0] == [] %}
                         
@@ -49,7 +64,7 @@
                             <option value="{{i}}">{{i}}</option>
                             {% endfor %}
                         </select>
-                        <button type="submit" name="{{d.dish.id}}">Valider</button>
+                        <button class="favorite styled2" type="submit" name="{{d.dish.id}}">Valider</button>
                         <p>Vous n'avez pas encore noter ce plat</p>
                         {% else %}
 
@@ -62,13 +77,16 @@
                                 {% endif %}
                             {% endfor %}
                         </select>
-                        <button type="submit" name="m{{d.dish.id}}">Modifier</button>
+                        <button class="favorite styled2" type="submit" name="m{{d.dish.id}}">Modifier</button>
+                    </div>
                         {% endif %} 
                     </form>
                     {% endif %}
             {% endfor %} 
         {% endfor %}
     {% endif %}
+    </div>
 {% endfor %}
+</div>
 
 {% endblock %}
