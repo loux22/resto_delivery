@@ -94,12 +94,12 @@ body{
     padding: 50px;
     /* width: 50px; */
 }
-.button1{
+/* .button1{
     display: flex;
     justify-content: flex-end;
     padding-right: 35px;
     /* padding: 10px 40px; */
-}
+} */
 .button1 button{
         width: auto;
         height: 37px;
@@ -117,10 +117,10 @@ body{
         box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 1px;
 }
-.button2{
+/* .button2{
     display: flex;
     justify-content: flex-start;
-}
+} */
 .button2 button{
     width: auto;
     height: 37px;
@@ -299,15 +299,24 @@ body{
                 inset 2px 2px 3px rgba(0, 0, 0, .6);
 }
 .container__bottom--button2{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: center;
+    display: flex;
+    /* justify-content: space-around; */
+    text-align: center;
+    padding: 40px 0% 30px 35%;
+    width: 100%;
 }
 
-
+.button1{
+    padding: 5px;
+}
+.button2{
+    padding: 5px;
+}
 .button2  button{
-    display: flex;
-    justify-content: flex-start;
+
+}
+.button3{
+    padding: 5px;
 }
 /* .button3  button{
     display: flex;
