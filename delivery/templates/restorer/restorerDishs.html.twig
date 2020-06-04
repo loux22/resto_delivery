@@ -5,51 +5,77 @@
 {% block link %}
 <link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+<link rel="stylesheet" href="{{ asset('/css/restorerDishs.css')}}">
 <link rel="stylesheet" href="{{ asset('/css/popup.css')}}">
 {% endblock %}
 
 {% block body %}
-<h1>Plat</h1>
-<button class="add-dish-js">Ajouter</button>
+<div class="container__body">
 
-<div class="popup">
-    <div class="popup-content">
-        <img class="close" src="{{ asset('/img/close.png')}}" alt="">
-        {{form_start(formAddDish)}}
+    <div class="container__body--top">
+        <div class="container__body--title">
+            <h1>ESPACE RESTAURATEUR</h1>
+        </div>
+        <div class="container__body--button">
+            <button class="add-dish-js favorite styled2">Ajouter</button>
+        </div>
+    </div>
 
-{% if form_errors(formAddDish.name) %}
-    {{form_errors(formAddDish.name)}} 
-{% endif %} 
-{{form_widget(formAddDish.name)}}
 
-{% if form_errors(formAddDish.file) %}
-    {{form_errors(formAddDish.file)}} 
-{% endif %} 
-{{form_widget(formAddDish.file)}}
+ {#       <div class="container__body--middle">
+            <div class="popup-content container__body--middle-content">
+                <img class="close" src="{{ asset('/img/close.png')}}" alt="">
+                {{form_start(formAddDish)}}
 
-{% if form_errors(formAddDish.price) %}
-    {{form_errors(formAddDish.price)}} 
-{% endif %} 
-{{form_widget(formAddDish.price)}}
+                {% if form_errors(formAddDish.name) %}
+                    {{form_errors(formAddDish.name)}} 
+                {% endif %} 
+                {{form_widget(formAddDish.name)}}
 
-<button type="submit">Ajouter</button>
+                {% if form_errors(formAddDish.file) %}
+                    {{form_errors(formAddDish.file)}} 
+                {% endif %} 
+                {{form_widget(formAddDish.file)}}
 
-{{form_end(formAddDish)}}
+                {% if form_errors(formAddDish.price) %}
+                    {{form_errors(formAddDish.price)}} 
+                {% endif %} 
+                {{form_widget(formAddDish.price)}}
+
+                <button type="submit">Ajouter</button>
+
+                {{form_end(formAddDish)}}
+            </div>
+        </div>
+#}
+    <div class="container__body--bottom">
+            {% for key,dish in dishs %}
+            <div class="container__body--content">
+                <div class="container__body--content-title">
+                    <p>{{dish.name}}</p>
+                </div>
+                <div class="container__body--content-img">
+                    {% if dish.img == "default.png" %}
+                        <img src="{{ asset('/img/')}}{{dish.img}}" alt="">
+                    {% else %}
+                        <img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
+                    {% endif %}
+                </div>
+                <div class="container__body--content-p">
+                    <p>{{dish.price}}€</p>
+                    <p>{{note[key][0].note}}/5</p>
+                </div>
+                <div class="container__body--content-button">
+                    <button class="favorite styled3"><a href="{{ path('dishRemove', { 'id' : dish.id})}}">Supprimer plat</a></button>
+                    <button class="favorite styled3"><a href="{{ path('dishModify', { 'id' : dish.id})}}">Modifier plat</a></button>
+                </div>
+            </div>
+            {% endfor %}
     </div>
 </div>
 
-{% for key,dish in dishs %}
-<p>{{dish.name}}</p>
-{% if dish.img == "default.png" %}
-<img src="{{ asset('/img/')}}{{dish.img}}" alt="">
-{% else %}
-<img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
-{% endif %}
-<p>{{dish.price}}€</p>
-<p>{{note[key][0].note}}/5</p>
-<button><a href="{{ path('dishRemove', { 'id' : dish.id})}}">Supprimer plat</a></button>
-<button><a href="{{ path('dishModify', { 'id' : dish.id})}}">Modifier plat</a></button>
-{% endfor %}
+
+
 
 {% endblock %}
 
