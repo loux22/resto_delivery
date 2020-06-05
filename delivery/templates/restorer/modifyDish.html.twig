@@ -5,34 +5,45 @@
 {% endblock %}
 
 {% block link %}
-<link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
-<link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+	<link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
+	<link rel="stylesheet" href="{{ asset('/css/modifyDish.css')}}">
+	<link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
 	<link rel="stylesheet" href="{{ asset('/css/popup.css')}}">
 {% endblock %}
 
 {% block body %}
-	<h1>{{dish.name}}</h1>
+	<div class="container__body">
+		<div class="container__body--title">
+			<h1>{{dish.name}}</h1>
+		</div>
+		<div class="container__body--content">
+			{{form_start(formModifyDish)}}
+			<div class="body__content--modify-name">
+				<span>Modifier le nom</span>
+				{% if form_errors(formModifyDish.name) %}
+					{{form_errors(formModifyDish.name)}}
+				{% endif %}
+				{{form_widget(formModifyDish.name)}}
+			</div>
+			<div class="body__content--modify-file">
+				{% if form_errors(formModifyDish.file) %}
+					{{form_errors(formModifyDish.file)}}
+				{% endif %}
+				{{form_widget(formModifyDish.file)}}
+			</div>
+			<div class="body__content--modify-price">
+				<span>Modifier le prix</span>
+				{% if form_errors(formModifyDish.price) %}
+					{{form_errors(formModifyDish.price)}}
+				{% endif %}
+				{{form_widget(formModifyDish.price)}}
+			</div>
+		</div>
 
-	{{form_start(formModifyDish)}}
-
-	{% if form_errors(formModifyDish.name) %}
-		{{form_errors(formModifyDish.name)}}
-	{% endif %}
-	{{form_widget(formModifyDish.name)}}
-
-	{% if form_errors(formModifyDish.file) %}
-		{{form_errors(formModifyDish.file)}}
-	{% endif %}
-	{{form_widget(formModifyDish.file)}}
-
-	{% if form_errors(formModifyDish.price) %}
-		{{form_errors(formModifyDish.price)}}
-	{% endif %}
-	{{form_widget(formModifyDish.price)}}
-
-	<button type="submit">Modifier</button>
-
-	{{form_end(formModifyDish)}}
-
-
+		<div class="container__bottom--button">
+			<button class="favorite styled2" type="submit">Modifier</button>
+		</div>
+	
+		{{form_end(formModifyDish)}}
+	</div>
 {% endblock %}
