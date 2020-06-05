@@ -22,32 +22,39 @@
     </div>
 
 
- {#       <div class="container__body--middle">
-            <div class="popup-content container__body--middle-content">
-                <img class="close" src="{{ asset('/img/close.png')}}" alt="">
-                {{form_start(formAddDish)}}
-
-                {% if form_errors(formAddDish.name) %}
-                    {{form_errors(formAddDish.name)}} 
-                {% endif %} 
-                {{form_widget(formAddDish.name)}}
-
-                {% if form_errors(formAddDish.file) %}
-                    {{form_errors(formAddDish.file)}} 
-                {% endif %} 
-                {{form_widget(formAddDish.file)}}
-
-                {% if form_errors(formAddDish.price) %}
-                    {{form_errors(formAddDish.price)}} 
-                {% endif %} 
-                {{form_widget(formAddDish.price)}}
-
-                <button type="submit">Ajouter</button>
+            <div class="popup-content">
+                <div class="popup-content--img">
+                    <img class="close" src="{{ asset('/img/close.png')}}" alt="">
+                    {{form_start(formAddDish)}}
+                </div>
+                <div class="popup-content--name">
+                    <span>Nom du plat</span>
+                    {% if form_errors(formAddDish.name) %}
+                        {{form_errors(formAddDish.name)}} 
+                    {% endif %} 
+                        {{form_widget(formAddDish.name)}}
+                </div>
+                <div class="popup-content--file">
+                    {% if form_errors(formAddDish.file) %}
+                        {{form_errors(formAddDish.file)}} 
+                    {% endif %} 
+                    {{form_widget(formAddDish.file)}}
+                </div>
+                <div class="popup-content--price">
+                    <span>prix</span>
+                    {% if form_errors(formAddDish.price) %}
+                        {{form_errors(formAddDish.price)}} 
+                    {% endif %} 
+                        {{form_widget(formAddDish.price)}}
+                </div>
+                <div class="popup-content--button">
+                    <button class="favorite styled2" type="submit">Ajouter</button>
+                </div>
 
                 {{form_end(formAddDish)}}
             </div>
-        </div>
-#}
+
+
     <div class="container__body--bottom">
             {% for key,dish in dishs %}
             <div class="container__body--content">

@@ -10,15 +10,79 @@
 }
 
 .popup-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     min-height: 350px;
     width: 600px;
-    background: white;
+    background: #2CCE80;
     padding: 20px;
     border-radius: 2px;
     position: relative;
     box-shadow: 6px 6px 29px -4px rgba(0, 0, 0, 0.75);
     /* text-align: center; */
 }
+
+.popup-content--name{
+    display: grid;
+    justify-content: center;
+    padding: 20px 10px 10px 10px;
+}
+.popup-content--name input{
+    width: 300px;
+    padding-left: 20px;
+}
+
+.popup-content--file{
+    display: flex;
+    justify-content: center;
+    padding: 10px 10px 10px 10px;
+}
+
+.popup-content--price{
+    display: grid;
+    justify-content: center;
+    padding: 10px 10px 10px 10px;
+}
+.popup-content--price input{
+    width: 300px;
+    padding-left: 20px;
+}
+
+.popup-content--button{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.styled2 {
+    /* border: 0; */
+    line-height: 2.5;
+    padding: 0 40px;
+    font-size: 1rem;
+    text-align: center;
+    color: #2CCE80;
+    border-radius: 1px;
+    background-color: #ffffff;
+    border: black 10px;
+    
+    /* background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0)); */
+}
+
+.styled2:hover {
+    background-color: #2CCE80;
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+    color: white;
+}
+
+.styled2:active {
+    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
 
 
 .close {
