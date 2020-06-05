@@ -54,7 +54,7 @@
                 {% if d.dish.img == "default.png" %}
                 <img height="60px" width="60px" src="{{ asset('/img/')}}{{d.dish.img}}" alt="">
                 {% else %}
-                <img height="60px" width="60px" src="{{ asset('/dish/' ~ d.dish.id  ~ '/img/' ~ d.dish.img)}}" alt="">
+                <img height="60px" width="60px" src="{{ asset('/dishs/' ~ d.dish.id  ~ '/' ~ d.dish.img)}}" alt="">
                 {% endif %}
                 <p>{{d.dish.name}} x{{d.quantity}} = <span>{{d.dish.price}} euros</span></p>
                 <form action="" method="post">
@@ -79,8 +79,8 @@
                         {% endfor %}
                     </select>
                     <button class="favorite styled2" type="submit" name="m{{d.dish.id}}">Modifier</button>
-                </form>
                 {% endif %}
+                </form>
                 {% endif %}
                 {% endfor %}
                 {% endfor %}
