@@ -22,56 +22,58 @@
     </div>
 
 
- {#       <div class="container__body--middle">
-            <div class="popup-content container__body--middle-content">
-                <img class="close" src="{{ asset('/img/close.png')}}" alt="">
-                {{form_start(formAddDish)}}
-
-                {% if form_errors(formAddDish.name) %}
-                    {{form_errors(formAddDish.name)}} 
-                {% endif %} 
-                {{form_widget(formAddDish.name)}}
-
-                {% if form_errors(formAddDish.file) %}
-                    {{form_errors(formAddDish.file)}} 
-                {% endif %} 
-                {{form_widget(formAddDish.file)}}
-
-                {% if form_errors(formAddDish.price) %}
-                    {{form_errors(formAddDish.price)}} 
-                {% endif %} 
-                {{form_widget(formAddDish.price)}}
-
-                <button type="submit">Ajouter</button>
-
-                {{form_end(formAddDish)}}
+    <div class="container__body--bottom">
+        {% for key,dish in dishs %}
+        <div class="container__body--content">
+            <div class="container__body--content-title">
+                <p>{{dish.name}}</p>
+            </div>
+            <div class="container__body--content-img">
+                {% if dish.img == "default.png" %}
+                <img src="{{ asset('/img/')}}{{dish.img}}" alt="">
+                {% else %}
+                <img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
+                {% endif %}
+            </div>
+            <div class="container__body--content-p">
+                <p>{{dish.price}}€</p>
+                <p>{{note[key][0].note}}/5</p>
+            </div>
+            <div class="container__body--content-button">
+                <button class="favorite styled3"><a href="{{ path('dishRemove', { 'id' : dish.id})}}">Supprimer
+                        plat</a></button>
+                <button class="favorite styled3"><a href="{{ path('dishModify', { 'id' : dish.id})}}">Modifier
+                        plat</a></button>
             </div>
         </div>
-#}
-    <div class="container__body--bottom">
-            {% for key,dish in dishs %}
-            <div class="container__body--content">
-                <div class="container__body--content-title">
-                    <p>{{dish.name}}</p>
-                </div>
-                <div class="container__body--content-img">
-                    {% if dish.img == "default.png" %}
-                        <img src="{{ asset('/img/')}}{{dish.img}}" alt="">
-                    {% else %}
-                        <img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
-                    {% endif %}
-                </div>
-                <div class="container__body--content-p">
-                    <p>{{dish.price}}€</p>
-                    <p>{{note[key][0].note}}/5</p>
-                </div>
-                <div class="container__body--content-button">
-                    <button class="favorite styled3"><a href="{{ path('dishRemove', { 'id' : dish.id})}}">Supprimer plat</a></button>
-                    <button class="favorite styled3"><a href="{{ path('dishModify', { 'id' : dish.id})}}">Modifier plat</a></button>
-                </div>
-            </div>
-            {% endfor %}
+        {% endfor %}
     </div>
+</div>
+
+<div class="popup">
+<div class="popup-content">
+    <img class="close" src="{{ asset('/img/close.png')}}" alt="">
+    {{form_start(formAddDish)}}
+
+    {% if form_errors(formAddDish.name) %}
+    {{form_errors(formAddDish.name)}}
+    {% endif %}
+    {{form_widget(formAddDish.name)}}
+
+    {% if form_errors(formAddDish.file) %}
+    {{form_errors(formAddDish.file)}}
+    {% endif %}
+    {{form_widget(formAddDish.file)}}
+
+    {% if form_errors(formAddDish.price) %}
+    {{form_errors(formAddDish.price)}}
+    {% endif %}
+    {{form_widget(formAddDish.price)}}
+
+    <button type="submit">Ajouter</button>
+
+    {{form_end(formAddDish)}}
+</div>
 </div>
 
 
