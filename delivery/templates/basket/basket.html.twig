@@ -48,7 +48,7 @@
                     {% else %}
                     <td>
                         <a href="{{ path('restorerDish', { 'id' : b.dish.restorer.id})}}">
-                            <img src="{{ asset('/dish/' ~ b.dish.id  ~ '/img/' ~ b.dish.img)}}" alt="">
+                            <img height="50px" width="50px" src="{{ asset('/dishs/' ~ b.dish.id  ~ '/' ~ b.dish.img)}}" alt="">
                         </a>
                     </td>
                 </div>
