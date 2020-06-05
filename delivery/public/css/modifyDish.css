@@ -1,0 +1,98 @@
+#content{
+    background-color :#2CCE80;
+}
+
+.container__body--title{
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+.container__body{
+    display: grid;
+}
+
+.body__content--modify-name{
+    display: grid;
+    justify-content: center;
+    padding: 20px;
+}
+.body__content--modify-name input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.body__content--modify-file{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+/* .body__content--modify-file input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+} */
+
+.body__content--modify-price{
+    display: grid;
+    justify-content: center;
+    padding: 20px;
+}
+.body__content--modify-price input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.container__bottom--button{
+    display: flex;
+    justify-content: center;
+    padding: 40px 0px 30px 0px;
+}
+
+.styled2 {
+    /* border: 0; */
+    line-height: 2.5;
+    padding: 0 40px;
+    font-size: 1rem;
+    text-align: center;
+    color: #2CCE80;
+    border-radius: 1px;
+    background-color: #ffffff;
+    border: black 10px;
+    
+    /* background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0)); */
+}
+
+.styled2:hover {
+    background-color: #2CCE80;
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+    color: white;
+}
+
+.styled2:active {
+    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
