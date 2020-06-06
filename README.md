@@ -19,5 +19,5 @@ Run: ` composer install` in your project's folder
 
 ### Step 3: Insertion des données
 
-lancer le fichier 'restaurent_delivery.sql' dans phpMyAdmin pour faire des tests sur le site
+lancer le fichier 'resto_delivery/delivery/restaurent_delivery.sql' dans phpMyAdmin pour faire des tests sur le site
 
