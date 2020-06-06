@@ -3,33 +3,46 @@
 {% block link %}
 	<link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+	<link rel="stylesheet" href="{{ asset('/css/restorers.css')}}">
 {% endblock %}
 
 {% block title %}Admin restaurents
 {% endblock %}
 
 {% block body %}
-
-	{% for restorer in allRestorer %}
-		<p>{{restorer.id}}</p>
-		<p>{{restorer.name}}</p>
-        <p>{{app.user.mail}}</p>
-		<a href="{{ path('adminRestorerDish', { 'id' : restorer.id})}}">
-		{% if restorer.logo == "default.png" %}
-			<img src="{{ asset('/img/')}}{{restorer.logo }}" alt="">
-		{% else %}
-			<img src="{{ asset('/restorer/' ~ restorer.id ~ '/logo/' ~ restorer.logo )}}" alt="">
-		{% endif %}
-		</a>
-		<button type="submit">
-			<a href="{{ path('adminModifyRestorer', { 'id' : restorer.id})}}">Modifier</a>
-		</button>
-		<button type="submit">
-			<a href="{{ path('adminRemoveRestorer', { 'id' : restorer.id})}}">Supprimer</a>
-		</button>
-		<button type="submit">
-			<a href="{{ path('adminRestorerCommand', { 'id' : restorer.id})}}">
-				Voir Commande</a>
-		</button>
+	<div class="body">
+		{% for restorer in allRestorer %}
+		<div class="body__container">
+			<div class="body__title">
+				<h1>{{restorer.id}}</h1>
+			</div>
+			<div class="body__content">
+				<p>Nom du restaurant: <span>{{restorer.name}}</span></p>
+				<p>Mail de l'user: <span>{{app.user.mail}}</span></p>
+			</div>
+			<div class="body__img">
+				<a href="{{ path('adminRestorerDish', { 'id' : restorer.id})}}">
+					{% if restorer.logo == "default.png" %}
+						<img src="{{ asset('/img/')}}{{restorer.logo }}" alt="">
+					{% else %}
+						<img src="{{ asset('/restorer/' ~ restorer.id ~ '/logo/' ~ restorer.logo )}}" alt="">
+					{% endif %}
+					</a>
+			</div>
+			<div class="body__button">
+				<button class="favorite styled2" type="submit">
+					<a href="{{ path('adminModifyRestorer', { 'id' : restorer.id})}}">Modifier</a>
+				</button>
+				<button class="favorite styled2" type="submit">
+					<a href="{{ path('adminRemoveRestorer', { 'id' : restorer.id})}}">Supprimer</a>
+				</button>
+				<button class="favorite styled2" type="submit">
+					<a href="{{ path('adminRestorerCommand', { 'id' : restorer.id})}}">
+						Voir Commande</a>
+				</button>
+			</div>
+		</div>
+		
 	{% endfor %}
+	</div>
 {% endblock %}
