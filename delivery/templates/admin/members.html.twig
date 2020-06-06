@@ -3,20 +3,30 @@
 {% block link %}
 <link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+<link rel="stylesheet" href="{{ asset('/css/members.css')}}">
 {% endblock %}
 
 {% block title %}Admin members{% endblock %}
 
 {% block body %}
-{% for member in members %}
-    <p>{{member[0][0].id}}</p>
-    <p>{{member[0][0].username}} {{member[0][0].lastname}}</p>
-    <p>{{member[1][0].mail}}</p>
-    <p>{{member[0][0].address}}</p>
-    <p>{{member[0][0].sold}}€</p>
-    <button><a href="{{ path('adminMemberModify', { 'id' : member[0][0].id})}}">Modifier</a></button>
-    <button><a href="{{ path('adminMemberRemove', { 'id' : member[0][0].id})}}">Supprimer</a></button>
-    <button><a href="{{ path('adminMemberCommand', { 'id' : member[0][0].id})}}">Voir commande</a></button>
-    <hr>
+<div class="body">
+    {% for member in members %}
+    <div class="body__container">
+        <div class="body__title">
+            <h1>{{member[0][0].id}}</h1>
+        </div>
+        <div class="body__content">
+            <p> Prénom: <span>{{member[0][0].username}}</span> <br> Nom: <span>{{member[0][0].lastname}}</span></p>
+            <p>Adresse mail: <span>{{member[1][0].mail}}</span></p>
+            <p>Adresse: <span>{{member[0][0].address}}</span></p>
+            <p>Solde: <span>{{member[0][0].sold}}€</span></p>
+        </div>
+        <div class="body__button">
+            <button class="favorite styled2"><a href="{{ path('adminMemberModify', { 'id' : member[0][0].id})}}">Modifier</a></button>
+            <button class="favorite styled2"><a href="{{ path('adminMemberRemove', { 'id' : member[0][0].id})}}">Supprimer</a></button>
+            <button class="favorite styled2"><a href="{{ path('adminMemberCommand', { 'id' : member[0][0].id})}}">Voir commande</a></button>
+        </div>
+    </div>
 {% endfor %}
+</div>
 {% endblock %}

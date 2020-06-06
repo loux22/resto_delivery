@@ -8,8 +8,15 @@
 {% block title %}Admin dashboard{% endblock %}
 
 {% block body %}
-<p>Nombre de restaurent : {{nbRestorer}}</p>
-<p>nombre de commande : {{nbCommand}}</p>
-<p>nombre de commande en cours : {{nbCommandInProgress}}</p>
-<p>gains : <span>{{nbCommand * 2.5}}</span></p>
+<div class="body">
+    <div class="body__title">
+        <h3>ADMIN DASHBOARD</h3>
+    </div>
+    <div class="body__content">
+        <p>Nombre de restaurent : <span>{{nbRestorer}}</span></p>
+        <p>nombre de commande : <span>{{nbCommand}}</span></p>
+        <p>nombre de commande en cours : <span>{{nbCommandInProgress}}</span></p>
+        <p>gains : <span>{{nbCommand * 2.5}}</span></p>
+    </div>
+</div>
 {% endblock %}

@@ -3,9 +3,22 @@
     background-image: none;
 }
 
-/* #content {
+#content {
     background-color: #4B4B4B;
-} */
+}
+
+.body__title h3{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.body__content{
+    padding: 20px;
+}
+.body__content span{
+    font-weight: bold;
+}
 
 .text-primar {
     color: white;
