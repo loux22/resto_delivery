@@ -3,6 +3,8 @@
 {% block link %}
 <link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+<script src="https://kit.fontawesome.com/e7fa2e7a8b.js" crossorigin="anonymous"></script>
+<script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
 {% endblock %}
 		
 {% block title %}Admin dashboard{% endblock %}
@@ -12,11 +14,94 @@
     <div class="body__title">
         <h3>ADMIN DASHBOARD</h3>
     </div>
-    <div class="body__content">
+    <!-- <div class="body__content">
         <p>Nombre de restaurent : <span>{{nbRestorer}}</span></p>
         <p>nombre de commande : <span>{{nbCommand}}</span></p>
         <p>nombre de commande en cours : <span>{{nbCommandInProgress}}</span></p>
         <p>gains : <span>{{nbCommand * 2.5}}</span></p>
-    </div>
+    </div> -->
 </div>
+<br><br>
+<div class="container-fluid">
+
+                <!-- Content Row -->
+                <div class="row">
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primar shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primar text-uppercase mb-1">
+                                            restaurents </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{nbRestorer}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-th-list fa-2x text-gray-300" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-succes shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-succes text-uppercase mb-1">commandes
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbCommand}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-exchange fa-2x text-gray-300" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Requests Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warningg shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warningg text-uppercase mb-1">
+                                            commandes en cours</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbCommandInProgress}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-spinner fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-successs shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-succes text-uppercase mb-1">
+                                            gains
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-white-800">{{nbCommand * 2.5}}€</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-eur fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
 {% endblock %}

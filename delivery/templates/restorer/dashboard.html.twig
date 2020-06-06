@@ -3,12 +3,14 @@
 {% block link %}
 <link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+<script src="https://kit.fontawesome.com/e7fa2e7a8b.js" crossorigin="anonymous"></script>
+<script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
 {% endblock %}
 
 {% block title %}Dashboard - {{restorer.name}} {% endblock %}
 
 {% block body %}
-<h1>Dashboard</h1>
+<!-- <h1>Dashboard</h1>
 
 <p>nombre de plat : {{dishs | length}}</p>
 <p>nombre de commande : {{commandRestorer | length}}</p>
@@ -16,5 +18,156 @@
 <p>note moyenne des plats : {{note.note}}/5</p>
 <p>nombre de plats commander: {{commandDish | length}}</p>
 <p>nombre de plats commander en cours : {{dishInProgress | length}} </p>
-<p>gains : {{earning}}€</p>
+<p>gains : {{earning}}€</p> -->
+<style>
+    h2{
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+</style>
+
+<h2>Dashboard {{restorer.name}}</h2>
+<br><br><br>
+<div class="container-fluid">
+
+                <!-- Content Row -->
+                <div class="row">
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primar shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primar text-uppercase mb-1">
+                                            nombre de plats </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{dishs | length}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-th-list fa-2x text-gray-300" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-succes shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-succes text-uppercase mb-1">commandes
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{commandRestorer | length}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-exchange fa-2x text-gray-300" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Requests Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warningg shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warningg text-uppercase mb-1">
+                                            commandes en cours</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{commandRestorerInProgress | length}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-spinner fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-successs shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-succes text-uppercase mb-1">
+                                            note moyenne plats
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-white-800">{{note.note}}/5</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-check-circle fa-2x text-gray-300" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <br><br><br>
+                <div class="row">
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primar shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primar text-uppercase mb-1">
+                                            plats commandé </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{commandDish | length}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-exchange fa-2x text-gray-300" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-succes shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div style="font-size: 13px;" class="text-xs font-weight-bold text-succes text-uppercase mb-1">plats commander en cours
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{dishInProgress | length}}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-spinner fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Requests Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warningg shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warningg text-uppercase mb-1">
+                                            gains</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{earning}}€</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa fa-eur fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 {% endblock %}
