@@ -6,18 +6,18 @@
 
 Run: ` composer install` in your project's folder
 
-### Step 2: Base de donnée
+### Step 2: Database
 
-#### Creation de la base de données
+#### Create database
 `php bin/console doctrine:database:create`
 
-#### Creation de la migration
+#### Create migration
 `php bin/console make:migration`
 
-#### Migration dans la base de donnée
+#### Migration in database
 `php bin/console doctrine:migrations:migrate`
 
-### Step 3: Insertion des données
+### Step 3: Data insertion
 
-lancer le fichier `'resto_delivery/delivery/restaurent_delivery.sql'` dans phpMyAdmin pour faire des tests sur le site
+launch file `'resto_delivery/delivery/restaurent_delivery.sql'` in phpMyAdmin to do site tests
 
