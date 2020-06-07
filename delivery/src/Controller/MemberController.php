@@ -42,6 +42,7 @@ class MemberController extends AbstractController
             foreach ($allUser as $key => $value) {
                 if ($value->getMail() == $input['mail']) {
                     $error = "ce mail est déja dans la base de donnée";
+                    $this->addFlash('errors', 'ce mail est déja dans la base de donnée');
                 }
             }
             if ($error == "") {
@@ -78,7 +79,6 @@ class MemberController extends AbstractController
 
         return $this->render('member/register.html.twig', [
             'memberForm' => $form->createView(),
-            'error' => $error
         ]);
     }
 
