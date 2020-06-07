@@ -8,6 +8,7 @@
 {% block link %}
 <link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+<link rel="stylesheet" href="{{ asset('/css/profil.css')}}">
 	<link rel="stylesheet" href="{{ asset('/css/popup.css')}}">
 {% endblock %}
 
@@ -18,37 +19,53 @@
     }
 </style>
 
-<h1>Profil</h1>
-<button class="buttonUpdateProfil-js" type="submit">Modifier profil</button>
-<button class="buttonUpdatePassword-js" type="submit">Modifier password</button> 
-<button class="buttonProfil-js none" type="submit">Voir profil</button>
+<div class="body__title">
+    <h1>Profil</h1>
+</div>
 
 <div class="profil-js">
-<p>{{restorer.name}}</p>
-<img src="{{ asset('/restorer/' ~ restorer.id  ~ '/logo/' ~ restorer.logo )}}" alt="">
-<p>{{restorer.address}}</p>
+    <div class="profil-js_name">
+        <h1>{{restorer.name}}</h1>
+    </div>
+    <div class="profil-js_img">
+        <img src="{{ asset('/restorer/' ~ restorer.id  ~ '/logo/' ~ restorer.logo )}}" alt="">
+    </div>
+    <div class="profil-js-adress">
+        <p>Adresse: <span>{{restorer.address}}</span></p>
+    </div>
+    <div class="button">
+        <button class="buttonUpdateProfil-js favorite styled2" type="submit">Modifier profil</button>
+        <button class="buttonUpdatePassword-js favorite styled2" type="submit">Modifier password</button> 
+        <button class="buttonProfil-js none favorite styled2" type="submit">Voir profil</button>
+    </div>
 </div>
+
+
 
 
 <div class="update-profil-js none">
     {{form_start(restorerFormModify)}}
-
-    {% if form_errors(restorerFormModify.name) %}
-    {{form_errors(restorerFormModify.name)}}
-    {% endif %}
-    {{form_widget(restorerFormModify.name)}}
-
-    {% if form_errors(restorerFormModify.file) %}
-    {{form_errors(restorerFormModify.file)}}
-    {% endif %}
-    {{form_widget(restorerFormModify.file)}}
-
-    {% if form_errors(restorerFormModify.address) %}
-    {{form_errors(restorerFormModify.address)}}
-    {% endif %}
-    {{form_widget(restorerFormModify.address)}}
-
-    <button type="submit">Modifier</button>
+    <div class="restorer__name">
+        {% if form_errors(restorerFormModify.name) %}
+        {{form_errors(restorerFormModify.name)}}
+        {% endif %}
+        {{form_widget(restorerFormModify.name)}}
+    </div>
+    <div class="restorer__file">
+        {% if form_errors(restorerFormModify.file) %}
+        {{form_errors(restorerFormModify.file)}}
+        {% endif %}
+        {{form_widget(restorerFormModify.file)}}
+    </div>
+    <div class="restorer__address">
+        {% if form_errors(restorerFormModify.address) %}
+        {{form_errors(restorerFormModify.address)}}
+        {% endif %}
+        {{form_widget(restorerFormModify.address)}}
+    </div>
+    <div class="restorer__button">
+        <button class="favorite styled2" type="submit">Modifier</button>
+    </div>
 
     {{form_end(restorerFormModify)}}
 </div>
@@ -59,7 +76,7 @@
         <input type="password" name="lastPassword" placeholder="ancien mot de passe" required>
         <input type="password" name="newPassword" placeholder="nouveau mot de passe" required>
         <input type="password" name="reapeatPassword" placeholder="répéter mot de passe" required>
-        <button type="submit">Modifier</button>
+        <button class="favorite styled2" type="submit">Modifier</button>
     </form>
 </div>
 

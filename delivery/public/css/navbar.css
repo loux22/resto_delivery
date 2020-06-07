@@ -17,11 +17,32 @@ header {
     margin: 0;
 }
 
-.header__logo img {
+.header__logo{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.header__logo span{
+    font-weight: bold;
+    color: #2CCE80;
+    font-size: 1.5em;
+    text-decoration: none;
+}
+.header__logo a{
+    font-weight: bold;
+    color: white;
+    font-size: 1.5em;
+    text-decoration: none;
+}
+
+.nav__item a{
+    font-size: 0.7em;
+}
+/* .header__logo img {
     height: 100px;
     width: 100px;
     color: white;
-}
+} */
 
 .header__nav .nav__item {
     padding: 0 25px;

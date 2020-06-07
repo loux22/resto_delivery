@@ -180,8 +180,8 @@ body{
 }
 
 .styled:active {
-    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
-                inset 2px 2px 3px rgba(0, 0, 0, .6);
+    /* box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6); */
 }
 
 .container__body2{
@@ -202,6 +202,7 @@ body{
     border: none;
     border-radius: 1px;
     color: rgba(0, 0, 0, 0.5);
+    border: none;
 }
 .container__body--66{
     width: 400px;
@@ -212,7 +213,7 @@ body{
     color: black;
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 20px;
 }
 
 .container__body--7{
@@ -295,8 +296,8 @@ body{
 }
 
 .styled2:active {
-    box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
-                inset 2px 2px 3px rgba(0, 0, 0, .6);
+    /* box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6); */
 }
 .container__bottom--button2{
     display: flex;

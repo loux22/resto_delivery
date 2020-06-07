@@ -1,0 +1,132 @@
+
+
+.body__title{
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.profil-js{
+    display: grid;
+    justify-content: center;
+}
+.profil-js h1{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.profil-js_img{
+    display: flex;
+    justify-content: center;
+}
+.profil-js-adress{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.profil-js-adress span{
+    font-weight: bold;
+}
+
+.profil-js_name{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.styled2 {
+    /* border: 0; */
+    line-height: 2.5;
+    padding: 0 40px;
+    font-size: 1rem;
+    text-align: center;
+    color: #2CCE80;
+    border-radius: 1px;
+    background-color: #ffffff;
+    border: black 10px;
+    
+    /* background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0)); */
+}
+
+.styled2:hover {
+    background-color: #2CCE80;
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6);
+    color: white;
+}
+
+.styled2:active {
+    /* box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6); */
+}
+
+.button{
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    padding: 15px;
+}
+
+.update-profil-js{
+    display: grid;
+    justify-content: center;
+}
+
+.restorer__name{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.restorer__name input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+    padding-left: 20px;
+}
+
+.restorer__file{
+    display: flex;
+    justify-content: center;
+    padding: 10px;  
+}
+
+.restorer__address{
+    display: flex;
+    justify-content: center;
+    padding: 10px;  
+}
+.restorer__address input{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+    padding-left: 20px;
+}
+
+.restorer__button{
+    display: flex;
+    justify-content: center;
+    padding: 20px;  
+}
+
+.update-password-js{
+    display: grid;
+    justify-content: center;
+}
+.update-password-js input{
+    width: 200px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1px;
+    color: rgba(0, 0, 0, 0.5);
+    padding-left: 20px;
+}

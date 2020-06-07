@@ -23,6 +23,10 @@
     display: flex;
     justify-content: center;
 }
+.body__img img{
+    height: 200px;
+    width: 200px;
+}
 .body__title{
     display: flex;
     justify-content: center;

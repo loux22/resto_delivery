@@ -70,6 +70,10 @@ p{
     border-radius: 2px;
     color: white;
 }
+.container__body--content{
+    margin: 10px;
+    width: 250px;
+}
 .container__body--content-img{
     display: flex;
     align-items: center;
