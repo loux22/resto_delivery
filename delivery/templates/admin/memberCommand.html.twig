@@ -3,23 +3,39 @@
 {% block link %}
 <link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+<link rel="stylesheet" href="{{ asset('/css/memberCommand.css')}}">
 {% endblock %}
 
 {% block title %}Admin commande {{member.username}}{% endblock %}
 
 {% block body %}
-<h1>Commande {{member.username}}</h1>
-{% for command in commands %}
-    <p>numero de commande {{command[0][0].id}} prix : {{command[0][0].price}}€</p>
-    <p>{{command[0][0].delivery.date}}</p>
-    {% if command[0][0].status == true %}
-        <p>commande arrivé</p>
-    {% else %}
-        <p>commande en cours</p>
-    {% endif %}
-    {% for c in command[1] %}
-    <p>{{c[0].name}}</p>
+<div class="body">
+    <div class="body__title">
+        <h1>Commande: <span>{{member.username}}</span></h1>
+    </div>
+    <div class="body_command">
+        {% for command in commands %}
+        <div class="body__command--content">
+            <div class="body__command--content-top">
+                <p>Numéro de commande: <span>{{command[0][0].id}}</span> <br> Prix : <span>{{command[0][0].price}}€</span></p>
+            </div>
+            <div class="body__command--content-middle">
+                <p>Date de livraison: <span>{{command[0][0].delivery.date}}</span></p>
+            </div>
+            <div class="body__command--content-statut">
+                {% if command[0][0].status == true %}
+                <p>Statut: <span>Commande arrivé</span></p>
+            {% else %}
+                <p>Statut: <span>Commande en cours</span></p></span>
+            {% endif %}
+            </div>
+            {% for c in command[1] %}
+            <div class="body__command--content-buttom">
+                <p>Nom du plat: <span>{{c[0].name}}</span></p>
+            </div>
+            {% endfor %}
+        </div>
     {% endfor %}
-   
-{% endfor %}
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,42 @@
+
+
+.body__title{
+    display: flex;
+    justify-content: center;
+}
+.body__title span{
+    font-weight: bold;
+    color: #2CCE80;
+}
+
+.body__command--content-top{
+    padding: 50px 0px 10px 60px;
+}
+.body__command--content-top span{
+    font-weight: bold;
+    color: #2CCE80;
+}
+
+.body__command--content-middle{
+    padding: 10px 0px 5px 60px;
+}
+.body__command--content-middle span{
+    font-weight: bold;
+    color: #2CCE80;
+}
+
+.body__command--content-statut{
+    padding: 10px 0px 5px 60px;
+}
+.body__command--content-statut span{
+    font-weight: bold;
+    color: #2CCE80;
+}
+
+.body__command--content-buttom{
+    padding: 10px 0px 80px 60px;
+}
+.body__command--content-buttom span{
+    font-weight: bold;
+    color: #2CCE80;
+}
