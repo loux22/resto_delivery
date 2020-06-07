@@ -3,29 +3,43 @@
 {% block link %}
 <link rel="stylesheet" href="{{ asset('/css/sb-admin-2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('/css/dashboard.css')}}">
+<link rel="stylesheet" href="{{ asset('/css/memberModify.css')}}">
 {% endblock %}
 
 {% block title %}Admin Modifier {{member.username}}{% endblock %}
 
 {% block body %}
-{{form_start(memberFormModify)}}
+<div class="body">
+    <div class="body__content">
+        {{form_start(memberFormModify)}}
+    <div class="body__username">
+        {% if form_errors(memberFormModify.username) %}
+        {{form_errors(memberFormModify.username)}}
+        {% endif %}
+        {{form_widget(memberFormModify.username)}}
+    </div>
 
-    {% if form_errors(memberFormModify.username) %}
-    {{form_errors(memberFormModify.username)}}
-    {% endif %}
-    {{form_widget(memberFormModify.username)}}
+    <div class="body__lastname">
+        {% if form_errors(memberFormModify.lastname) %}
+        {{form_errors(memberFormModify.lastname)}}
+        {% endif %}
+        {{form_widget(memberFormModify.lastname)}}
+    </div>
 
-    {% if form_errors(memberFormModify.lastname) %}
-    {{form_errors(memberFormModify.lastname)}}
-    {% endif %}
-    {{form_widget(memberFormModify.lastname)}}
+    <div class="body__address">
+        {% if form_errors(memberFormModify.address) %}
+        {{form_errors(memberFormModify.address)}}
+        {% endif %}
+        {{form_widget(memberFormModify.address)}}
+    </div>
 
-    {% if form_errors(memberFormModify.address) %}
-    {{form_errors(memberFormModify.address)}}
-    {% endif %}
-    {{form_widget(memberFormModify.address)}}
-
-    <button type="submit">Modifier</button>
+    <div class="body__button">
+        <button class="favorite styled2" type="submit">Modifier</button>
+    </div>
 
     {{form_end(memberFormModify)}}
+    </div>
+    
+</div>
 {% endblock %}
+
