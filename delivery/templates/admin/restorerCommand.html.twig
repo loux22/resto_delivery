@@ -59,40 +59,56 @@
           
             {% endfor %}
         </div>
- 
-                    
+          
     </div>
 
+    <div class="body__bottom">
+        <div class="body__top--command">
 
-
-    {#<h3>Commandes en cours</h3>
+            <div class="body__title">
+                <h1>Commandes en cours</h1>
+            </div>
 
     {% for c in command %}
-    {% if c[0][0].status == false %}
-    <p>numero de commande : {{c[0][0].id}} prix :  {{c[0][0].price}}€</p>
-    <p>{{c[0][0].delivery.date}}</p>
-    {# {{dump(c)}}
-    {% for key,dish in c[2] %}
-    <p>{{dish.name}}</p>
-    {% if dish.img == "default.png" %}
-    <img src="{{ asset('/img/')}}{{dish.img}}" alt="">
-    {% else %}
-    <img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
-    {% endif %}
-    <p>quantité : {{c[1][0][key].quantity}}</p>
-    {% for n in note %}
-    {% if n[0] == dish %}
-    {% if n[1][0].note == null %}
-    <p>le plat n'a pas encore été noté</p>
-    {% else %}
-    <p>{{n[1][0].note}}/5</p>
-    {% endif %}
-    {% endif %}
-    {% endfor %}
 
-    {% endfor %}
+        <div class="body__top__command2">
+            {% if c[0][0].status == false %}
+            <div class="body__top--command2-title">
+            <h3>Commandes en cours: </h3>
+            <p>Numero de commande : <span>{{c[0][0].id}}</span> <br> prix :  <span>{{c[0][0].price}}€</span></p>
+            <p>Date de livraison: <span>{{c[0][0].delivery.date}}</span></p>            
+            </div>
+        </div>
 
-    {% endif %}
-    {% endfor %}#}
+
+        {# {{dump(c)}}#}
+        <div class="body__top--command3">
+            {% for key,dish in c[2] %}
+            <p>{{dish.name}}</p>
+            <div class="body__top--command3-img">
+                {% if dish.img == "default.png" %}
+                <img src="{{ asset('/img/')}}{{dish.img}}" alt="">
+                {% else %}
+                <img src="{{ asset('/dishs/' ~ dish.id ~ '/' ~ dish.img)}}" alt="">
+                {% endif %}
+            </div>
+
+                <p>quantité : {{c[1][0][key].quantity}}</p>
+                {% for n in note %}
+                {% if n[0] == dish %}
+                {% if n[1][0].note == null %}
+                <p>le plat n'a pas encore été noté</p>
+                {% else %}
+                <p>{{n[1][0].note}}/5</p>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+
+        {% endfor %}
+    </div>
+    </div>
+        {% endif %}
+    </div>
+    {% endfor %}
 
 {% endblock %}
