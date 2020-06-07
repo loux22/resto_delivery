@@ -17,7 +17,7 @@
         {% for command in commands %}
         <div class="body__command--content">
             <div class="body__command--content-top">
-                <p>Numéro de commande: <span>{{command[0][0].id}}</span> <br> Prix : <span>{{command[0][0].price}}€</span></p>
+                <p><span style="font-size: 25px;"><span style="color: white;"> Numéro de commande</span>: <span>{{command[0][0].id}}</span></span>  <br> Prix : <span>{{command[0][0].price}}€</span></p>
             </div>
             <div class="body__command--content-middle">
                 <p>Date de livraison: <span>{{command[0][0].delivery.date}}</span></p>
@@ -32,6 +32,7 @@
             {% for c in command[1] %}
             <div class="body__command--content-buttom">
                 <p>Nom du plat: <span>{{c[0].name}}</span></p>
+                <img src="{{ asset('/dishs/' ~ c[0].id ~ '/' ~ c[0].img)}}" alt="">
             </div>
             {% endfor %}
         </div>

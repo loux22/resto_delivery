@@ -40,3 +40,8 @@
     font-weight: bold;
     color: #2CCE80;
 }
+
+.body__command--content-buttom img{
+    height: 200px;
+    width: 200px;
+}
