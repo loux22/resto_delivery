@@ -1,0 +1,41 @@
+
+
+.body__top--command{
+    display: grid;
+    justify-content: center;
+}
+.body__title{
+    display: flex;
+    justify-content: center;
+}
+
+.body__top__command2{
+    display: grid;
+}
+.body__top--command2-title{
+    display: grid;
+    justify-content:  flex-start;
+    padding-top: 30px;
+}
+.body__top--command2-title span{
+    font-weight: bold;
+    color: #2CCE80;
+    font-size: 0.8em;
+}
+.body__top--command2-title p{
+    font-size: 1.3em;
+}
+
+.body__top--command3{
+    display: grid;
+    padding: 40px 0px 40px 300px;
+}
+.body__top--command3 span{
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.body__top--command3-img img{
+    height: 200px;
+    width: 200px;
+}
